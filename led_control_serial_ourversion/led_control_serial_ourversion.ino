@@ -8,11 +8,11 @@
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 uint16_t animationSpeed = 0;  // Default speed, max 65535
-bool direction = 0;
+uint8_t direction = 0;
 uint8_t r = 10;
 uint8_t g = 10;
 uint8_t b = 10;
-uint8_t i = 0;
+uint8_t i = 0, j = 0;
 uint8_t ID;
 
 void setup() {
@@ -27,55 +27,67 @@ void setup() {
 
 void loop() {
   requestSpeedFromPi();  // Ask Raspberry Pi for speed
-  cyanFlowAnimation(animationSpeed, r, g, b, direction);  // Run animation
+  if (j == 0){
+    cyanFlowAnimation(animationSpeed, r, g, b, direction);  // Run animation
+  }
 }
 
 void requestSpeedFromPi() {
     if (SerialUSB.available()) {
-        while (SerialUSB.available()) 
-        {
-          //animationSpeed = SerialUSB.read(); //max X*255, so X_max=65535/255=257, in 128 steps
-          animationSpeed << 8;  
-          animationSpeed = animationSpeed | SerialUSB.read();
-          direction = SerialUSB.read() >> 7;
+      switch (j){
+        case 0:
+          animationSpeed = SerialUSB.read();
+          j++;
+          break;
+        case 1: 
+          direction = SerialUSB.read();
+          j++;
+          break;
+        case 2:
           r = SerialUSB.read();
+          j++;
+          break;
+        case 3: 
           g = SerialUSB.read();
+          j++;
+          break;
+        case 4:
           b = SerialUSB.read();
-        }
-      ID = EEPROM.read(0);
-      SerialUSB.write(ID);
+          j = 0;
+          ID = EEPROM.read(0);
+          SerialUSB.write(ID);
+          break;
+      }
     }
     else{
-      SerialUSB.refresh();
+      //SerialUSB.refresh();
     }
-    SerialUSB.delay(10);
 }
 
  // Cyan Flow Animation with dynamic speed
  void cyanFlowAnimation(int wait, uint8_t r, uint8_t g, uint8_t b, bool direction) {
 
-if (wait == 0){
+  if (wait == 0){
     for (uint8_t pos=0; pos < LED_COUNT; pos++){
       strip.setPixelColor(pos, strip.Color(r, g, b));
     }
     strip.show();
-    delay(10);
+    SerialUSB.delay(10);
     return;
   }
   
-  for (int i = 0; i < LED_COUNT; i++){
-    int pos = 0;
-    if (direction == 0){
-      pos = LED_COUNT - i - 1;
-      }
-    else{
-      pos = i;
+
+  int pos = 0;
+  if (direction == 0){
+    pos = LED_COUNT - i - 1;
     }
-    strip.clear();
-    strip.setPixelColor(pos, strip.Color(r, g, b));  // Cyan color
-    strip.show();
-    delay(wait);
+  else{
+    pos = i;
   }
+  strip.clear();
+  strip.setPixelColor(pos, strip.Color(r, g, b));  // Cyan color
+  strip.show();
+  SerialUSB.delay(wait);
 
   i++;
   if (i > LED_COUNT){
