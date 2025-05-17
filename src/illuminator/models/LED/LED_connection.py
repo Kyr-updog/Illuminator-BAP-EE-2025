@@ -3,6 +3,9 @@ import mosaik_api_v3 as mosaik_api
 import serial
 import time
 from numpy import ceil
+import sys
+print(sys.path)
+from illuminator.models.LED.LED_strip_controller import sendPixelData
 
 
 
@@ -106,19 +109,16 @@ class LED_connection(ModelConstructor):
             print(line)
         
         if speed == 0:
-            colour = 'g'
+            colour = [0,255,0]
             delay = 0
         else:
-            delay = max(0, min(4, ceil(4 * speed/100)))  # Maps 0-100% to 0-4, with bounds checking
+            delay = max(0, min(255, ceil(255 * speed/100)))  # Maps 0-100% to 0-255, with bounds checking
             delay = round(delay)
 
-            if delay >= 4:
-                colour = 'r'
-            else:
-                colour = 'g'
+            colour = [255-delay, delay, 0]
 
-        print(f"speed: {speed}%, Sending {delay}{colour}1")
-        ser.write(f"{delay}{colour}{direction}\n".encode('utf-8'))
+        print(f"speed: {speed}%, Sending {delay}{colour}")
+        sendPixelData(ser, int(delay), True, colour[0], colour[1], colour[2])
         time.sleep(3)
 
         return
