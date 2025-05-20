@@ -3,8 +3,6 @@ import mosaik_api_v3 as mosaik_api
 import serial
 import time
 from numpy import ceil
-import sys
-print(sys.path)
 from illuminator.models.LED.LED_strip_controller import sendPixelData
 
 
@@ -27,6 +25,7 @@ class LED_connection(ModelConstructor):
     parameters={'min_speed': 0,  # minimum speed for the connection
                 'max_speed': 0.5,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
+                'port': None
                 }
     inputs={'speed': 0}  # speed for the connection
     outputs={
@@ -54,6 +53,7 @@ class LED_connection(ModelConstructor):
         self.min_speed = self.parameters.get('min_speed')
         self.max_speed = self.parameters.get('max_speed')
         self.direction = self.parameters.get('direction')
+        self.port = self.parameters.get('port')
         return result
 
 
@@ -100,7 +100,7 @@ class LED_connection(ModelConstructor):
     
 
     def send_led_animation(self, speed, direction) -> None:
-        device = '/dev/ttyACM0'
+        device = self.port
         ser = serial.Serial(device, timeout=5)
         line = ''
 

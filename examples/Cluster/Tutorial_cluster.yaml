@@ -73,6 +73,7 @@ models:
     min_speed: 0  # minimum speed for the LED connection (0-100%)
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 1  # direction of the LED connection (0=towards the white connector)
+    port: /dev/ttyACM0
   inputs:
     speed: 5  # speed for the LED connection (0-100%)
   
