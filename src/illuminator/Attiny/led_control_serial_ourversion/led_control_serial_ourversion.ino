@@ -12,7 +12,7 @@ uint8_t direction = 0;
 uint8_t r = 10;
 uint8_t g = 10;
 uint8_t b = 10;
-uint8_t i = 0, j = 0;
+uint8_t i = 0, j = 1;
 uint8_t ID;
 
 void setup() {
@@ -27,7 +27,7 @@ void setup() {
 
 void loop() {
   requestSpeedFromPi();  // Ask Raspberry Pi for speed
-  if (j == 0){
+  if (j == 1){
     cyanFlowAnimation(animationSpeed, r, g, b, direction);  // Run animation
   }
 }
@@ -35,25 +35,30 @@ void loop() {
 void requestSpeedFromPi() {
     if (SerialUSB.available()) {
       switch (j){
-        case 0:
+        case 1:
           animationSpeed = SerialUSB.read();
+          SerialUSB.write(j);
           j++;
           break;
-        case 1: 
+        case 2: 
           direction = SerialUSB.read();
+          SerialUSB.write(j);
           j++;
           break;
-        case 2:
+        case 3:
           r = SerialUSB.read();
+          SerialUSB.write(j);
           j++;
           break;
-        case 3: 
+        case 4: 
           g = SerialUSB.read();
+          SerialUSB.write(j);
           j++;
           break;
-        case 4:
+        case 5:
           b = SerialUSB.read();
-          j = 0;
+          SerialUSB.write(j);
+          j = 1;
           ID = EEPROM.read(0);
           SerialUSB.write(ID);
           break;
