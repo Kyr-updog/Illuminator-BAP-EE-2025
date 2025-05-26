@@ -2,7 +2,7 @@ import numpy as np
 from numpy import genfromtxt
 import math
 
-
+#dummy
 # this model will be called by the step method in the wind_SimAPI file and there it will get input for calculations.
 # remove the input of turbine height and just make changing the wind speed to a height of 80m by default.
 
