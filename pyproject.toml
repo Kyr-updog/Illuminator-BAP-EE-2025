@@ -34,6 +34,10 @@ dependencies = [
     "ruamel.yaml>= 0.18.5",
     "schema>=0.7.7", 
     "typer>=0.12.5"
+    "rpi_ws281x"
+    "adafruit-circuitpython-neopixel"
+    "adafruit-blinka"
+    "RPi"
 ]
 keywords = [
     "energy",
