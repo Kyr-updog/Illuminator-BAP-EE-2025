@@ -101,7 +101,7 @@ class LED_connection(ModelConstructor):
 
     def send_led_animation(self, speed, direction) -> None:
         device = self.port
-        ser = serial.Serial(device, timeout=5)
+        ser = serial.Serial(device, timeout=1)
         line = ''
 
         if ser.in_waiting > 0:
