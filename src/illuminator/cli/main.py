@@ -10,6 +10,7 @@ from pathlib import Path
 from illuminator.cluster import build_runshfile 
 from illuminator.schema.simulation import load_config_file
 from illuminator.engine import Simulation
+import asyncio
 
 
 APP_NAME = "illuminator"
@@ -23,11 +24,13 @@ scenario_app = typer.Typer()
 app.add_typer(scenario_app, name="scenario", help="Run simulation scenarios.")
 cluster_app = typer.Typer()
 app.add_typer(cluster_app, name="cluster", help="Utilities for a RaspberryPi cluster.")
+simulation:Simulation = None
 
 @scenario_app.command("run")
 def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):
     "Runs a simulation scenario using a YAML file."
-
+    
+    global simulation
     simulation = Simulation(config_file)
     simulation.run()
 

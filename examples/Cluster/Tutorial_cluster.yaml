@@ -6,6 +6,22 @@ scenario:
   time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
 models: 
+
+- name: USBdetector1
+  type: USBdetector
+  connect:
+    ip: 127.0.0.1
+    port: 2003
+  parameters:
+    start: True
+  states:
+    USBchange: 
+
+- name: USBtrigger1
+  type: USBtrigger
+  inputs:
+    USBchange: False
+
 - name: CSVload
   type: CSV
   parameters:
@@ -166,6 +182,10 @@ models:
 
 
 connections:
+
+- from: USBdetector1.USBchange
+  to: USBtrigger1.USBchange
+
 - from: CSVload.load
   to: Load1.load
 - from: Load1.load_dem

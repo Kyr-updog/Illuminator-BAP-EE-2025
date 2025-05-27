@@ -1,7 +1,7 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 import serial
-import time
+import time as t
 from numpy import ceil
 from illuminator.models.LED.LED_strip_controller import sendPixelData
 
@@ -56,7 +56,6 @@ class LED_connection(ModelConstructor):
         self.port = self.parameters.get('port')
         return result
 
-
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
         """
         Performs a single simulation time step by calculating load demand.
@@ -93,8 +92,9 @@ class LED_connection(ModelConstructor):
         else:
             speed = ((speed - self.min_speed) / (self.max_speed - self.min_speed)) * 100
 
-        self.send_led_animation(speed, direction)
+        #self.send_led_animation(speed, direction)
         # self.set_outputs(results)
+        t.sleep(1)
 
         return time + self._model.time_step_size
     
