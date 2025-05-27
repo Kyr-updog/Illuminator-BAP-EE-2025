@@ -1,0 +1,44 @@
+from illuminator.builder import IlluminatorModel, ModelConstructor
+import mosaik_api_v3 as mosaik_api
+from pandapower import create_empty_network, create_bus, create_load, get_element_index, runpp, create_line
+
+
+class Pandalyser(ModelConstructor):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+    def step(self, time: int, inputs: dict = None, max_advance: int = 1):
+        """
+        0. receive ID data from the slaves
+        1. create buses (nodes)
+        2. add the loads to the buses
+        3. connect the buses with lines
+        4. do the pandapower
+        5. send data to the LEDS
+        """
+        
+        inputList = self.unpack_inputs(inputs)
+        net = create_empty_network()
+        
+        for i, station in enumerate(inputList["stationList"]):
+            create_bus(net, name = "station_"+str(i), vn_kv = 110, type = 'n')
+            
+        for i, load in enumerate(inputList["loads"]):
+            create_load(net, get_element_index(net, "bus", 'station_'+str(i)), p_mw = load, name = 'load_'+str(i))
+            
+        for i in inputList["ID"]:
+            create_line(net, "BUS1", "BUS2", 10) #length needs to be determined
+                    
+        runpp(net, init='dc')
+        
+        self.set_outputs() #here you have to put the outputs for the leds
+        
+        return time + self._model.time_step_size
+
+
+
+
+if __name__ == '__main__':
+    mosaik_api.start_simulation(Pandalyser(), 'Pandapower analysis')
+
