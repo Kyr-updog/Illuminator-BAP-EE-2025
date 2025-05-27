@@ -16,9 +16,6 @@ models:
     load:  # incoming energy or power demand per house (kWh) for each time step (15 minutes)
 - name: Load1
   type: Load
-  connect:
-    ip: 127.0.0.1
-    port: 5123
   parameters:
     houses: 7  # number of houses that determine the total load demand
     output_type: 'power'  # type of output for consumption calculation ('energy' or 'power')
@@ -37,9 +34,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
 - name: PV1
   type: PV # models can reuse the same type
-  connect:
-    ip: 192.168.137.209
-    port: 5123
   parameters:
     m_area: 1.26  # m2
     NOCT: 44  # Celcius
@@ -66,9 +60,9 @@ models:
     pv_genState: 0
 - name: PV_LED
   type: LED_connection
-  # connect:
-  #   ip: 192.168.27.161
-  #   port: 5125
+  connect:
+    ip: 127.0.0.1
+    port: 5678
   parameters:
     min_speed: 0  # minimum speed for the LED connection (0-100%)
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
@@ -85,9 +79,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
 - name: Wind1
   type: Wind # models can reuse the same type
-  connect:
-    ip: 192.168.137.209
-    port: 5125
   parameters:
     p_rated: 0.3  # Rated power output (kW) of the wind turbine at the rated wind speed and above.
     u_rated: 10.3  # Rated wind speed (m/s) where the wind turbine reaches its maximum power output.
@@ -120,9 +111,6 @@ models:
 
 - name: Battery1
   type: Battery # models can reuse the same type
-  connect:
-    ip: 127.0.0.1
-    port: 5027
   parameters:
     max_p: 0.8  # maximum charging power limit (kW)
     min_p: -0.8  # maximum discharging power limit (kW)
