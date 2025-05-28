@@ -1,0 +1,169 @@
+scenario:
+  name: "Pandalyzer test" # in mosaik so called world
+  start_time: '2012-07-06 00:00:00' # ISO 8601 start time of the simulation
+  end_time: '2012-07-06 23:45:00' # duration in seconds 
+  time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
+
+models:
+- name: Controller1
+  type: PandaController
+  parameters:
+    models: {}
+    power_capacities: {}
+    energy_capacities: {}
+    initial_SoCs: {}
+    ps_connections: {}
+    ss_connections: {}
+  inputs:
+    ncp_power: {}
+  # no outputs
+  states:
+    cp_power: {}
+    tl_power: {}
+
+- name: CSVwind1
+  type: CSV
+  parameters:
+  states:
+
+- name: CSVfossil1
+  type: CSV
+  parameters:
+  states:
+
+- name: CSVload1
+  type: CSV
+  parameters:
+  states:
+
+- name: Wind1
+  type: Wind
+  parameters:
+  inputs:
+  outputs:
+  states:
+
+- name: Fossil1
+  type: Fossil
+  parameters:
+  inputs:
+  # no outputs
+  states:
+
+- name: Load1
+  type: Load
+  parameters:
+  inputs:
+  outputs:
+  # no states
+
+- name: Battery1
+  type: Battery
+  parameters:
+  inputs:
+  outputs:
+  states:
+
+- name: Station1
+  type: Station
+  parameters:
+    line_reactances: {}
+    line_capacities: {}
+  inputs:
+    ncp_power: 0 # can connect multiple NCP outputs; values will be added together
+    cp_power: 0 # from controller
+    tl_powers: {} # from controller
+  outputs:
+    cp_power: 0
+    tl_powers: {}
+  states:
+    ncp_power: 0 # to controller
+
+- name: Station2
+  type: Station
+  parameters:
+    line_reactances: {}
+    line_capacities: {}
+  inputs:
+    ncp_power: 0 # can connect multiple NCP outputs; values will be added together
+    cp_power: 0 # from controller
+    tl_powers: {} # from controller
+  outputs:
+    cp_power: 0
+    tl_powers: {}
+  states:
+    ncp_power: 0 # to controller
+
+- name: Station3
+  type: Station
+  parameters:
+    line_reactances: {}
+    line_capacities: {}
+  inputs:
+    ncp_power: 0 # can connect multiple NCP outputs; values will be added together
+    cp_power: 0 # from controller
+    tl_powers: {} # from controller
+  outputs:
+    cp_power: 0
+    tl_powers: {}
+  states:
+    ncp_power: 0 # to controller
+
+- name: Station4
+  type: Station
+  parameters:
+    line_reactances: {}
+    line_capacities: {}
+  inputs:
+    ncp_power: 0 # can connect multiple NCP outputs; values will be added together
+    cp_power: 0 # from controller
+    tl_powers: {} # from controller
+  outputs:
+    cp_power: 0
+    tl_powers: {}
+  states:
+    ncp_power: 0 # to controller
+
+- name: Station5
+  type: Station
+  parameters:
+    line_reactances: {}
+    line_capacities: {}
+  inputs:
+    ncp_power: 0 # can connect multiple NCP outputs; values will be added together
+    cp_power: 0 # from controller
+    tl_powers: {} # from controller
+  outputs:
+    cp_power: 0
+    tl_powers: {}
+  states:
+    ncp_power: 0 # to controller
+
+connections:
+# Determined by coding
+- from: CSVwind1.u
+  to: Wind1.u
+- from: CSVfossil1.bio_frac
+  to: Fossil1.bio_frac
+- from: CSVload1.load
+  to: Load1.load
+- from: Wind1.wind_gen
+  to: Station1.ncp_power
+- from:
+  to:
+- from:
+  to:
+- from:
+  to:
+- from:
+  to:
+- from:
+  to:
+- from:
+  to:
+- from:
+  to:
+
+# Determined by cluster configuration
+
+monitor:
