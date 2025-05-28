@@ -15,18 +15,18 @@ models:
     ps_connections: {}
     ss_connections: {}
   inputs:
-    ncp_power: {}
+    ncp_powers: {}
   # no outputs
   states:
-    cp_power: {}
-    tl_power: {}
+    cp_powers: {}
+    tl_powers: {}
 
 - name: CSVwind1
   type: CSV
   parameters:
   states:
 
-- name: CSVfossil1
+- name: CSVfossil1 # Also causes a problem for pipelining (fossil must read for next time step while outputting for current)
   type: CSV
   parameters:
   states:
@@ -73,6 +73,7 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
+    bottoms: {} # from other station
   outputs:
     cp_power: 0
     tl_powers: {}
@@ -88,6 +89,7 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
+    bottoms: {} # from other station
   outputs:
     cp_power: 0
     tl_powers: {}
@@ -103,6 +105,7 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
+    bottoms: {} # from other station
   outputs:
     cp_power: 0
     tl_powers: {}
@@ -118,6 +121,7 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
+    bottoms: {} # from other station
   outputs:
     cp_power: 0
     tl_powers: {}
@@ -133,6 +137,7 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
+    bottoms: {} # from other station
   outputs:
     cp_power: 0
     tl_powers: {}
@@ -141,29 +146,85 @@ models:
 
 connections:
 # Determined by coding
+  # CSV connections
 - from: CSVwind1.u
   to: Wind1.u
+
 - from: CSVfossil1.bio_frac
   to: Fossil1.bio_frac
+
 - from: CSVload1.load
   to: Load1.load
+
+  # NCP connections
 - from: Wind1.wind_gen
   to: Station1.ncp_power
-- from:
-  to:
-- from:
-  to:
-- from:
-  to:
-- from:
-  to:
-- from:
-  to:
-- from:
-  to:
-- from:
-  to:
+
+- from: Load1.load_dem
+  to: Station3.ncp_power
+
+  # CP connections
+- from: Station2.cp_power
+  to: Fossil1.req_pow
+
+- from: Station4.cp_power
+  to: Battery1.flow2b
+
+  # Controller connections
+    # NCP
+- from: Station1.ncp_power
+  to: Controller1.ncp_powers
+
+- from: Controller1.tl_powers
+  to: Station1.tl_powers # !!!Need to encode which powers belong to which station in the transmitted data (maybe use ID as Bram suggested)!!!
+  time_shifted: True # !!!
+  
+- from: Station3.ncp_power
+  to: Controller1.ncp_powers
+
+- from: Controller1.tl_powers
+  to: Station3.tl_powers
+  time_shifted: True # !!!
+
+    # CP
+- from: Controller1.cp_powers
+  to: Station2.cp_power
+
+- from: Controller1.tl_powers
+  to: Station2.tl_powers
+
+- from: Controller1.cp_powers
+  to: Station4.cp_power
+
+- from: Controller1.tl_powers
+  to: Station4.tl_powers
+
+    # Other
+- from: Controller1.tl_powers
+  to: Station5.tl_powers
 
 # Determined by cluster configuration
+# Inter-station connections
+- from: Station1.tl_powers
+  to: Station2.bottoms
+
+- from: Station1.tl_powers
+  to: Station3.bottoms
+
+- from: Station1.tl_powers
+  to: Station5.bottoms
+
+- from: Station2.tl_powers
+  to: Station4.bottoms
+
+- from: Station3.tl_powers
+  to: Station4.bottoms
+
+- from: Station3.tl_powers
+  to: Station5.bottoms
+
+- from: Station4.tl_powers
+  to: Station5.bottoms
 
 monitor:
+# Somehow need to time-shift peripheral monitor outputs to synchronize (Nuclear is the problem!!!).
