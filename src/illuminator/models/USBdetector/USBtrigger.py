@@ -15,11 +15,9 @@ class USBtrigger(ModelConstructor):
         
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
         input_data = self.unpack_inputs(inputs)
-        print(input_data)
         if input_data["USBchange"] == 1:
             #raise RuntimeWarning
             loop = asyncio.get_event_loop()
-            print(loop.is_running())
             loop.create_task(simulation.world._async_world.shutdown())
 
         return time + 1 

@@ -13,7 +13,6 @@ class USBdetector(ModelConstructor):
     def __init__(self, *args, **kwargs):
         result = super().__init__(*args, **kwargs)
         self.connections = serial.tools.list_ports.comports()
-        print("starting")
         return result
         
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
@@ -33,7 +32,6 @@ class USBdetector(ModelConstructor):
             self.set_outputs({"USBchange": True})
          
         t.sleep(1)
-        print(self.outputs)
            
         return time + 1
     
