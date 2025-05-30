@@ -28,6 +28,8 @@ from .Agents.operators.operator_v3 import Operator_Market
 from .LED.LED_connection import LED_connection
 from .USBdetector.USBdetector import USBdetector
 from .USBdetector.USBtrigger import USBtrigger
+from.IDrequester.IDrequester import IDrequester
+from .TopologyMaker.TopologyMaker import TopologyMaker
 
 __all__ = [ 'Adder', 
             'Collector', 
@@ -46,5 +48,7 @@ __all__ = [ 'Adder',
             'Operator_Market',
             'LED_connection',
             'USBdetector',
-            'USBtrigger'
+            'USBtrigger',
+            'IDrequester',
+            'TopologyMaker'
             ]
