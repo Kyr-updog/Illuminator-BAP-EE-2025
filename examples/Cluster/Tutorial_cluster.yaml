@@ -121,11 +121,15 @@ models:
 
 - name: IDrequester1
   type: IDrequester
+  parameters:
+    deviceID: 1
   states:
     stripList: {}
 
 - name: IDrequester2
   type: IDrequester
+  parameters:
+    deviceID: 2
   states:
     stripList: {}
 

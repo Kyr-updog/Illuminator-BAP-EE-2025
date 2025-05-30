@@ -18,10 +18,10 @@ class TopologyMaker(ModelConstructor):
             for led_strip in device:
                 network.append(led_strip[0:3])
         
-        connected_pairs = determine_connected_pairs(network)
-        topology = write_topology(connected_pairs)
-        filename = self._model.parameters.get('filename')
-        read_and_copy_yaml_data_plus_add_data_to_new_file(filename, 'simulation', topology)
+        #connected_pairs = determine_connected_pairs(network)
+        #topology = write_topology(connected_pairs)
+        #filename = self._model.parameters.get('filename')
+        #read_and_copy_yaml_data_plus_add_data_to_new_file(filename, 'simulation', topology)
         print(network)
             
         return time + self._model.time_step_size

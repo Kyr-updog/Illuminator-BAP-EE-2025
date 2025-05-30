@@ -8,6 +8,7 @@ from illuminator.models.LED.LED_strip_controller import sendPixelData
 class IDrequester(ModelConstructor):
 
     states = {"stripList": False}
+    parameters = {"deviceID":0}
     
     def __init__(self, *args, **kwargs):
         result = super().__init__(*args, **kwargs)
@@ -16,15 +17,11 @@ class IDrequester(ModelConstructor):
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
         connectionList = serial.tools.list_ports.comports()
         self.connections = []
-        ip = gethostbyname(gethostname())
+        ip = self.parameters.get("deviceID")
         for connection in connectionList:
-            #serialCon = serial.Serial(connection.name)
-            #id, sender = sendPixelData(serialCon, 0, 0, 0, 0, 0)
-            #serialCon.close()
-            #self.connections[str(id)] = [serialCon, sender] #store as id:[serial port, sender/dummy]
-            id = 1
-            sender = 'sender'
-            self.connections.append([id, ip, sender, connection.name])
+            serialCon = serial.Serial(connection.name)
+            id, sender = sendPixelData(serialCon, 0, 0, 0, 0, 0)
+            serialCon.close()
             self.connections.append([id, ip, sender, connection.name])
             
         output = {'stripList': self.connections}
