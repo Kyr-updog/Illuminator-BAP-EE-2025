@@ -4,6 +4,8 @@
 
 #define LED_PIN 0   // WS2812B Data Line on PB0 (Pin 0)
 #define LED_COUNT 20 // Number of LEDs
+#define ID 1 //the ID of the attiny
+#define DUMMY 1 //1 is dummy, 2 is controller
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
@@ -13,7 +15,6 @@ uint8_t r = 10;
 uint8_t g = 10;
 uint8_t b = 10;
 uint8_t i = 0, j = 1;
-uint8_t ID;
 
 void setup() {
   SerialUSB.begin();  // Initialize USB Serial
@@ -59,8 +60,8 @@ void requestSpeedFromPi() {
           b = SerialUSB.read();
           SerialUSB.write(j);
           j = 1;
-          ID = EEPROM.read(0);
           SerialUSB.write(ID);
+          SerialUSB.write(DUMMY);
           break;
       }
     }

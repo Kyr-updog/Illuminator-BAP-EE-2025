@@ -65,8 +65,13 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
     id = 0
     while id == 0:
         id = int.from_bytes(connection.read(1))
+        dummy = int.from_bytes(connection.read(1))
+        if dummy == 1:
+            return_dummy = True
+        else:
+            return_dummy = False
     
-    return id
+    return id, return_dummy
 
 if __name__ == "__main__":
     connection = Serial("/dev/ttyACM0", timeout=1)

@@ -10,7 +10,7 @@ from pathlib import Path
 from illuminator.cluster import build_runshfile 
 from illuminator.schema.simulation import load_config_file
 from illuminator.engine import Simulation
-import asyncio
+import os, time
 
 
 APP_NAME = "illuminator"
@@ -24,6 +24,8 @@ scenario_app = typer.Typer()
 app.add_typer(scenario_app, name="scenario", help="Run simulation scenarios.")
 cluster_app = typer.Typer()
 app.add_typer(cluster_app, name="cluster", help="Utilities for a RaspberryPi cluster.")
+demonstrator_app = typer.Typer()
+app.add_typer(demonstrator_app, name="demonstrator", help="Run the demonstrator")
 simulation:Simulation = None
 
 @scenario_app.command("run")
@@ -33,6 +35,19 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
     global simulation
     simulation = Simulation(config_file)
     simulation.run()
+    
+@demonstrator_app.command("run")#run for the demonstrator part of the illuminator
+def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):
+    "Runs a simulation scenario using a YAML file. Keep in mind that this only works on linux"
+    
+    while True:
+        #makeSim = Simulation("startup.yaml") #the path to the startup simulation (is only 1 step)
+        #makeSim.run()
+        
+        os.system('./run.sh')
+        global simulation
+        simulation = Simulation(config_file)
+        simulation.run()
 
 @cluster_app.command("build")
 def cluster_build(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):
