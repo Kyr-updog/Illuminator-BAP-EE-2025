@@ -16,68 +16,73 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
     Returns:
         ATtiny ID 
     """
-    val = 0
+    do_send = False
+    case = 0
+    
     if animationSpeed > 255 : animationSpeed = 255
-    connection.write(animationSpeed.to_bytes())
-    while True:
-        val = int.from_bytes(connection.read(1))
-        if val == 1: #check if the ATtiny wrote to the correct variable (so we check if the data was received well)
-            break 
-        else:
-            connection.write(animationSpeed.to_bytes()) #if not, just resend the data until you are at the correct variable
-    #this design can rarely make the led a different color than it's supposed to be, but it's much better than the led strip bricking and requiring a restart. 
+    if direction > 1 : direction = 1
+    if red > 255 : red = 255
+    if green > 255 : green = 255
+    if blue > 255 : blue = 255
     
-    connection.write(direction.to_bytes()) #true = 1, false = 0
-    while True:
-        val = int.from_bytes(connection.read(1))
-        if val == 2: 
-            break
-        else:
+    while not do_send:
+        checks = [False, False, False, False, False]
+        do_send = True
+        if case <=1:
+            connection.write(animationSpeed.to_bytes())
+            case = int.from_bytes(connection.read(1))+1
+            if case != 2:
+                do_send = False
+            else:
+                checks[0] = True
+                
+        if case == 2:
             connection.write(direction.to_bytes())
-    
-    if red > 255: red = 255
-    connection.write(red.to_bytes())
-    while True:
-        val = int.from_bytes(connection.read(1))
-        if val == 3:
-            break
-        else:
+            case = int.from_bytes(connection.read(1))+1
+            if case != 3:
+                do_send = False
+            else:
+                checks[1] = True
+                
+        if case ==3:
             connection.write(red.to_bytes())
-    
-    if green > 255: green = 255
-    connection.write(green.to_bytes())
-    while True:
-        val = int.from_bytes(connection.read(1))
-        if val == 4:
-            break
-        else:
+            case = int.from_bytes(connection.read(1))+1
+            if case != 4:
+                do_send = False
+            else:
+                checks[2] = True
+                
+        if case <=4:
             connection.write(green.to_bytes())
-    
-    if blue > 255: blue = 255
-    connection.write(blue.to_bytes())
-    while True:
-        val = int.from_bytes(connection.read(1))
-        if val == 5:
-            break
-        else:
+            case = int.from_bytes(connection.read(1))+1
+            if case != 5:
+                do_send = False
+            else:
+                checks[3] = True
+                
+        if case <=5:
             connection.write(blue.to_bytes())
+            case = int.from_bytes(connection.read(1))+1
+            if case != 6:
+                do_send = False
+            else:
+                checks[4] = True
+                id = int.from_bytes(connection.read(1))
+                return_dummy = int.from_bytes(connection.read(1))
         
-    id = 0
-    while id == 0:
-        id = int.from_bytes(connection.read(1))
-        dummy = int.from_bytes(connection.read(1))
-        if dummy == 1:
-            return_dummy = True
-        else:
-            return_dummy = False
+        if False in checks:
+            print("don't send")
+            do_send = False
+            case = 0
+        
     
     return id, return_dummy
 
 if __name__ == "__main__":
-    connection = Serial("/dev/ttyACM0", timeout=1)
+    connection = Serial("/dev/ttyACM1", timeout=0.5)
     for i in range(10):
-        ID = sendPixelData(connection, 10, True, i*10, 255, 100)
+        ID = sendPixelData(connection, 100, True, i*30, 50, 50)
         print("ID: "+str(ID))
         print("iteration: "+str(i))
-        sleep(2)
+        sleep(0.5)
     print(ID)
