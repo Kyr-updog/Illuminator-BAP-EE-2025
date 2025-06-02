@@ -1,6 +1,6 @@
 import yaml
 import numpy as np
-
+import csv
 
 def determine_connected_pairs(Network):           #this function creates an array of all Station pairs in S/R order
 
@@ -33,15 +33,21 @@ def write_topology(connected_pair_array):
     to_model = ''
     line_id = ''
 
+    with open('line_connections.csv', 'w', newline='') as csvfile:
+        pass
+
     for i in range(np.shape(connected_pair_array)[0]):
         if ('Station' in connected_pair_array[i, 0]) and ('Station' in connected_pair_array[i, 1]):
             from_model = connected_pair_array[i, 0]+'.transmit'
             to_model = connected_pair_array[i, 1]+'.receive'
             line_id = 'line_'+connected_pair_array[i, 2]
+            
             topology_list.append({'from': from_model, 'to': to_model, 'line_id': line_id})
+
+            with open('line_connections.csv', 'a', newline='') as csvfile:
+                line_connector = csv.writer(csvfile, delimiter=' ')
+                line_connector.writerow([connected_pair_array[i, 0], connected_pair_array[i, 1], connected_pair_array[i, 2]])
     return topology_list
-
-
 
 def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file, topology):
     with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
