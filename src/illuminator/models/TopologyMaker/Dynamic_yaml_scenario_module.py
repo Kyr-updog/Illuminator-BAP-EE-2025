@@ -43,13 +43,13 @@ def determine_connected_pairs(Network):           #this function creates an arra
 
 
 
-def write_topology(connected_pair_array):
+def write_topology(connected_pair_array, key, filename, write_file):
     with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
-    data = yaml.safe_load(f)                        #loads the yaml data in safe mode
-    topology_list = (data[f'{key}'])                #copies everything under a given "key:" to a list
-    data.pop(key)                                   #pops the "key:" and everything underneath
+        data = yaml.safe_load(f)                        #loads the yaml data in safe mode
+        topology_list = (data[f'{key}'])                #copies everything under a given "key:" to a list
+        data.pop(key)                                   #pops the "key:" and everything underneath
     with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
-    yaml.dump(data,file,sort_keys=False)            #writes the original yaml data, excluding the popped key, to said different yaml file
+        yaml.dump(data,file,sort_keys=False)            #writes the original yaml data, excluding the popped key, to said different yaml file
                                                     #the purpose of this operation is to copy the static connections to the topology
                                                     #and then remove them in a new intermediary yaml file
                                                     #this leaves the models: section at the bottom of the file, for the LED_portmapping  
@@ -84,7 +84,7 @@ def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file,LED_po
         yaml.dump(connections,file,sort_keys=False)         #writes the connections to the connections: section
     print('simulation file connections updated') 
     
-if __name__ == "__main":
+if __name__ == "__main__":
     Network = [
            [1, 'Station1', 'Sender'], 
            [1, 'Station4', 'Receiver'], 
@@ -108,6 +108,6 @@ if __name__ == "__main":
     print(LED_portmap)
     connected_pair_array = determine_connected_pairs(Network)
     print(connected_pair_array)
-    topology = write_topology(connected_pair_array)
+    topology = write_topology(connected_pair_array, 'connections', 'Tutorial_Power_Balance_b', 'connection_less_simulation')
     print (topology)
     read_and_copy_yaml_data_plus_add_data_to_new_file('Tutorial_Power_Balance_b', 'simulation_file')
