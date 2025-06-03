@@ -16,6 +16,7 @@ class IDrequester(ModelConstructor):
         
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
         connectionList = serial.tools.list_ports.comports()
+        print(connectionList)
         self.connections = []
         ip = self.parameters.get("deviceID")
         for connection in connectionList:
@@ -27,7 +28,8 @@ class IDrequester(ModelConstructor):
             
         output = {'stripList': self.connections}
         self.set_states(output)
-           
+        print("return")   
+        
         return time + self._model.time_step_size
     
     

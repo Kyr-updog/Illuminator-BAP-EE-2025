@@ -74,7 +74,10 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
             do_send = False
             case = 0
         
-    
+    if return_dummy == 2:
+        return_dummy = 'sender'
+    else:
+        return_dummy = 'dummy'
     return id, return_dummy
 
 if __name__ == "__main__":

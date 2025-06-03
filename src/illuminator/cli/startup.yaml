@@ -1,13 +1,13 @@
 scenario:
   name: startup
   start_time: '2012-01-01 00:00:00'
-  end_time: '2012-01-01 00:15:00'
+  end_time: '2012-01-01 00:30:00'
   time_resolution: 900
 
 monitor:
   file: './out.csv'
   items:
-  - TopologyCreator.config
+  - request2.stripList
 
 models:
 
@@ -22,9 +22,9 @@ models:
   type: IDrequester
   connect: 
     ip: 127.0.0.1
-    port: 5000
+    port: 5001
   parameters:
-    deviceID: ['127.0.0.1', 5000]
+    deviceID: ['127.0.0.1', 5001]
   states:
     stripList: None
 
