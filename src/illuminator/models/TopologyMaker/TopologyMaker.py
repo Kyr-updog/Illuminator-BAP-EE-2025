@@ -17,11 +17,18 @@ class TopologyMaker(ModelConstructor):
         for device in input['config']:#make the input one giant list for the mapping function
             for led_strip in device:
                 network.append(led_strip[0:3])
+                
+        led_connections = []
+        for device in input['config']:
+            for led_strip in device:
+                if led_strip[3] == 'sender':
+                    led_connections.append([led_strip[1], led_strip[2], led_strip[4]])
         
         connected_pairs = determine_connected_pairs(network)
-        topology = write_topology(connected_pairs)
+        write_topology(connected_pairs, 'connections', filename, 'temp_no_con')
+        led_map = write_LED_portmaps(led_connections)
         filename = self._model.parameters.get('filename')
-        read_and_copy_yaml_data_plus_add_data_to_new_file(filename, 'simulation', topology)
+        read_and_copy_yaml_data_plus_add_data_to_new_file('temp_no_con', 'simulation', led_map)
         print(network)
             
         return time + self._model.time_step_size

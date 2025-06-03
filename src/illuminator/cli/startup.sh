@@ -1,0 +1,2 @@
+lxterminal -e ssh Raspinator@127.0.0.1 './Illuminator/configuration/runshfile/runIDrequester.sh 127.0.0.1 5000 /home/Raspinator/Illuminator/src/illuminator/models/'&
+lxterminal -e ssh Raspinator@192.168.137.150 './Illuminator/configuration/runshfile/runIDrequester.sh 192.168.137.150 5000 /home/Raspinator/Illuminator/src/illuminator/models/'

@@ -1,0 +1,40 @@
+scenario:
+  name: startup
+  start_time: '2012-01-01 00:00:00'
+  end_time: '2012-01-01 00:15:00'
+  time_resolution: 900
+
+models:
+
+- name: TopologyCreator
+  type: TopologyMaker
+  parameters: 
+    filename: 'examples/Cluster/Tutorial_cluster.yaml'
+  inputs:
+    config: {}
+
+- name: request1
+  type: IDrequester
+  connect: 
+    ip: 127.0.0.1
+    port: 5000
+  parameters:
+    deviceID: ['127.0.0.1', 5000]
+  states:
+    stripList: None
+
+- name: request2
+  type: IDrequester
+  connect: 
+    ip: '192.168.137.150'
+    port: 5000
+  parameters:
+    deviceID: ['192.168.137.150', 5000]
+  states:
+    stripList: None
+
+connections:
+- from: request1.stripList
+  to: TopologyCreator.config
+- from: request2.stripList
+  to: TopologyCreator.config

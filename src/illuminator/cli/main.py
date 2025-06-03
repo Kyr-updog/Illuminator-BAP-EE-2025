@@ -41,12 +41,13 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
     "Runs a simulation scenario using a YAML file. Keep in mind that this only works on linux"
     
     while True:
-        #makeSim = Simulation("startup.yaml") #the path to the startup simulation (is only 1 step)
-        #makeSim.run()
+        os.system('src/illuminator/cli/startup.sh')
+        makeSim = Simulation("src/illuminator/cli/startup.yaml") #the path to the startup simulation (is only 1 step)
+        makeSim.run()
         
         os.system('./run.sh')
         global simulation
-        simulation = Simulation(config_file)
+        simulation = Simulation('simulation.yaml')
         simulation.run()
 
 @cluster_app.command("build")
