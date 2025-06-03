@@ -22,12 +22,13 @@ class LED_connection(ModelConstructor):
         Dictionary containing calculated load demand values
     """
 
-    parameters={'min_speed': 0,  # minimum speed for the connection
+    parameters={'line_ID': 'line_1', # so that it knows which line it controls
+                'min_speed': 0,  # minimum speed for the connection
                 'max_speed': 0.5,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
                 'port': None
                 }
-    inputs={'speed': 0}  # speed for the connection
+    inputs={'speed': {}}  # takes in dictionary with <line_ID: speed> pairs
     outputs={
              }
     states={
@@ -50,6 +51,7 @@ class LED_connection(ModelConstructor):
         None
         """
         result = super().init(*args, **kwargs)
+        self.line_ID = self.parameters.get('line_ID')
         self.min_speed = self.parameters.get('min_speed')
         self.max_speed = self.parameters.get('max_speed')
         self.direction = self.parameters.get('direction')
@@ -78,7 +80,7 @@ class LED_connection(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        speed = input_data.get('speed', 0)
+        speed = input_data['speed'][f'{self.line_ID}'] # Selects the speed corresponding to its own line_ID
         direction = self.direction
         print("got speed: ", speed)
 
