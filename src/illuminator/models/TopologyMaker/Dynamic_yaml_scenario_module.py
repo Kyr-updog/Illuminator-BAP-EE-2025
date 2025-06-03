@@ -105,6 +105,7 @@ if __name__ == "__main":
                  ]
     
     LED_portmap = write_LED_portmaps(LED_Model)
+    print(LED_portmap)
     connected_pair_array = determine_connected_pairs(Network)
     print(connected_pair_array)
     topology = write_topology(connected_pair_array)
