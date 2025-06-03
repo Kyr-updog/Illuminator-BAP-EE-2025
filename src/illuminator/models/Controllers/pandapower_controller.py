@@ -1,20 +1,21 @@
 from illuminator.builder import ModelConstructor
+import pandapower as pp
+import pandas as pd
 
 # construct the model
-class Station(ModelConstructor):
+class PandaController(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
-    parameters={'line_reactances': {}, # Maybe not even needed!!!
-                'line_capacities': {}
+    parameters={'peripherals': {},                          
+                'stations': {},
+                'ps_connections': {},
+                'ss_connections': {},
+                'lines_file_path': '' # File contains line ID's with their reactances and capacities
                 }
-    inputs={'ncp_power': 0,
-            'cp_power': {},
-            'tl_powers': {},
-            'received_tl_powers': {}
+    inputs={'ncp_powers': {}
             }
-    outputs={'cp_power': 0,
-             'sent_tl_powers': {}
-             }
-    states={'ncp_power': {}
+    outputs={} # No outputs
+    states={'cp_powers': {},
+            'tl_powers': {}
             }
     
     # define other attributes
@@ -23,18 +24,26 @@ class Station(ModelConstructor):
 
     def __init__(self, **kwargs) -> None:
         """
-        Initialize the station model with the provided parameters.
+        Initialize the analyzer/controller model with the provided parameters.
 
         Parameters
         ----------
         kwargs : dict
-                Additional keyword arguments to initialize the...
+            Additional keyword arguments to initialize the...
         """
         super().__init__(**kwargs)
-        self.line_reactances = self.parameters['line_reactances']
-        self.line_capacities = self.parameters['line_capacities']
+        self.stations = self.parameters['stations']
+        self.connections = self.parameters['connections']
+        self.lines_file_path = self.parameters['lines_file_path']
 
+        # Build graph here !!!
+        net = pp.create_empty_network()
+        for station in self.stations:
+            pp.create_bus(net, vn_kv=360., name='%s' % station)
 
+        lines = pd.read_csv(self.lines_file_path)
+
+         
 
     # define step function
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:  # step function always needs arguments self, time, inputs and max_advance. Max_advance needs an initial value.
@@ -51,22 +60,16 @@ class Station(ModelConstructor):
         input_data = self.unpack_inputs(inputs)  # make input data easily accessible
         self.time = time
 
-        ncp_power = input_data['ncp_power']
-        cp_power = input_data['cp_power']
-        tl_powers = input_data['tl_powers']
+        ncp_powers = input_data['ncp_powers']
 
-        results = self.routing(ncp_power, cp_power, tl_powers)
-        self.ncp_power = results.pop('ncp_power')
+        results = self.control_and_analysis(ncp_powers)
 
-        self.set_states({'ncp_power': self.ncp_power})
-        self.set_outputs(results)
+        self.set_states(results)
 
         # return the time of the next step (time until current information is valid)
         return time + self._model.time_step_size
     
-    
 
-    def routing(self, ncp_power, cp_power, tl_powers) -> dict:
-        # TODO: isolate relevant tl_powers !!!!
-        re_params = {'cp_power': cp_power, 'sent_tl_powers': tl_powers, 'ncp_power': ncp_power}
-        return re_params
+
+    def control_and_analysis(self, ncp_powers) -> dict:
+        pass

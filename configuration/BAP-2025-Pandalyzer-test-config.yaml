@@ -8,14 +8,14 @@ models:
 - name: Controller1
   type: PandaController
   parameters:
-    models: {}
+    stations: {} # Figure out dict contents
     power_capacities: {}
     energy_capacities: {}
     initial_SoCs: {}
     ps_connections: {}
     ss_connections: {}
   inputs:
-    ncp_powers: {}
+    ncp_powers: {} # Also need to send dictionaries then
   # no outputs
   states:
     cp_powers: {}
@@ -73,10 +73,10 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
-    bottoms: {} # from other station
+    received_tl_powers: {} # from other station
   outputs:
     cp_power: 0
-    tl_powers: {}
+    sent_tl_powers: {}
   states:
     ncp_power: 0 # to controller
 
@@ -89,10 +89,10 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
-    bottoms: {} # from other station
+    received_tl_powers: {} # from other station
   outputs:
     cp_power: 0
-    tl_powers: {}
+    sent_tl_powers: {}
   states:
     ncp_power: 0 # to controller
 
@@ -105,10 +105,10 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
-    bottoms: {} # from other station
+    received_tl_powers: {} # from other station
   outputs:
     cp_power: 0
-    tl_powers: {}
+    sent_tl_powers: {}
   states:
     ncp_power: 0 # to controller
 
@@ -121,10 +121,10 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
-    bottoms: {} # from other station
+    received_tl_powers: {} # from other station
   outputs:
     cp_power: 0
-    tl_powers: {}
+    sent_tl_powers: {}
   states:
     ncp_power: 0 # to controller
 
@@ -137,10 +137,10 @@ models:
     ncp_power: 0 # can connect multiple NCP outputs; values will be added together
     cp_power: 0 # from controller
     tl_powers: {} # from controller
-    bottoms: {} # from other station
+    received_tl_powers: {} # from other station
   outputs:
     cp_power: 0
-    tl_powers: {}
+    sent_tl_powers: {}
   states:
     ncp_power: 0 # to controller
 
@@ -205,26 +205,41 @@ connections:
 
 # Determined by cluster configuration
 # Inter-station connections
-- from: Station1.tl_powers
-  to: Station2.bottoms
+- from: Station1.sent_tl_powers
+  to: Station2.received_tl_powers
 
-- from: Station1.tl_powers
-  to: Station3.bottoms
+- from: Station1.sent_tl_powers
+  to: Station3.received_tl_powers
 
-- from: Station1.tl_powers
-  to: Station5.bottoms
+- from: Station1.sent_tl_powers
+  to: Station5.received_tl_powers
 
-- from: Station2.tl_powers
-  to: Station4.bottoms
+- from: Station2.sent_tl_powers
+  to: Station4.received_tl_powers
 
-- from: Station3.tl_powers
-  to: Station4.bottoms
+- from: Station3.sent_tl_powers
+  to: Station4.received_tl_powers
 
-- from: Station3.tl_powers
-  to: Station5.bottoms
+- from: Station3.sent_tl_powers
+  to: Station5.received_tl_powers
 
-- from: Station4.tl_powers
-  to: Station5.bottoms
+- from: Station4.sent_tl_powers
+  to: Station5.received_tl_powers
 
 monitor:
 # Somehow need to time-shift peripheral monitor outputs to synchronize (Nuclear is the problem!!!).
+
+
+
+
+
+# Voor Alje en Bram
+connections:
+- from: Station1.Sender
+  to: Station2.Receiver
+  line_id: 1234 # <- dit is het belangrijke gedeelte !!!!!!!!!!!
+
+# Sender en Receiver gaan waarschijnlijk andere namen krijgen
+# Specifiek: 
+# Sender -> sent_tl_powers; 
+# Receiver -> received_tl_powers
