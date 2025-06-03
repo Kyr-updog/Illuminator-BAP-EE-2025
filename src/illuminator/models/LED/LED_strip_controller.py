@@ -71,7 +71,6 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
                 return_dummy = int.from_bytes(connection.read(1))
         
         if False in checks:
-            print("don't send")
             do_send = False
             case = 0
         

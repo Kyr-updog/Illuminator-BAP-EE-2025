@@ -4,6 +4,11 @@ scenario:
   end_time: '2012-01-01 00:15:00'
   time_resolution: 900
 
+monitor:
+  file: './out.csv'
+  items:
+  - request1.Striplist
+
 models:
 
 - name: TopologyCreator
