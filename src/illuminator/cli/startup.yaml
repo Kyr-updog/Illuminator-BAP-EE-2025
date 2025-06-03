@@ -7,7 +7,7 @@ scenario:
 monitor:
   file: './out.csv'
   items:
-  - request1.Striplist
+  - TopologyCreator.config
 
 models:
 

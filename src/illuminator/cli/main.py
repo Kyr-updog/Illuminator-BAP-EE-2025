@@ -42,6 +42,7 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
     
     while True:
         os.system('src/illuminator/cli/startup.sh')
+        time.sleep(1)
         makeSim = Simulation("src/illuminator/cli/startup.yaml") #the path to the startup simulation (is only 1 step)
         makeSim.run()
         

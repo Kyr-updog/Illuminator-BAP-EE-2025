@@ -19,7 +19,8 @@ class IDrequester(ModelConstructor):
         self.connections = []
         ip = self.parameters.get("deviceID")
         for connection in connectionList:
-            serialCon = serial.Serial(connection.name)
+            serialCon = serial.Serial("/dev/"+ str(connection.name))
+            print(connection.name)
             id, sender = sendPixelData(serialCon, 0, 0, 0, 0, 0)
             serialCon.close()
             self.connections.append([id, ip[0], ip[1], sender, connection.name])
