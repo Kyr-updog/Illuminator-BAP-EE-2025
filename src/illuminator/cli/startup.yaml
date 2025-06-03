@@ -14,7 +14,7 @@ models:
 - name: TopologyCreator
   type: TopologyMaker
   parameters: 
-    filename: 'examples/Cluster/Tutorial_cluster.yaml'
+    filename: 'examples/Cluster/Tutorial_cluster'
   inputs:
     config: {}
 

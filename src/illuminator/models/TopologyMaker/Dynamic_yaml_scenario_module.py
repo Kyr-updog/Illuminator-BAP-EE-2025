@@ -1,3 +1,4 @@
+
 import yaml
 import numpy as np
 import csv
@@ -73,7 +74,7 @@ def write_topology(connected_pair_array, key, filename, write_file):
                 line_connector.writerow([connected_pair_array[i, 0], connected_pair_array[i, 1], connected_pair_array[i, 2]])
     return topology_list
 
-def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file,LED_portmap):
+def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file,LED_portmap, topology):
     with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
     with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
@@ -110,4 +111,4 @@ if __name__ == "__main__":
     print(connected_pair_array)
     topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'connection_less_simulation')
     print (topology)
-    read_and_copy_yaml_data_plus_add_data_to_new_file('connection_less_simulation', 'simulation_file', LED_portmap)
+    read_and_copy_yaml_data_plus_add_data_to_new_file('connection_less_simulation', 'simulation_file', LED_portmap, topology)

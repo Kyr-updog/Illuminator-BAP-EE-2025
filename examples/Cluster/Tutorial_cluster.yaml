@@ -4,7 +4,10 @@ scenario:
   #end_time: '2012-01-01 01:00:00' # duration in seconds 
   end_time: '2012-06-21 18:00:00' # duration in seconds 
   time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
-
+monitor:
+  file: './out_Tutorial_cluster.csv'
+  items:
+    - Controller1.flow2bState
 models: 
 
 - name: USBdetector1
@@ -253,7 +256,3 @@ connections:
 #  to: Bat_LED.speed
 
 
-monitor:
-  file: './out_Tutorial_cluster.csv'
-  items:
-    - Controller1.flow2bState
