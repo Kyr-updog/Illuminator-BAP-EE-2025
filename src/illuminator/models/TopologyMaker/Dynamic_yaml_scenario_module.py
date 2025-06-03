@@ -108,6 +108,6 @@ if __name__ == "__main__":
     print(LED_portmap)
     connected_pair_array = determine_connected_pairs(Network)
     print(connected_pair_array)
-    topology = write_topology(connected_pair_array, 'connections', 'Tutorial_Power_Balance_b', 'connection_less_simulation')
+    topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'connection_less_simulation')
     print (topology)
-    read_and_copy_yaml_data_plus_add_data_to_new_file('Tutorial_Power_Balance_b', 'simulation_file')
+    read_and_copy_yaml_data_plus_add_data_to_new_file('connection_less_simulation', 'simulation_file', LED_portmap)
