@@ -2,6 +2,22 @@ import yaml
 import numpy as np
 import csv
 
+def write_LED_portmaps(LED_model):
+    LED_model_array = np.asarray(LED_model, dtype=object)
+    LED_portmap = []
+
+    for i in np.arange(len(LED_model_array)):
+        Pi_IP_address = LED_model_array[i, 0]
+        ip_port = LED_model_array[i, 1]
+        serial_port = LED_model_array[i, 2]
+
+        LED_portmap.append({'name': f'LED_model_{i+1}', 'type': 'LED_connection', 
+                            'connect': {'ip': Pi_IP_address, 'port': ip_port}, 
+                            'parameters': {'min_speed': 0, 'max_speed': 0.6, 'direction': 0, 'port': serial_port},
+                            'input': {'speed': 5}
+                            })
+    return LED_portmap
+
 def determine_connected_pairs(Network):           #this function creates an array of all Station pairs in S/R order
 
     highest_ID = np.max(np.array(np.array(Network)[:,0], dtype = int))  #determine highest ID value in the Network
@@ -28,7 +44,15 @@ def determine_connected_pairs(Network):           #this function creates an arra
 
 
 def write_topology(connected_pair_array):
-    topology_list = []   
+    with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
+    data = yaml.safe_load(f)                        #loads the yaml data in safe mode
+    topology_list = (data[f'{key}'])                #copies everything under a given "key:" to a list
+    data.pop(key)                                   #pops the "key:" and everything underneath
+    with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
+    yaml.dump(data,file,sort_keys=False)            #writes the original yaml data, excluding the popped key, to said different yaml file
+                                                    #the purpose of this operation is to copy the static connections to the topology
+                                                    #and then remove them in a new intermediary yaml file
+                                                    #this leaves the models: section at the bottom of the file, for the LED_portmapping  
     from_model = ''
     to_model = ''
     line_id = ''
@@ -49,12 +73,15 @@ def write_topology(connected_pair_array):
                 line_connector.writerow([connected_pair_array[i, 0], connected_pair_array[i, 1], connected_pair_array[i, 2]])
     return topology_list
 
-def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file, topology):
+def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file,LED_portmap):
     with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
     with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
-        yaml.dump(data,file,sort_keys=False)        #writes the read yaml data to said different yaml file
-        yaml.dump(topology,file,sort_keys=False)    #writes additional topology to said different yaml file
+        connections = {'connections' : topology}            #defines a dict with connections: {topology}, to recover the popped
+                                                            #connections: section from the original yaml file
+        yaml.dump(data,file,sort_keys=False)                #writes the read yaml data to said different yaml file
+        yaml.dump(LED_portmap,file, sort_keys=False)        #writes the LED models to the models: section (which should be at the bottom)
+        yaml.dump(connections,file,sort_keys=False)         #writes the connections to the connections: section
     print('simulation file connections updated') 
     
 if __name__ == "__main":
@@ -71,6 +98,13 @@ if __name__ == "__main":
            [7, 'Station4', 'Sender']
           ]
 
+    #LED_Model = [ip, ip_port, serial_port]
+    LED_Model = [['192.168.137.150', 5023, 'dev/ttyACM0'], 
+                 ['127.0.0.1', 5023, 'dev/ttyACM1'], 
+                 ['127.0.0.1', 5024, 'dev/ttyACM0']
+                 ]
+    
+    LED_portmap = write_LED_portmaps(LED_Model)
     connected_pair_array = determine_connected_pairs(Network)
     print(connected_pair_array)
     topology = write_topology(connected_pair_array)
