@@ -3,18 +3,15 @@ from illuminator.builder import ModelConstructor
 # construct the model
 class Station(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
-    parameters={'line_reactances': {}, # Maybe not even needed!!!
-                'line_capacities': {}
+    parameters={'Station_ID': 'Station1'
                 }
-    inputs={'ncp_power': 0,
-            'cp_power': {},
-            'tl_powers': {},
-            'received_tl_powers': {}
+    inputs={'cp_powers': {}, # from controller
+            'tl_powers': {}, # from controller
+            'received_speeds': {} # from other station (not used)
             }
-    outputs={'cp_power': 0,
-             'sent_tl_powers': {}
-             }
-    states={'ncp_power': {}
+    outputs={}
+    states={'cp_powers': {}, # to controllable peripherals
+            'transmitted_speeds': {} # to LEDs
             }
     
     # define other attributes

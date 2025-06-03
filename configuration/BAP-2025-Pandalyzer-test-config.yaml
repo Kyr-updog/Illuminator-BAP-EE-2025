@@ -243,3 +243,22 @@ connections:
 # Specifiek: 
 # Sender -> sent_tl_powers; 
 # Receiver -> received_tl_powers
+
+
+
+# Station YAML example
+- name: Station1
+  type: Station
+  parameters:
+    Station_ID: Station1
+  inputs:
+    cp_powers: {} # from controller; to control controllable peripherals
+    tl_powers: {} # from controller; to control transmission lines
+    # receive: {} # from other stations
+    # No "receive" as input. Connection is only meaningful for LED control.
+    # Connections between stations (those specified in YAML) will be blocked in engine.py
+    # For that reason, stations don't need an input field for that connection.
+  # no outputs; only output via states
+  states:
+      cp_powers: {} # to controllable peripherals
+      transmit: {} # to LED controllers
