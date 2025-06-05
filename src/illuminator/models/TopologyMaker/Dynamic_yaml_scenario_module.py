@@ -1,7 +1,6 @@
 
 import yaml
 import numpy as np
-import csv
 
 def write_LED_portmaps(LED_model):
     LED_model_array = np.asarray(LED_model, dtype=object)
@@ -58,9 +57,6 @@ def write_topology(connected_pair_array, key, filename, write_file):
     to_model = ''
     line_id = ''
 
-    with open('line_connections.csv', 'w', newline='') as csvfile:
-        pass
-
     for i in range(np.shape(connected_pair_array)[0]):
         if ('Station' in connected_pair_array[i, 0]) and ('Station' in connected_pair_array[i, 1]):
             from_model = connected_pair_array[i, 0]+'.transmit'
@@ -68,10 +64,6 @@ def write_topology(connected_pair_array, key, filename, write_file):
             line_id = 'line_'+connected_pair_array[i, 2]
             
             topology_list.append({'from': from_model, 'to': to_model, 'line_id': line_id})
-
-            with open('line_connections.csv', 'a', newline='') as csvfile:
-                line_connector = csv.writer(csvfile, delimiter=' ')
-                line_connector.writerow([connected_pair_array[i, 0], connected_pair_array[i, 1], connected_pair_array[i, 2]])
     return topology_list
 
 def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file,LED_portmap, topology):
@@ -109,6 +101,6 @@ if __name__ == "__main__":
     print(LED_portmap)
     connected_pair_array = determine_connected_pairs(Network)
     print(connected_pair_array)
-    topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'connection_less_simulation')
+    topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'simulation_file')
     print (topology)
-    read_and_copy_yaml_data_plus_add_data_to_new_file('connection_less_simulation', 'simulation_file', LED_portmap, topology)
+    read_and_copy_yaml_data_plus_add_data_to_new_file('simulation_file', 'simulation_file', LED_portmap)
