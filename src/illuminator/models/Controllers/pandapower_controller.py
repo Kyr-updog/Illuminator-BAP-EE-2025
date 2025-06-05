@@ -5,8 +5,7 @@ import pandas as pd
 # construct the model
 class PandaController(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
-    parameters={'peripherals': {},                          
-                'stations': {},
+    parameters={'models': {},                          
                 'ps_connections': {},
                 'ss_connections': {},
                 'lines_file_path': '' # File contains line ID's with their reactances and capacities

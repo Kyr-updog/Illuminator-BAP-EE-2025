@@ -139,7 +139,7 @@ def generate_mosaik_configuration(config_simulation:dict,  collector:str =None) 
     return mosaik_configuration
 
 
-def start_simulators(world: MosaikWorld, models: list) -> dict:
+def start_simulators(world: MosaikWorld, models: list, connections: list) -> dict:
         """
         Instantiates simulators in the Mosaik world based on the model configurations .
         
@@ -185,6 +185,37 @@ def start_simulators(world: MosaikWorld, models: list) -> dict:
                 entity = model_factory.create(num=1)
                 
             else:
+                if model_type == 'PandaController':
+                    model_parameters['models'] = {}
+                    for element in models:
+                        element_name = element['name']
+                        element_type = element['type']
+                        if element_type != 'PandaController':
+                            if 'parameters' in element:
+                                element_parameters = element['parameters']
+                            else:
+                                element_parameters = {}
+                            model_parameters['models'][element_name] = {'type': element_type} | element_parameters
+                        else:
+                            pass
+
+                    model_parameters['ss_connections'] = {}
+                    for connection in connections:
+                        from_model, from_attr =  connection['from'].split('.')
+                        to_model, to_attr =  connection['to'].split('.')
+        
+                        # check if the model names are unique (assumption 1 model per Simulator is valid)
+                        if len([m for m in models if m['name'] == from_model]) > 1:
+                            raise ValueError(f"Multiple models found with name '{from_model}'.")
+
+                        # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
+                        from_model_config = next((m for m in models if m['name'] == from_model))
+                        to_model_config = next((m for m in models if m['name'] == to_model))
+
+                        if 'line_id' in connection:
+                            line_id = connection['line_id']
+                            model_parameters['ss_connections'][line_id] = (from_model_config['name'], to_model_config['name'])
+
                 # simulator = world.start(sim_name=model_name,
                 #                     # **model_parameters
                 #                     model_name = model_name,
@@ -250,62 +281,65 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
     """
     from_list = []  # for checking physical splits
     for connection in connections:
-        from_model, from_attr =  connection['from'].split('.')
-        to_model, to_attr =  connection['to'].split('.')
-
-        # check if the model names are unique (assumption 1 model per Simulator is valid)
-        if len([m for m in models if m['name'] == from_model]) > 1:
-            raise ValueError(f"Multiple models found with name '{from_model}'.")
-
-        # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
-        from_model_config = next((m for m in models if m['name'] == from_model))
-        to_model_config = next((m for m in models if m['name'] == to_model))
-        time_shifted = connection['time_shifted']
+        if not 'line_id' in connection:
+            from_model, from_attr =  connection['from'].split('.')
+            to_model, to_attr =  connection['to'].split('.')
             
-        # check if the connection is a physical split
-        if connection['from'] in from_list:
-            if from_attr in from_model_config.get('outputs', {}):
-                raise ValueError(f"Split detected in physical connection for {connection['from']}.")
-            elif from_attr in from_model_config.get('states', {}):
-                pass  # it is okay if a non-physical connection (state) goes to multiple destinations
-            else:
-                raise ValueError(f"Split detected for connection {connection['from']}. "\
-                                "I can't check if this is a non-physical connection (states). "\
-                                "If so, add the attribute to the states of the model configuration. (e.g., in the .yaml file)")
-        from_list.append(connection['from'])
+            # check if the model names are unique (assumption 1 model per Simulator is valid)
+            if len([m for m in models if m['name'] == from_model]) > 1:
+                raise ValueError(f"Multiple models found with name '{from_model}'.")
 
-        # Establish connections in the Mosaik world
-        try:
-            # IMPORTANT: The attribute might not exist in the config, e.g. CSV reader states/outputs are set during their __init__()
-            # for this reason, we cannot check if the attribute exists in the config here. This is anyways handled by Mosaik
-            # if the model is time_shifted, we DO require the attribute to be in the config as we need to access its initial value.
-            # Checking for douplicate attributes is done in the __post_init__()
-
-            if time_shifted:
+            # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
+            from_model_config = next((m for m in models if m['name'] == from_model))
+            to_model_config = next((m for m in models if m['name'] == to_model))
+            time_shifted = connection['time_shifted']
+                    
+            # check if the connection is a physical split
+            if connection['from'] in from_list:
                 if from_attr in from_model_config.get('outputs', {}):
-                    message_type = 'output'
+                    raise ValueError(f"Split detected in physical connection for {connection['from']}.")
                 elif from_attr in from_model_config.get('states', {}):
-                    message_type = 'state'
+                    pass  # it is okay if a non-physical connection (state) goes to multiple destinations
                 else:
-                    raise ValueError(f"Attribute {from_attr} not found in outputs or states of model {from_model}")
+                    raise ValueError(f"Split detected for connection {connection['from']}. "\
+                                    "I can't check if this is a non-physical connection (states). "\
+                                    "If so, add the attribute to the states of the model configuration. (e.g., in the .yaml file)")
+            from_list.append(connection['from'])
 
-                initial_message = {'message_origin': message_type,
-                                   'value': to_model_config['inputs'][to_attr]}
+            # Establish connections in the Mosaik world
+            try:
+                # IMPORTANT: The attribute might not exist in the config, e.g. CSV reader states/outputs are set during their __init__()
+                # for this reason, we cannot check if the attribute exists in the config here. This is anyways handled by Mosaik
+                # if the model is time_shifted, we DO require the attribute to be in the config as we need to access its initial value.
+                # Checking for douplicate attributes is done in the __post_init__()
 
-                world.connect(model_entities[from_model][0], 
+                if time_shifted:
+                    if from_attr in from_model_config.get('outputs', {}):
+                        message_type = 'output'
+                    elif from_attr in from_model_config.get('states', {}):
+                        message_type = 'state'
+                    else:
+                        raise ValueError(f"Attribute {from_attr} not found in outputs or states of model {from_model}")
+
+                    initial_message = {'message_origin': message_type,
+                                    'value': to_model_config['inputs'][to_attr]}
+
+                    world.connect(model_entities[from_model][0], 
+                                model_entities[to_model][0], 
+                                (from_attr, to_attr),
+                                time_shifted=True,
+                                initial_data={from_attr: initial_message})
+                                # set the initial value for the connection to equal the initial value of the model
+                else:
+                    world.connect(model_entities[from_model][0], # entities for the same model type
+                            # are handled separately. Therefore, the entities list of a model only contains a single entity
                             model_entities[to_model][0], 
-                            (from_attr, to_attr),
-                            time_shifted=True,
-                            initial_data={from_attr: initial_message})
-                            # set the initial value for the connection to equal the initial value of the model
-            else:
-                world.connect(model_entities[from_model][0], # entities for the same model type
-                        # are handled separately. Therefore, the entities list of a model only contains a single entity
-                        model_entities[to_model][0], 
-                        (from_attr, to_attr))
-        except KeyError as e:
-            print(f"\nError: {e}. Check the 'connections' in the configuration file for errors.")
-            exit(1)
+                            (from_attr, to_attr))
+            except KeyError as e:
+                print(f"\nError: {e}. Check the 'connections' in the configuration file for errors.")
+                exit(1)
+        else:
+            pass
 
     # TODO: write a unit test for this. Cases: 1) all connections were established, 2) exception raised
     return world
@@ -468,7 +502,7 @@ class Simulation:
         monitor = collector.Monitor()
 
         # Dictionary to keep track of created model entities
-        model_entities = start_simulators(world, config['models'])
+        model_entities = start_simulators(world, config['models'], config['connections'])
 
         # Connect the models based on the connections specified in the configuration
         world = build_connections(world, model_entities, connections=config['connections'], models=config['models'])
