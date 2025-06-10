@@ -40,16 +40,21 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
 def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):
     "Runs a simulation scenario using a YAML file. Keep in mind that this only works on linux"
     
-    while True:
-        os.system('src/illuminator/cli/startup.sh')
-        time.sleep(5)
-        makeSim = Simulation("src/illuminator/cli/startup.yaml") #the path to the startup simulation (is only 1 step)
+    #while True:
+    file = open("data.csv", 'a')
+    for _ in range(10):
+        begin_time = time.time()
+        os.system('src/illuminator/cli/starter.sh')
+        time.sleep(30)
+        makeSim = Simulation("src/illuminator/cli/starter.yaml") #the path to the startup simulation (is only 1 step)
         makeSim.run()
+        file.write(str(time.time()-begin_time)+"\n")
+        time.sleep(10)
         
-        os.system('./run.sh')
-        global simulation
-        simulation = Simulation('simulation.yaml')
-        simulation.run()
+        #os.system('./run.sh')
+        #global simulation
+        #simulation = Simulation('simulation.yaml')
+        #simulation.run()
 
 @cluster_app.command("build")
 def cluster_build(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):

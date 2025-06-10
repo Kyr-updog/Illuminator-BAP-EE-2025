@@ -1,7 +1,7 @@
 scenario:
   name: startup
   start_time: '2012-01-01 00:00:00'
-  end_time: '2012-01-01 00:30:00'
+  end_time: '2012-01-01 00:15:00'
   time_resolution: 900
 
 monitor:
@@ -24,17 +24,49 @@ models:
     ip: 127.0.0.1
     port: 5001
   parameters:
-    deviceID: ['127.0.0.1', 5001]
+    deviceID: 
+      - 127.0.0.1
+      - 5001
   states:
     stripList: None
 
 - name: request2
   type: IDrequester
   connect: 
-    ip: '192.168.137.150'
+    ip: '127.0.0.1'
     port: 5000
   parameters:
-    deviceID: ['192.168.137.150', 5000]
+    deviceID: ['127.0.0.1', 5000]
+  states:
+    stripList: None
+
+- name: request3
+  type: IDrequester
+  connect: 
+    ip: '127.0.0.1'
+    port: 5003
+  parameters:
+    deviceID: ['127.0.0.1', 5003]
+  states:
+    stripList: None
+
+- name: request4
+  type: IDrequester
+  connect: 
+    ip: '127.0.0.1'
+    port: 5004
+  parameters:
+    deviceID: ['127.0.0.1', 5004]
+  states:
+    stripList: None
+
+- name: request5
+  type: IDrequester
+  connect: 
+    ip: '127.0.0.1'
+    port: 5005
+  parameters:
+    deviceID: ['127.0.0.1', 5005]
   states:
     stripList: None
 

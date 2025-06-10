@@ -1,7 +1,7 @@
 import subprocess
 from os import system, getcwd
 
-USERNAME = 'Raspinator'
+USERNAME = 'bram'
 
 client_ip = input('please provide the ip of the Client pi: ')
 # password = input('please provide the password of the Client pi: ')
@@ -28,7 +28,7 @@ client_ip = input('please provide the ip of the Client pi: ')
 # generate ssh keys and send them to the slave
 print('generating ssh keys and sending it to the new Client')
 # print('current directory: ', getcwd())
-system(f"python cluster_setup/generate_ssh_key.py {USERNAME} {client_ip}")
+system(f"python3.10 cluster_setup/generate_ssh_key.py {USERNAME} {client_ip}")
 
 # setting static ip
 print('\n\n##########################################')
