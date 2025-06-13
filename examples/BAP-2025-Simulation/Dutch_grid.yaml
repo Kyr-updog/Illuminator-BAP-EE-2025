@@ -1,0 +1,619 @@
+scenario:
+  name: "Pandalyzer test" # in mosaik so called world
+  start_time: '2025-01-01 00:00:00' # ISO 8601 start time of the simulation
+  end_time: '2012-12-01 23:45:00' # duration in seconds 
+  time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
+
+models:
+- name: Pandacontroller1
+  type: PandaController
+  parameters:
+    peripherals: {}
+    stations: {}
+    ps_connections: {}
+    ss_connections: {}
+    lines_file_path: 'line_specs.csv'
+  inputs:
+    ncp_powers: {}
+  states:
+    cp_powers: {}
+    tl_powers: {}
+
+- name: Station1
+  type: Station
+  parameters:
+    station_ID: Station1
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station2
+  type: Station
+  parameters:
+    station_ID: Station2
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station3
+  type: Station
+  parameters:
+    station_ID: Station3
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station4
+  type: Station
+  parameters:
+    station_ID: Station4
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station5
+  type: Station
+  parameters:
+    station_ID: Station5
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station6
+  type: Station
+  parameters:
+    station_ID: Station6
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station7
+  type: Station
+  parameters:
+    station_ID: Station7
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station8
+  type: Station
+  parameters:
+    station_ID: Station8
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station9
+  type: Station
+  parameters:
+    station_ID: Station9
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station10
+  type: Station
+  parameters:
+    station_ID: Station10
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station11
+  type: Station
+  parameters:
+    station_ID: Station11
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station12
+  type: Station
+  parameters:
+    station_ID: Station12
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station13
+  type: Station
+  parameters:
+    station_ID: Station13
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station14
+  type: Station
+  parameters:
+    station_ID: Station14
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station15
+  type: Station
+  parameters:
+    station_ID: Station15
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station16
+  type: Station
+  parameters:
+    station_ID: Station16
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station17
+  type: Station
+  parameters:
+    station_ID: Station17
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station18
+  type: Station
+  parameters:
+    station_ID: Station18
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station19
+  type: Station
+  parameters:
+    station_ID: Station19
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station20
+  type: Station
+  parameters:
+    station_ID: Station20
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station21
+  type: Station
+  parameters:
+    station_ID: Station21
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station22
+  type: Station
+  parameters:
+    station_ID: Station22
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station23
+  type: Station
+  parameters:
+    station_ID: Station23
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station24
+  type: Station
+  parameters:
+    station_ID: Station24
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station25
+  type: Station
+  parameters:
+    station_ID: Station25
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station26
+  type: Station
+  parameters:
+    station_ID: Station26
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station27
+  type: Station
+  parameters:
+    station_ID: Station27
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station28
+  type: Station
+  parameters:
+    station_ID: Station28
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station29
+  type: Station
+  parameters:
+    station_ID: Station29
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station30
+  type: Station
+  parameters:
+    station_ID: Station30
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station31
+  type: Station
+  parameters:
+    station_ID: Station31
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station32
+  type: Station
+  parameters:
+    station_ID: Station32
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station33
+  type: Station
+  parameters:
+    station_ID: Station33
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station34
+  type: Station
+  parameters:
+    station_ID: Station34
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station35
+  type: Station
+  parameters:
+    station_ID: Station35
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station36
+  type: Station
+  parameters:
+    station_ID: Station36
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+connections:
+- from: Station1
+  to: Station3
+  line_id: line_1
+
+- from: Station2
+  to: Station6
+  line_id: line_2
+
+- from: Station2
+  to: Station5
+  line_id: line_3
+
+- from: Station5
+  to: Station7
+  line_id: line_4
+
+- from: Station4
+  to: Station7
+  line_id: line_5
+
+- from: Station4
+  to: Station8
+  line_id: line_6
+
+- from: Station3
+  to: Station9
+  line_id: line_7
+
+- from: Station
+  to: Station
+  line_id: line_8
+
+- from: Station
+  to: Station
+  line_id: line_9
+
+- from: Station
+  to: Station
+  line_id: line_10
+
+- from: Station
+  to: Station
+  line_id: line_11
+
+- from: Station
+  to: Station
+  line_id: line_12
+
+- from: Station
+  to: Station
+  line_id: line_13
+
+- from: Station
+  to: Station
+  line_id: line_14
+
+- from: Station
+  to: Station
+  line_id: line_15
+
+- from: Station
+  to: Station
+  line_id: line_16
+
+- from: Station
+  to: Station
+  line_id: line_17
+
+- from: Station
+  to: Station
+  line_id: line_18
+
+- from: Station
+  to: Station
+  line_id: line_19
+
+- from: Station
+  to: Station
+  line_id: line_20
+
+- from: Station
+  to: Station
+  line_id: line_21
+
+- from: Station
+  to: Station
+  line_id: line_22
+
+- from: Station
+  to: Station
+  line_id: line_23
+
+- from: Station
+  to: Station
+  line_id: line_24
+
+- from: Station
+  to: Station
+  line_id: line_25
+
+- from: Station
+  to: Station
+  line_id: line_26
+
+- from: Station
+  to: Station
+  line_id: line_27
+
+- from: Station
+  to: Station
+  line_id: line_28
+
+- from: Station
+  to: Station
+  line_id: line_29
+
+- from: Station
+  to: Station
+  line_id: line_30
+
+- from: Station
+  to: Station
+  line_id: line_31
+
+- from: Station
+  to: Station
+  line_id: line_32
+
+- from: Station
+  to: Station
+  line_id: line_33
+
+- from: Station
+  to: Station
+  line_id: line_34
+
+- from: Station
+  to: Station
+  line_id: line_35
+
+- from: Station
+  to: Station
+  line_id: line_36
+
+- from: Station
+  to: Station
+  line_id: line_37
+
+- from: Station
+  to: Station
+  line_id: line_38
+
+- from: Station
+  to: Station
+  line_id: line_39
+
+- from: Station
+  to: Station
+  line_id: line_40
+
+- from: Station
+  to: Station
+  line_id: line_41
+
+monitor:

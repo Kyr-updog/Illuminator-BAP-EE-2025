@@ -7,15 +7,16 @@ class Nuclear(ModelConstructor):
                 'efficiency': 1,            # Fraction electrical energy from nuclear energy.
                 'NRG_density': 1,           # Amount of chemical energy per unit of weight (kWh/kg) of the nuclear fuel.
                 'specific_waste': 1,        # Amount of waste (kg) per unit of weight (kg) of 'burned' fuel.
-                'rated_pow': 500,           # Maximum power generation capacity (kW).
-                'output_type': 'power'      # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
+                'rated_pow': 500,           # Maximum power generation capacity (kW). CONVERT TO MW!!!!!!!!!!!!!!!!!
+                'output_type': 'power',     # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
+                'name': 'Nuclear1'
                 }
     inputs={}
     outputs={'gen_pow': 0,              # Generated power output (kW) or energy (kWh) based on the chosen output type (power or energy).
              'waste_produced': 0,       # Amount of waste (kg) for that time step.
              'fuel_burned': 0           # Amount of fuel (kg) used for that time step.
              }
-    states={}
+    states={'gen_pow': {}}
     
     # define other attributes
     time_step_size=1
@@ -37,6 +38,7 @@ class Nuclear(ModelConstructor):
         self.specific_waste = self.parameters['specific_waste']
         self.rated_pow = self.parameters['rated_pow']
         self.output_type = self.parameters['output_type']
+        self.name = self.parameters['name']
 
          
 
@@ -55,7 +57,10 @@ class Nuclear(ModelConstructor):
         self.time = time
 
         results = self.generation()
+        gen_pow = results['gen_pow']
+
         self.set_outputs(results)
+        self.set_states({'gen_pow': {self.name: gen_pow}})
 
         # return the time of the next step (time until current information is valid)
         return time + self._model.time_step_size

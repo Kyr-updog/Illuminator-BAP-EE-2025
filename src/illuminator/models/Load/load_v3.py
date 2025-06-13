@@ -17,13 +17,16 @@ class Load(ModelConstructor):
 
     parameters={'houses': 1,  # number of houses that determine the total load demand
                 'output_type': 'power',  # type of output for consumption calculation ('energy' or 'power')
+                'input_type': 'total', # 'per_house' or 'total'
+                'name': 'Load1'
                 }
     inputs={'load': 0}  # incoming energy or power demand per house kW
     outputs={'load_dem': 0,  # total energy or power consumption for all houses (kWh) over the time step
-             'consumption': 0,  # Current energy or power consumption based on the number of houses and input load (kWh)
+             'consumption': 0  # Current energy or power consumption based on the number of houses and input load (kWh)
              }
     states={'time': None,
-            'forecast': None
+            'forecast': None,
+            'load_dem': {}
             }
     time_step_size=1
     time=None
@@ -44,6 +47,8 @@ class Load(ModelConstructor):
         """
         super().__init__(**kwargs)
         self.consumption = 0
+        self.input_type = self.parameters['input_type']
+        self.name = self.parameters['name']
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
@@ -69,8 +74,14 @@ class Load(ModelConstructor):
         self.time = time
 
         load_in = input_data.get('load', 0)
-        results = self.demand(load=load_in)
+
+        if self.input_type == 'per_house':
+            results = self.demand(load=load_in)
+        else:
+            results = {'load_dem': load_in}
+
         self.set_outputs(results)
+        self.set_states({'load_dem': {self.name: results['load_dem']}})
 
         return time + self._model.time_step_size
 

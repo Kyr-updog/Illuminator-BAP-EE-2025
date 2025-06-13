@@ -158,6 +158,8 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
         """
 
         model_entities = {}
+        blacklist = ['PandaController', 'LED_connection', 'Station'] # Don't store these models in the 'models' parameter 
+                                                                    # in the PandaController model.
 
         for model in models:
             model_name = model['name']
@@ -186,20 +188,24 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                 
             else:
                 if model_type == 'PandaController':
-                    model_parameters['models'] = {}
+                    model_parameters['peripherals'] = {}
+                    model_parameters['stations'] = {}
                     for element in models:
                         element_name = element['name']
                         element_type = element['type']
-                        if element_type != 'PandaController':
-                            if 'parameters' in element:
-                                element_parameters = element['parameters']
-                            else:
-                                element_parameters = {}
-                            model_parameters['models'][element_name] = {'type': element_type} | element_parameters
+                        if 'parameters' in element:
+                            element_parameters = element['parameters']
+                        else:
+                            element_parameters = {}
+                        if element_type not in blacklist:
+                            model_parameters['peripherals'][element_name] = {'type': element_type} | element_parameters
+                        elif element_type == 'Station':
+                            model_parameters['stations'] = element_parameters['kv']
                         else:
                             pass
 
                     model_parameters['ss_connections'] = {}
+                    model_parameters_ps_connections = {}
                     for connection in connections:
                         from_model, from_attr =  connection['from'].split('.')
                         to_model, to_attr =  connection['to'].split('.')
@@ -215,6 +221,15 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                         if 'line_id' in connection:
                             line_id = connection['line_id']
                             model_parameters['ss_connections'][line_id] = (from_model_config['name'], to_model_config['name'])
+                        elif from_model_config['type'] == 'Station' and to_model_config['type'] != 'LED_connection':
+                            model_parameters_ps_connections.setdefault(from_model_config['name'], []).append(to_model_config['name'])
+                            model_parameters['peripherals'][to_model_config['name']]['station'] = from_model_config['name']
+                        elif to_model_config['type'] == 'Station' and from_model_config['type'] != 'LED_connection':
+                            model_parameters_ps_connections.setdefault(to_model_config['name'], []).append(from_model_config['name'])
+                            model_parameters['peripherals'][from_model_config['name']]['station'] = to_model_config['name']
+                        else:
+                            pass
+                    model_parameters['ps_connections'] = model_parameters_ps_connections
 
                 # simulator = world.start(sim_name=model_name,
                 #                     # **model_parameters
@@ -280,6 +295,22 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
     
     """
     from_list = []  # for checking physical splits
+    blacklist = ['Wind', 'PV', 'Nuclear', 'Load']
+    pandacontroller_present = False
+    for model in models:
+        if model['type'] == 'PandaController':
+            pandacontroller_present = True
+            panda_name = model['name']
+        else:
+            pass
+    if pandacontroller_present:
+        for model in models:
+            if model['type'] == 'Station':
+                from_model, from_attr1, from_attr2 = panda_name, 'cp_powers', 'tl_powers'
+                to_model, to_attr1, to_attr2 = model['name'], 'cp_powers', 'tl_powers'
+                connections.append({'from': f'{from_model}.{from_attr1}', 'to': f'{to_model}.{to_attr1}'})
+                connections.append({'from': f'{from_model}.{from_attr2}', 'to': f'{to_model}.{to_attr2}'})
+
     for connection in connections:
         if not 'line_id' in connection:
             from_model, from_attr =  connection['from'].split('.')
@@ -291,9 +322,13 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
 
             # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
             from_model_config = next((m for m in models if m['name'] == from_model))
+            if from_model_config['type'] in blacklist:
+                to_model = 'Pandacontroller'
+            else:
+                pass
             to_model_config = next((m for m in models if m['name'] == to_model))
             time_shifted = connection['time_shifted']
-                    
+      
             # check if the connection is a physical split
             if connection['from'] in from_list:
                 if from_attr in from_model_config.get('outputs', {}):

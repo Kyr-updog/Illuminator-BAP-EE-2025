@@ -47,7 +47,9 @@ class PV(ModelConstructor):
         'm_az': 0,
         'cap': 0,  # installed capacity
         'output_type': 'power',
-        'sim_start': 0
+        'sim_start': 0,
+        'input_type': 'percentage', # 'irradiation' or 'percentage' 
+        'name': 'PV1'
         }
     inputs={
         "G_Gh": 0,  # Global Horizontal Irradiance (GHI) in W/m², representing the total solar radiation received on a horizontal surface.
@@ -56,14 +58,15 @@ class PV(ModelConstructor):
         "Ta": 0,  # Ambient temperature (°C) of the environment surrounding the PV panels.
         "hs": 0,  # Solar elevation angle (degrees), indicating the height of the sun in the sky.
         "FF": 0,  # Wind speed (m/s), which affects the temperature and performance of the PV panels.
-        "Az": 0  # Sun azimuth angle (degrees), indicating the sun's position in the horizontal plane.
+        "Az": 0,  # Sun azimuth angle (degrees), indicating the sun's position in the horizontal plane.
+        "capacity_percentage": 0
         }
     outputs={
         "pv_gen": 0,  # Generated PV power output (kW) or energy (kWh) based on the chosen output type (power or energy).
         "total_irr": 0,  # Total irradiance (W/m²) received on the PV module, considering direct, diffuse, and reflected components.
         "g_aoi": 0  # Total irradiance (W/m²) accounting for angle of incidence, diffuse, and reflected irradiance.
         }
-    states={'pv_gen': 0}
+    states={'pv_gen': {}}
     time_step_size=1
     time=None
 
@@ -87,6 +90,8 @@ class PV(ModelConstructor):
         self.m_az = self._model.parameters.get('m_az')
         self.m_area = self._model.parameters.get('m_area')
         self.sim_start = self._model.parameters.get('sim_start')
+        self.input_type = self._model.parameters.get('input_type')
+        self.name = self._model.parameters.get('name')
         self.G_Gh = 0
         self.G_Dh = 0
         self.G_Bn = 0
@@ -125,10 +130,17 @@ class PV(ModelConstructor):
         self.hs = input_data['hs']
         self.FF = input_data['FF']
         self.Az = input_data['Az']
+        self.capacity_percentage = input_data['capacity_percentage']
 
-        results = self.output()
+        if self.input_type == 'irradiation':
+            results = self.output()
+        else:
+            pv_gen = self.capacity_percentage * self.cap
+            results = {'pv_gen': pv_gen}
 
         self.set_outputs({'pv_gen': results['pv_gen']})
+        self.set_states({'pv_gen': {self.name: results['pv_gen']}})
+
 
         return time + self._model.time_step_size
 

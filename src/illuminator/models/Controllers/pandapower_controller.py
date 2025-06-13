@@ -5,16 +5,18 @@ import pandas as pd
 # construct the model
 class PandaController(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
-    parameters={'models': {},                          
+    parameters={'peripherals': {},
+                'stations': {},                    
                 'ps_connections': {},
                 'ss_connections': {},
-                'lines_file_path': '' # File contains line ID's with their reactances and capacities
+                'lines_file_path': 'line_specs.csv' # File contains line ID's with their reactances and capacities
                 }
     inputs={'ncp_powers': {}
             }
     outputs={} # No outputs
     states={'cp_powers': {},
-            'tl_powers': {}
+            'tl_powers': {},
+            'SoCs': {}
             }
     
     # define other attributes
@@ -31,18 +33,67 @@ class PandaController(ModelConstructor):
             Additional keyword arguments to initialize the...
         """
         super().__init__(**kwargs)
+        self.peripherals = self.parameters['peripherals']
         self.stations = self.parameters['stations']
-        self.connections = self.parameters['connections']
+        self.ps_connections = self.parameters['ps_connections']
+        self.ss_connections = self.parameters['ss_connections']
         self.lines_file_path = self.parameters['lines_file_path']
 
         # Build graph here !!!
-        net = pp.create_empty_network()
-        for station in self.stations:
-            pp.create_bus(net, vn_kv=360., name='%s' % station)
+        self.net = pp.create_empty_network()
 
-        lines = pd.read_csv(self.lines_file_path)
+        # Buses
+        for station, kv in self.stations:
+            pp.create_bus(self.net, vn_kv=kv, name=station)
 
-         
+        # Lines and Transformers
+        lines_df = pd.read_csv(self.lines_file_path, decimal='.')
+
+        for line_id, connection in self.ss_connections:
+            line = lines_df[f'line_{lines_df['line_id']}' == line_id]
+            max_i_ka = (line['capacity'])/line['prim_kv_rating'] # Capacity in MW
+            if line['tf'] == 0:
+                from_bus = pp.get_element_index(self.net, 'bus', connection[0])
+                to_bus = pp.get_element_index(self.net, 'bus', connection[1])
+                pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
+                                           r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100, parallel=line['parallel'])
+            else:
+                kvs = {}
+                kvs[connection[0]] = self.stations[connection[0]]
+                kvs[connection[1]] = self.stations[connection[1]]
+                high_station = max(kvs, key=kvs.get)
+                low_station = min(kvs, key=kvs.get)
+                hv_bus = pp.get_element_index(self.net, 'bus', high_station)
+                lv_bus = pp.get_element_index(self.net, 'bus', low_station)
+                X_ohm = line['length_km'] * line['X_per_km']
+                vk = X_ohm * 1000*max_i_ka
+                vk_percent = 100 * vk/(1000*line['prim_kv_rating'])
+                pp.create_transformer_from_parameters(self.net, hv_bus, lv_bus, sn_mva=line['capacity'], vn_hv_kv=kvs[high_station], vn_lv_kv=kvs[low_station], vkr_percent=0, vk_percent=vk_percent, pfe_kw=0,
+                                                      i0_percent=0, vector_group='Dyn', vk0_percent=0, vkr0_percent=0, mag0_percent=0, mag0_rx=0, si0_hv_partial=0, name=line_id, max_loading_percent=100, parallel=line['parallel'])
+
+        # Peripherals
+        ncps = ['PV', 'Wind', 'Load'] # Excluding nuclear, because that one gets special treatment
+        for name, specs in self.peripherals:
+            bus_index = pp.get_element_index(self.net, 'bus', specs['station'])
+            if specs['type'] == ncps:
+                pp.create_load(self.net, bus_index, p_mw=10, controllable=False, name=name) # Negative load is generation
+            elif specs['type'] == 'Nuclear':
+                pp.create_load(self.net, bus_index, p_mw=specs['rated_pow'], controllable=False, name=name)
+            elif specs['type'] == 'Fossil':
+                fossil = pp.create_gen(self.net, bus_index, p_mw=10, min_p_mw=0, max_p_mw=specs['rated_pow'], controllable=True, name=name)
+                pp.create_poly_cost(self.net, fossil, 'gen', cp1_eur_per_mw=specs['emission_rate'])
+            elif specs['type'] == 'GridConnection':
+                power_limit = specs['connection_capacity']
+                connection = pp.create_ext_grid(self.net, bus_index, min_p_mw=-power_limit, max_p_mw=power_limit, name=name)
+                pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=specs['emission_rate']) # Or set to very high here !!!!!!!!
+            elif specs['type'] == 'Battery':
+                power_limit = specs['max_p']
+                battery = pp.create_storage(self.net, bus_index, p_mw=10, max_e_mwh=specs['max_energy'], soc_percent=specs['init_soc'], min_p_mw=-power_limit, max_p_mw=power_limit, controllable=True, in_service=True, name=name) # Update Battery_v3.py!!!!!!!!!!!!!!!!!
+                pp.create_poly_cost(self.net, battery, 'storage', cp1_eur_per_mw=0)
+            else:
+                pass
+
+
 
     # define step function
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:  # step function always needs arguments self, time, inputs and max_advance. Max_advance needs an initial value.
@@ -61,7 +112,7 @@ class PandaController(ModelConstructor):
 
         ncp_powers = input_data['ncp_powers']
 
-        results = self.control_and_analysis(ncp_powers)
+        results = self.control_and_analyze(ncp_powers)
 
         self.set_states(results)
 
@@ -70,5 +121,35 @@ class PandaController(ModelConstructor):
     
 
 
-    def control_and_analysis(self, ncp_powers) -> dict:
-        pass
+    def control_and_analyze(self, ncp_powers) -> dict:
+        for element in ncp_powers:
+            name = list(element.keys())[0]
+            if self.peripherals['name']['type'] != 'Nuclear':
+                ncp_index = pp.get_element_index(self.net, 'load', name)
+                self.net.load.at[ncp_index, 'pm_w'] = element['name']
+            else:
+                pass
+
+        pp.rundcopp(self.net, delta=1e-16)
+
+        cp_powers = {}
+        tl_powers = {}
+        SoCs = {}
+
+        for name, specs in self.peripherals:
+            if specs['type'] == 'Fossil':
+                fos_index = pp.get_element_index(self.net, 'gen', name)
+                fos_results = self.net.res_gen.iloc[fos_index]
+                cp_powers[name] = fos_results['p_mw']
+            elif specs['type'] == 'GridConnection':
+                grid_index = pp.get_element_index(self.net, 'ext_grid', name)
+                grid_results = self.net.res_gen.iloc[grid_index]
+                cp_powers[name] = grid_results['p_mw']
+
+        self.net.res_gen
+        self.net.res_ext_grid
+        self.net.res_storage # Manually adjust SoC
+
+        self.net.res_line
+        self.net.res_trafo
+        

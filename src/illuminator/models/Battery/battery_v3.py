@@ -41,8 +41,10 @@ class Battery(ModelConstructor):
                 'soc_min': 3,  # minimum allowable state of charge for the battery (%)
                 'soc_max': 80,  # maximum allowable state of charge for the battery (%)
                 #'resolution': 1  # time resolution for simulation steps (seconds)
+                'name': 'Battery1'
                 }
-    inputs={'flow2b': 0,  # power flow to/from the battery. Positive for charging, negative for discharging (kW)
+    inputs={'flow2b': None,  # power flow to/from the battery. Positive for charging, negative for discharging (kW)
+            'flow2b_dict': {}
             }
     outputs={'p_out': 20,  # output power from the battery after discharge/charge decision (Kw)
              'p_in': 20,  # input power to the battery (kW)
@@ -91,6 +93,7 @@ class Battery(ModelConstructor):
         self.soc_min = self._model.parameters.get('soc_min')
         self.soc_max = self._model.parameters.get('soc_max')
         self.powerout = 0
+        self.name = self._model.parameters.get('name')
 
 
 
@@ -118,7 +121,10 @@ class Battery(ModelConstructor):
         """
         input_data = self.unpack_inputs(inputs)
 
-        results = self.output_power(input_data['flow2b']) # In this model, the input should come from the controller
+        if input_data['flow2b'] is not None:
+            results = self.output_power(input_data['flow2b']) # In this model, the input should come from the controller
+        else:
+            results = self.output_power(input_data['flow2b_dict'][self.name])
 
         self.soc = results.pop('soc')
         self.flag = results.pop('flag')

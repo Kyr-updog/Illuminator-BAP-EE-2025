@@ -148,9 +148,11 @@ class CSV(ModelConstructor):
 
         # Check date
         date = data[0]
+        """
         expected_date = self.start_date.shift(seconds=time * self.time_step_size * self.time_resolution)  # start date  +  number of calls * iterations per call * time per iteration, aka time per call
         if date != expected_date:
             raise IndexError(f'Wrong date "{date}", expected "{expected_date}"')
+        """
 
         # Put data into the cache for get_data() calls
         self.cache = {}

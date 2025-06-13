@@ -39,15 +39,19 @@ class Wind(ModelConstructor):
                 'u_cutout': 1000,  # Cut-out wind speed (m/s) above which the wind turbine stops generating power to prevent damage.
                 'cp': 0.40,  # Coefficient of performance of the wind turbine, typically around 0.40 and never more than 0.59.
                 'diameter': 30,  # Diameter of the wind turbine rotor (m), used in calculating the swept area for wind power production.
-                'output_type': 'power'  # Output type of the wind generation, either 'power' (kW) or 'energy' (kWh).
+                'output_type': 'power',  # Output type of the wind generation, either 'power' (kW) or 'energy' (kWh).
+                'input_type': 'percentage', # 'wind_speed' or 'percentage' (capacity_percentage)
+                'name': 'Wind1'
                 }
     inputs={'u': 0,  # Wind speed (m/s) at a specific height used to calculate the wind power generation.
+            'capacity_percentage': 0
             }
     outputs={'wind_gen': 0,  # Generated wind power output (kW) or energy (kWh) based on the chosen output type (power or energy).
              'u': 0  # Adjusted wind speed (m/s) at 25m height after converting from the original height (e.g., 100m or 60m).
              }
     states={'u60': 10,  # Wind speeds adjusted for 60m height using logarithmic wind profile equations.
-            'u25': 0  # Wind speeds adjusted for 25m height using logarithmic wind profile equations.
+            'u25': 0,  # Wind speeds adjusted for 25m height using logarithmic wind profile equations.
+            'wind_gen': {}
             }
 
     # define other attributes
@@ -77,6 +81,8 @@ class Wind(ModelConstructor):
         self.cp = self.parameters['cp']
         self.diameter = self.parameters['diameter']
         self.output_type = self.parameters['output_type']
+        self.input_type = self.parameters['input_type']
+        self.name = self.parameters['name']
 
 
 
@@ -95,10 +101,16 @@ class Wind(ModelConstructor):
         self.resolution_h = self.time_resolution / 60 / 60  # convert scenario resolution to hours
         input_data = self.unpack_inputs(inputs)  # make input data easily accessible
 
-        results = self.generation(u=input_data['u'])
-
-        self.set_outputs(results)
-        self.set_states({'u60': self.u60})
+        if self.input_type == 'wind_speed':
+            results = self.generation(u=input_data['u'])
+            wind_gen = results['wind_gen']
+            self.set_outputs(results)
+            self.set_states({'u60': self.u60, 'wind_gen': {self.name: wind_gen}})
+        else:
+            percentage = input_data['capacity_percentage']
+            wind_gen = percentage * self.p_rated
+            self.set_outputs({'wind_gen': wind_gen})
+            self.set_states({'wind_gen': {self.name: wind_gen}})
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size

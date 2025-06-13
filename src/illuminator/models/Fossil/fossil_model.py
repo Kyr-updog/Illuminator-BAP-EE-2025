@@ -16,10 +16,12 @@ class Fossil(ModelConstructor):
                 'bio_NRG_density': 1,       # Amount of chemical energy per unit of weight (kWh/kg) for the biomass.
                 'fos_specific_emission': 1, # Amount of CO2 emission (kg) per unit of weight (kg) of burned fossil fuel.
                 'bio_specific_emission': 1, # Amount of CO2 emission (kg) per unit of weight (kg) of burned biomass.
-                'rated_pow': 500,             # Maximum power generation capacity (kW).
-                'output_type': 'power'      # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
+                'rated_pow': 500,           # Maximum power generation capacity (kW). CONVERT TO MW!!!!!!!!!!!!!!!!!
+                'output_type': 'power',     # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
+                'name': 'Fossil1'
                 }
-    inputs={'req_pow': 0,       # Required power output (kW) or energy (kWh) based on the chosen output type (power or energy).
+    inputs={'req_pow': None,       # Required power output (kW) or energy (kWh) based on the chosen output type (power or energy).
+            'req_pow_dict': {},
             'bio_frac': 0.2     # Fraction of mass per second ((kg/s)/(kg/s)) burned that is biomass for a given hour.
             }
     outputs={'gen_pow': 0,          # Generated power output (kW) or energy (kWh) based on the chosen output type (power or energy).
@@ -53,6 +55,7 @@ class Fossil(ModelConstructor):
         self.bio_specific_emission = self.parameters['bio_specific_emission']
         self.rated_pow = self.parameters['rated_pow']
         self.output_type = self.parameters['output_type']
+        self.name = self.parameters['name']
 
          
 
@@ -71,7 +74,11 @@ class Fossil(ModelConstructor):
         input_data = self.unpack_inputs(inputs)  # make input data easily accessible
         self.time = time
 
-        req_pow = input_data['req_pow']
+        if input_data['req_pow'] is not None:
+            req_pow = input_data['req_pow']
+        else:
+            req_pow = input_data['req_pow_dict'][self.name]
+            
         bio_frac = input_data['bio_frac']
 
         results = self.generation(req_pow, bio_frac)

@@ -3,7 +3,8 @@ from illuminator.builder import ModelConstructor
 # construct the model
 class Station(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
-    parameters={'station_ID': 'Station1'
+    parameters={'station_ID': 'Station1',
+                'kv': 380
                 }
     inputs={'cp_powers': {}, # from controller
             'tl_powers': {}, # from controller
@@ -28,6 +29,7 @@ class Station(ModelConstructor):
         """
         super().__init__(**kwargs)
         self.station_ID = self.parameters['station_ID']
+        self.kv = self.parameters['kv']
 
 
 
