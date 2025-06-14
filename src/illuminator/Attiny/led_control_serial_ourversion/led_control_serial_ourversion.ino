@@ -29,7 +29,7 @@ void setup() {
 void loop() {
   requestSpeedFromPi();  // Ask Raspberry Pi for speed
   if (j == 1){
-    cyanFlowAnimation(animationSpeed, r, g, b, direction);  // Run animation
+    Animate_LEDs(animationSpeed, r, g, b, direction);  // Run animation
   }
 }
 
@@ -75,7 +75,7 @@ void requestSpeedFromPi() {
 }
 
  // Cyan Flow Animation with dynamic speed
- void cyanFlowAnimation(int wait, uint8_t r, uint8_t g, uint8_t b, bool direction) {
+ void Animate_LEDs(int wait, uint8_t r, uint8_t g, uint8_t b, bool direction) {
 
   if (wait == 0){
     for (uint8_t pos=0; pos < LED_COUNT; pos++){
