@@ -18,7 +18,11 @@ class Fossil(ModelConstructor):
                 'bio_specific_emission': 1, # Amount of CO2 emission (kg) per unit of weight (kg) of burned biomass.
                 'rated_pow': 500,           # Maximum power generation capacity (kW). CONVERT TO MW!!!!!!!!!!!!!!!!!
                 'output_type': 'power',     # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
-                'name': 'Fossil1'
+                'name': 'Fossil1',
+                'bio_frac': 0.15,
+                'bio_waste': 68,            # g/kWh
+                'coal_waste': 809,
+                'gas_waste': 421
                 }
     inputs={'req_pow': None,       # Required power output (kW) or energy (kWh) based on the chosen output type (power or energy).
             'req_pow_dict': {},
@@ -56,6 +60,10 @@ class Fossil(ModelConstructor):
         self.rated_pow = self.parameters['rated_pow']
         self.output_type = self.parameters['output_type']
         self.name = self.parameters['name']
+        self.bio_frac = self.parameters['bio_frac']
+        self.bio_waste = self.parameters['bio_waste']
+        self.coal_waste = self.parameters['coal_waste']
+        self.gas_waste = self.parameters['gas_waste']
 
          
 
@@ -79,12 +87,16 @@ class Fossil(ModelConstructor):
         else:
             req_pow = input_data['req_pow_dict'][self.name]
             
-        bio_frac = input_data['bio_frac']
+        energy = 1000*req_pow * self.time_resolution/3600
 
-        results = self.generation(req_pow, bio_frac)
-        self.limit_flag = results.pop('limit_flag')
+        if self.fos_type == 'coal':
+            emission = (self.bio_frac*self.bio_waste + (1-self.bio_frac)*self.coal_waste) * energy
+        elif self.fos_type == 'gas':
+            emission = self.gas_waste * energy
+        else:
+            emission = self.bio_waste * energy
 
-        self.set_states({'limit_flag': self.limit_flag})
+        results = {'gen_pow': req_pow, 'emission': emission}
         self.set_outputs(results)
 
         # return the time of the next step (time until current information is valid)

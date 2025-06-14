@@ -1,5 +1,6 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import numpy as np
+from scipy.stats import laplace
 
 # construct the model
 class PV(ModelConstructor):
@@ -70,6 +71,11 @@ class PV(ModelConstructor):
     time_step_size=1
     time=None
 
+    par1 = 0.9689748840268101 
+    par2 = 0.2620779777422495
+
+    laplaceMax = laplace.pdf(0, scale=par2)
+
     def __init__(self, **kwargs) -> None:
         """
         Initialize the PV model with the provided parameters.
@@ -132,10 +138,12 @@ class PV(ModelConstructor):
         self.Az = input_data['Az']
         self.capacity_percentage = input_data['capacity_percentage']
 
+        cap_percentage = self.addNoiseLaplace(self.capacity_percentage)
+
         if self.input_type == 'irradiation':
             results = self.output()
         else:
-            pv_gen = self.capacity_percentage * self.cap
+            pv_gen = cap_percentage * self.cap
             results = {'pv_gen': pv_gen}
 
         self.set_outputs({'pv_gen': results['pv_gen']})
@@ -143,6 +151,15 @@ class PV(ModelConstructor):
 
 
         return time + self._model.time_step_size
+    
+
+    def addNoiseLaplace(self, input):
+        while True:
+            x = np.random.uniform(0, 10)
+            y = np.random.uniform(0, self.laplaceMax)
+            if y < laplace.pdf(x, loc=self.par1, scale=self.par2):
+                break
+        return max(min(input * x, 1), 0)
 
 
     def sun_azimuth(self):  # need to load sun_az

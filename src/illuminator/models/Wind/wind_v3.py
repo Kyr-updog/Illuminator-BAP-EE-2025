@@ -1,5 +1,7 @@
 from numpy import log, pi
 from illuminator.builder import ModelConstructor
+import numpy as np
+from scipy.stats import laplace
 
 # construct the model
 class Wind(ModelConstructor):
@@ -41,7 +43,10 @@ class Wind(ModelConstructor):
                 'diameter': 30,  # Diameter of the wind turbine rotor (m), used in calculating the swept area for wind power production.
                 'output_type': 'power',  # Output type of the wind generation, either 'power' (kW) or 'energy' (kWh).
                 'input_type': 'percentage', # 'wind_speed' or 'percentage' (capacity_percentage)
-                'name': 'Wind1'
+                'name': 'Wind1',
+                'type': 'offshore', # Or onshore
+                'par1': 0,
+                'par2': 0
                 }
     inputs={'u': 0,  # Wind speed (m/s) at a specific height used to calculate the wind power generation.
             'capacity_percentage': 0
@@ -83,7 +88,16 @@ class Wind(ModelConstructor):
         self.output_type = self.parameters['output_type']
         self.input_type = self.parameters['input_type']
         self.name = self.parameters['name']
-
+        self.type = self.parameters['type']
+        
+        if self.type == 'offshore':
+            self.par1 = 0.877
+            self.par2 = 0.404
+        else:
+            self.par1 = self.parameters['par1']
+            self.par2 = self.parameters['par2']
+        
+        self.laplaceMax = laplace.pdf(0, scale=self.par2)
 
 
     # define step function
@@ -108,12 +122,22 @@ class Wind(ModelConstructor):
             self.set_states({'u60': self.u60, 'wind_gen': {self.name: wind_gen}})
         else:
             percentage = input_data['capacity_percentage']
+            percentage = self.addNoiseLaplace(percentage)
             wind_gen = percentage * self.p_rated
             self.set_outputs({'wind_gen': wind_gen})
             self.set_states({'wind_gen': {self.name: wind_gen}})
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size
+    
+
+    def addNoiseLaplace(self, input):
+        while True:
+            x = np.random.uniform(0, 10)
+            y = np.random.uniform(0, self.laplaceMax)
+            if y < laplace.pdf(x, loc=self.par1, scale=self.par2):
+                break
+        return max(min(input * x, 1), 0)
 
 
     def production(self, u:float) -> dict:

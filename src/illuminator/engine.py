@@ -168,7 +168,12 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
 
 
             if 'parameters' in model:
-                model_parameters = model['parameters']
+                if model_type not in blacklist:
+                    model_parameters = model['parameters'] | {'name': model_name}
+                elif model_type == 'Station':
+                    model_parameters = model['parameters'] | {'station_ID': model_name}
+                else:
+                    model_parameters = model['parameters']
             else:
                 model_parameters = {}
 

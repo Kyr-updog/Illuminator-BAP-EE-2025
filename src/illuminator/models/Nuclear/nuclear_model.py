@@ -6,14 +6,16 @@ class Nuclear(ModelConstructor):
     parameters={'fuel_type': 'uranium-235', # Type of fuel.
                 'efficiency': 1,            # Fraction electrical energy from nuclear energy.
                 'NRG_density': 1,           # Amount of chemical energy per unit of weight (kWh/kg) of the nuclear fuel.
-                'specific_waste': 1,        # Amount of waste (kg) per unit of weight (kg) of 'burned' fuel.
-                'rated_pow': 500,           # Maximum power generation capacity (kW). CONVERT TO MW!!!!!!!!!!!!!!!!!
+                'llw_ilw': 8.751,           # mm^3 per kWh
+                'hlw': 1.061,
+                'rated_pow': 500,           # Maximum power generation capacity (MW).
                 'output_type': 'power',     # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
                 'name': 'Nuclear1'
                 }
     inputs={}
     outputs={'gen_pow': 0,              # Generated power output (kW) or energy (kWh) based on the chosen output type (power or energy).
-             'waste_produced': 0,       # Amount of waste (kg) for that time step.
+             'llw_ilw': 0,       # Amount of waste (kg) for that time step.
+             'hlw': 0,
              'fuel_burned': 0           # Amount of fuel (kg) used for that time step.
              }
     states={'gen_pow': {}}
@@ -35,7 +37,8 @@ class Nuclear(ModelConstructor):
         self.fuel_type = self.parameters['fuel_type']
         self.efficiency = self.parameters['efficiency']
         self.NRG_density = self.parameters['NRG_density']
-        self.specific_waste = self.parameters['specific_waste']
+        self.llw_ilw = self.parameters['llw-ilw']
+        self.hlw = self.parameters['hlw']
         self.rated_pow = self.parameters['rated_pow']
         self.output_type = self.parameters['output_type']
         self.name = self.parameters['name']
@@ -56,11 +59,15 @@ class Nuclear(ModelConstructor):
         """
         self.time = time
 
-        results = self.generation()
-        gen_pow = results['gen_pow']
+        energy = 1000*self.rated_pow * self.time_resolution/3600
+
+        llw_ilw = self.llw_ilw * energy
+        hlw = self.hlw * energy
+        results = {'gen_pow': self.rated_pow, 'llw_ilw': llw_ilw, 'hlw': hlw}
+        
 
         self.set_outputs(results)
-        self.set_states({'gen_pow': {self.name: gen_pow}})
+        self.set_states({'gen_pow': {self.name: self.rated_pow}})
 
         # return the time of the next step (time until current information is valid)
         return time + self._model.time_step_size
