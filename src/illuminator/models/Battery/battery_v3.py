@@ -1,9 +1,9 @@
 from illuminator.builder import ModelConstructor
 
 
-# import time as timer
-# import board
-# import neopixel
+import time as timer
+import board
+import neopixel
  
 # pixels1 = neopixel.NeoPixel(board.D18, 20, brightness=1)
 
@@ -135,18 +135,18 @@ class Battery(ModelConstructor):
         self.set_states({'soc': self.soc, 'flag': self.flag, 'mod': self.mod}) # set the state of charge and remove it from the results at the same time
         self.set_outputs(results)
 
-        # #The colours gradient progress in 20\% increments from deep red, deep orange, yellow, lime-green and green.
-        # if self.soc < 21:
-        #         pixels1.fill((139, 0, 0))
-        # elif self.soc < 41:
-        #         pixels1.fill((255, 40, 0))
-        # elif self.soc < 61:
-        #         pixels1.fill((255, 200, 0))
-        # elif self.soc < 81:
-        #         pixels1.fill((142, 255, 0))
-        # else:
-        #         pixels1.fill((0, 255, 0))
-        # timer.sleep(1)
+        #The colours gradient progress in 20\% increments from deep red, deep orange, yellow, lime-green and green.
+        if self.soc < 21:
+                pixels1.fill((139, 0, 0))
+        elif self.soc < 41:
+                pixels1.fill((255, 40, 0))
+        elif self.soc < 61:
+                pixels1.fill((255, 200, 0))
+        elif self.soc < 81:
+                pixels1.fill((142, 255, 0))
+        else:
+                pixels1.fill((0, 255, 0))
+        timer.sleep(1)
         return time + self._model.time_step_size
 
 
