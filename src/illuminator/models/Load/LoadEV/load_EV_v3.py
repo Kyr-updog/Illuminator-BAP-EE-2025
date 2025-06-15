@@ -1,5 +1,12 @@
 from illuminator.builder import ModelConstructor
 
+import time as timer
+import board
+import neopixel
+
+pixels1 = neopixel.NeoPixel(board.D18, 7, brightness=0.8)
+previous_dem = 0
+
 class LoadEV(ModelConstructor):
     """
     Calculates total load demand based on number of houses and input load.
@@ -72,6 +79,43 @@ class LoadEV(ModelConstructor):
         n = input_data.get('n', 0)
         results = self.demand(power=load_in, n=n)
         self.set_outputs({'load_EV': results['load_EV']})
+
+        #Green is for base unit W or Wh, yellow is for kW or kWh and red is for MW or MWhh and above. 
+        #LEDs blinking indicated load demand is increased, while constant illumination indicates constant or decreased load demand.         
+        global previous_dem
+        if results['load_EV'] > 1000000:
+            if results['load_EV'] > previous_dem:
+                pixels1.fill((139, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((139, 0, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((139, 0, 0))        
+        elif results['load_EV'] > 1000:
+            if results['load_EV'] > previous_dem:
+                pixels1.fill((255, 200, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((255, 200, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((255, 200, 0))    
+        elif results['load_EV'] > 0:
+            if results['load_EV'] > previous_dem:
+                pixels1.fill((0, 255, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 255, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((0, 255, 0))  
+        else:
+            pixels1.fill((0, 0, 0))
+        previous_dem = results['load_EV']    
 
         return time + self._model.time_step_size
 
