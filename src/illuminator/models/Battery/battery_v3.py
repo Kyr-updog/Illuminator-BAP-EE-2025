@@ -5,7 +5,7 @@ import time as timer
 import board
 import neopixel
  
-# pixels1 = neopixel.NeoPixel(board.D18, 20, brightness=1)
+pixels1 = neopixel.NeoPixel(board.D18, 20, brightness=1)
 
 
 
