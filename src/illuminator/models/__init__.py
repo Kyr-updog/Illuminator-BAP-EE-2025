@@ -26,7 +26,7 @@ from .Controllers.controller_T3Congestion.controller_T3Congestion_v3 import Cont
 from .Controllers.controller_T3_fos_nuc import ControllerT3_fos_nuc
 from .Controllers.pandapower_controller import PandaController
 from .Station.station_model import Station
-from .Wind.wind_randomizer import WindRandomizer
+from .Station.wind_randomizer import WindRandomizer
 
 from .Agents.generators.generation_company_agent_v3 import GenerationCompanyAgent
 from .Agents.operators.operator_v3 import Operator_Market
