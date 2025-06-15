@@ -452,168 +452,180 @@ models:
     transmit: {}
 
 connections:
-- from: Station1
-  to: Station3
+- from: Station1.transmit
+  to: Station3.receive
   line_id: line_1
 
-- from: Station2
-  to: Station6
+- from: Station2.transmit
+  to: Station6.receive
   line_id: line_2
 
-- from: Station2
-  to: Station5
+- from: Station2.transmit
+  to: Station5.receive
   line_id: line_3
 
-- from: Station5
-  to: Station7
+- from: Station5.transmit
+  to: Station7.receive
   line_id: line_4
 
-- from: Station4
-  to: Station7
+- from: Station4.transmit
+  to: Station7.receive
   line_id: line_5
 
-- from: Station4
-  to: Station8
+- from: Station4.transmit
+  to: Station8.receive
   line_id: line_6
 
-- from: Station3
-  to: Station9
+- from: Station3.transmit
+  to: Station9.receive
   line_id: line_7
 
-- from: Station
-  to: Station
+- from: Station8.transmit
+  to: Station9.receive
   line_id: line_8
 
-- from: Station
-  to: Station
+- from: Station7.transmit
+  to: Station10.receive
   line_id: line_9
 
-- from: Station
-  to: Station
+- from: Station7.transmit
+  to: Station13.receive
   line_id: line_10
 
-- from: Station
-  to: Station
+- from: Station6.transmit
+  to: Station11.receive
   line_id: line_11
 
-- from: Station
-  to: Station
+- from: Station11.transmit
+  to: Station14.receive
   line_id: line_12
 
-- from: Station
-  to: Station
+- from: Station11.transmit
+  to: Station13.receive
   line_id: line_13
 
-- from: Station
-  to: Station
+- from: Station10.transmit
+  to: Station13.receive
   line_id: line_14
 
-- from: Station
-  to: Station
+- from: Station9.transmit
+  to: Station12.receive
   line_id: line_15
 
-- from: Station
-  to: Station
+- from: Station12.transmit
+  to: Station18.receive
   line_id: line_16
 
-- from: Station
-  to: Station
+- from: Station13.transmit
+  to: Station20.receive
   line_id: line_17
 
-- from: Station
-  to: Station
+- from: Station13.transmit
+  to: Station17.receive
   line_id: line_18
 
-- from: Station
-  to: Station
+- from: Station16.transmit
+  to: Station17.receive
   line_id: line_19
 
-- from: Station
-  to: Station
+- from: Station14.transmit
+  to: Station15.receive
   line_id: line_20
 
-- from: Station
-  to: Station
+- from: Station15.transmit
+  to: Station21.receive
   line_id: line_21
 
-- from: Station
-  to: Station
+- from: Station16.transmit
+  to: Station21.receive
   line_id: line_22
 
-- from: Station
-  to: Station
+- from: Station18.transmit
+  to: Station19.receive
   line_id: line_23
 
-- from: Station
-  to: Station
+- from: Station19.transmit
+  to: Station23.receive
   line_id: line_24
 
-- from: Station
-  to: Station
+- from: Station19.transmit
+  to: Station26.receive
   line_id: line_25
 
-- from: Station
-  to: Station
+- from: Station20.transmit
+  to: Station22.receive
   line_id: line_26
 
-- from: Station
-  to: Station
+- from: Station20.transmit
+  to: Station25.receive
   line_id: line_27
 
-- from: Station
-  to: Station
+- from: Station24.transmit
+  to: Station25.receive
   line_id: line_28
 
-- from: Station
-  to: Station
+- from: Station22.transmit
+  to: Station26.receive
   line_id: line_29
 
-- from: Station
-  to: Station
+- from: Station23.transmit
+  to: Station26.receive
   line_id: line_30
 
-- from: Station
-  to: Station
+- from: Station27.transmit
+  to: Station29.receive
   line_id: line_31
 
-- from: Station
-  to: Station
+- from: Station27.transmit
+  to: Station28.receive
   line_id: line_32
 
-- from: Station
-  to: Station
+- from: Station27.transmit
+  to: Station32.receive
   line_id: line_33
 
-- from: Station
-  to: Station
+- from: Station28.transmit
+  to: Station29.receive
   line_id: line_34
 
-- from: Station
-  to: Station
+- from: Station28.transmit
+  to: Station30.receive
   line_id: line_35
 
-- from: Station
-  to: Station
+- from: Station29.transmit
+  to: Station31.receive
   line_id: line_36
 
-- from: Station
-  to: Station
+- from: Station30.transmit
+  to: Station34.receive
   line_id: line_37
 
-- from: Station
-  to: Station
+- from: Station31.transmit
+  to: Station33.receive
   line_id: line_38
 
-- from: Station
-  to: Station
+- from: Station32.transmit
+  to: Station35.receive
   line_id: line_39
 
-- from: Station
-  to: Station
+- from: Station33.transmit
+  to: Station36.receive
   line_id: line_40
 
-- from: Station
-  to: Station
+- from: Station34.transmit
+  to: Station36.receive
   line_id: line_41
+
+- from: Station1.transmit
+  to: Station27.receive
+  line_id: line_42
+
+- from: Station3.transmit
+  to: Station35.receive
+  line_id: line_43
+
+- from: Station8.transmit
+  to: Station36.receive
+  line_id: line_44
 
 monitor:

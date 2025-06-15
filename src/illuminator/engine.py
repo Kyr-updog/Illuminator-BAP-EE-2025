@@ -329,6 +329,7 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
             from_model_config = next((m for m in models if m['name'] == from_model))
             if from_model_config['type'] in blacklist:
                 to_model = 'Pandacontroller'
+                to_attr = 'ncp_powers'
             else:
                 pass
             to_model_config = next((m for m in models if m['name'] == to_model))
