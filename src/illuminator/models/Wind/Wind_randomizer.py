@@ -7,7 +7,7 @@ import matplotlib.dates as mdates
 import datetime
 
 # construct the model
-class Nuclear(ModelConstructor):
+class WindRandomizer(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
     parameters={'type': 'offshore'
                 }
