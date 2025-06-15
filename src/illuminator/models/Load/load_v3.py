@@ -1,5 +1,12 @@
 from illuminator.builder import ModelConstructor
 
+import time as timer
+import board
+import neopixel
+
+pixels1 = neopixel.NeoPixel(board.D18, 9, brightness=1)
+previous_dem = 0
+
 class Load(ModelConstructor):
     """
     Calculates total load demand based on number of houses and input load.
@@ -71,6 +78,44 @@ class Load(ModelConstructor):
         load_in = input_data.get('load', 0)
         results = self.demand(load=load_in)
         self.set_outputs(results)
+
+            
+        #Green is for base unit W or Wh, yellow is for kW or kWh and red is for MW or MWhh and above. 
+        #LEDs blinking indicated load demand is increased, while constant illumination indicates constant or decreased load demand.    
+        global previous_dem
+        if results['load_dem'] > 1000000:
+            if results['load_dem'] > previous_dem:
+                pixels1.fill((139, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((139, 0, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((139, 0, 0))        
+        elif results['load_dem'] > 1000:
+            if results['load_dem'] > previous_dem:
+                pixels1.fill((255, 200, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((255, 200, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((255, 200, 0))    
+        elif results['load_dem'] > 0:
+            if results['load_dem'] > previous_dem:
+                pixels1.fill((0, 255, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 255, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((0, 255, 0))  
+        else:
+            pixels1.fill((0, 0, 0))
+        previous_dem = results['load_dem']
 
         return time + self._model.time_step_size
 
