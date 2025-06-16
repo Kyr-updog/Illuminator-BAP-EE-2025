@@ -19,6 +19,9 @@ class Fossil(ModelConstructor):
                 'rated_pow': 500,           # Maximum power generation capacity (kW). CONVERT TO MW!!!!!!!!!!!!!!!!!
                 'output_type': 'power',     # Output type of the generation, either 'power' (kW) or 'energy' (kWh).
                 'name': 'Fossil1',
+                'bio_emission_rate': 68,
+                'coal_emission_rate': 697.85,
+                'gas_emission_rate': 421,
                 'bio_frac': 0.15,
                 'bio_waste': 68,            # g/kWh
                 'coal_waste': 809,
@@ -81,11 +84,12 @@ class Fossil(ModelConstructor):
         """
         input_data = self.unpack_inputs(inputs)  # make input data easily accessible
         self.time = time
-
+        """
         if input_data['req_pow'] is not None:
             req_pow = input_data['req_pow']
         else:
-            req_pow = input_data['req_pow_dict'][self.name]
+        """
+        req_pow = input_data['req_pow_dict'][self.name]
             
         energy = 1000*req_pow * self.time_resolution/3600
 

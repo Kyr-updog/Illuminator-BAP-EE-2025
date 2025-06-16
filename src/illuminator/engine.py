@@ -158,7 +158,7 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
         """
 
         model_entities = {}
-        blacklist = ['PandaController', 'LED_connection', 'Station'] # Don't store these models in the 'models' parameter 
+        blacklist = ['PandaController', 'LED_connection', 'Station', 'CSV', 'WindRandomizer'] # Don't store these models in the 'models' parameter 
                                                                     # in the PandaController model.
 
         for model in models:
@@ -166,16 +166,18 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
             model_type = model['type']
             set_current_model(model)
 
-
+            model_parameters = {}
             if 'parameters' in model:
                 if model_type not in blacklist:
-                    model_parameters = model['parameters'] | {'name': model_name}
+                    model_parameters = model['parameters']
+                    model_parameters['name'] = model_name
                 elif model_type == 'Station':
-                    model_parameters = model['parameters'] | {'station_ID': model_name}
+                    model_parameters = model['parameters']
+                    model_parameters['station_ID'] = model_name 
                 else:
                     model_parameters = model['parameters']
             else:
-                model_parameters = {}
+                pass
 
             if model_type == 'CSV':  # the CVS model is a special model used to read data from a CSV file
                 
@@ -193,7 +195,7 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                 
             else:
                 if model_type == 'PandaController':
-                    model_parameters['peripherals'] = {}
+                    model_parameters_peripherals = {}
                     model_parameters['stations'] = {}
                     for element in models:
                         element_name = element['name']
@@ -203,11 +205,13 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                         else:
                             element_parameters = {}
                         if element_type not in blacklist:
-                            model_parameters['peripherals'][element_name] = {'type': element_type} | element_parameters
+                            model_parameters_peripherals[element_name] = element_parameters
+                            model_parameters_peripherals[element_name]['type'] = element_type
                         elif element_type == 'Station':
-                            model_parameters['stations'] = element_parameters['kv']
+                            model_parameters['stations'][element_name] = element_parameters['kv']
                         else:
                             pass
+                    model_parameters['peripherals'] = model_parameters_peripherals
 
                     model_parameters['ss_connections'] = {}
                     model_parameters_ps_connections = {}
@@ -328,12 +332,12 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
             # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
             from_model_config = next((m for m in models if m['name'] == from_model))
             if from_model_config['type'] in blacklist:
-                to_model = 'Pandacontroller'
+                to_model = panda_name
                 to_attr = 'ncp_powers'
             else:
                 pass
             to_model_config = next((m for m in models if m['name'] == to_model))
-            time_shifted = connection['time_shifted']
+            time_shifted = False # connection['time_shifted']
       
             # check if the connection is a physical split
             if connection['from'] in from_list:

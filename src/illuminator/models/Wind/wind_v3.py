@@ -44,14 +44,14 @@ class Wind(ModelConstructor):
                 'output_type': 'power',  # Output type of the wind generation, either 'power' (kW) or 'energy' (kWh).
                 'input_type': 'percentage', # 'wind_speed' or 'percentage' (capacity_percentage)
                 'name': 'Wind1',
-                'type': 'offshore', # Or onshore
+                'area_type': 'offshore', # Or onshore
                 'par1': 0,
                 'par2': 0
                 }
     inputs={'u': 0,  # Wind speed (m/s) at a specific height used to calculate the wind power generation.
             'capacity_percentage': 0
             }
-    outputs={'wind_gen': 0,  # Generated wind power output (kW) or energy (kWh) based on the chosen output type (power or energy).
+    outputs={'wind_gen_out': 0,  # Generated wind power output (kW) or energy (kWh) based on the chosen output type (power or energy).
              'u': 0  # Adjusted wind speed (m/s) at 25m height after converting from the original height (e.g., 100m or 60m).
              }
     states={'u60': 10,  # Wind speeds adjusted for 60m height using logarithmic wind profile equations.
@@ -88,7 +88,7 @@ class Wind(ModelConstructor):
         self.output_type = self.parameters['output_type']
         self.input_type = self.parameters['input_type']
         self.name = self.parameters['name']
-        self.type = self.parameters['type']
+        self.type = self.parameters['area_type']
         
         if self.type == 'offshore':
             self.par1 = 0.877
@@ -124,7 +124,7 @@ class Wind(ModelConstructor):
             percentage = input_data['capacity_percentage']
             percentage = self.addNoiseLaplace(percentage)
             wind_gen = percentage * self.p_rated
-            self.set_outputs({'wind_gen': wind_gen})
+            self.set_outputs({'wind_gen_out': wind_gen})
             self.set_states({'wind_gen': {self.name: wind_gen}})
 
         # return the time of the next step (time untill current information is valid)

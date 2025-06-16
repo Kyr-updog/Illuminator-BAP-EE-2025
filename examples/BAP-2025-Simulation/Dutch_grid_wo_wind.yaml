@@ -1,7 +1,7 @@
 scenario:
   name: "Pandalyzer test" # in mosaik so called world
   start_time: '2025-04-15 00:00:00' # ISO 8601 start time of the simulation
-  end_time: '2025-04-15 23:50:00' # duration in seconds 
+  end_time: '2025-04-15 00:30:00' # duration in seconds 
   time_resolution: 600 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
 models:
@@ -41,30 +41,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
     load:
-
-- name: WRandomizer_offshore
-  type: WindRandomizer
-  parameters:
-    area_type: offshore
-  outputs:
-    fraction_out: null
-  states:
-    s: -1
-    ds: 0.3
-    dds: 0
-    fraction: 0
-
-- name: WRandomizer_onshore
-  type: WindRandomizer
-  parameters:
-    area_type: onshore
-  outputs:
-    fraction_out: null
-  states:
-    s: -1
-    ds: 0.3
-    dds: 0
-    fraction: 0
 
 - name: Nuclear1
   type: Nuclear
@@ -576,414 +552,6 @@ models:
     g_aoi: null
   states:
     pv_gen: {}
-
-- name: WindOff1
-  type: Wind
-  parameters:
-    p_rated: 600
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOff
-    area_type: offshore
-    par1: 0
-    par2: 0
-  inputs:
-    u: 0
-    capacity_percentage: 0
-  outputs:
-    wind_gen_out: 0
-    u: 0
-  states:
-    wind_gen: {}
-
-- name: WindOff2
-  type: Wind
-  parameters:
-    p_rated: 1000
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOff
-    area_type: offshore
-    par1: 0
-    par2: 0
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOff3
-  type: Wind
-  parameters:
-    p_rated: 1650
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOff
-    area_type: offshore
-    par1: 0
-    par2: 0
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOff4
-  type: Wind
-  parameters:
-    p_rated: 1500
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOff
-    area_type: offshore
-    par1: 0
-    par2: 0
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn1
-  type: Wind
-  parameters:
-    p_rated: 700
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 1.331013155181533
-    par2: 0.3517482530661208
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn2
-  type: Wind
-  parameters:
-    p_rated: 1750
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.8864320766998129
-    par2: 0.24725469909328615
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn3
-  type: Wind
-  parameters:
-    p_rated: 50
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.886894961175915
-    par2: 0.2684969119566722
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn4
-  type: Wind
-  parameters:
-    p_rated: 100
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.6675516037457423
-    par2: 0.307
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn5
-  type: Wind
-  parameters:
-    p_rated: 750
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.9580975803793997
-    par2: 0.34496114563230934
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn6
-  type: Wind
-  parameters:
-    p_rated: 4650
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.5358405049253826
-    par2: 0.384281801379888
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn7
-  type: Wind
-  parameters:
-    p_rated: 250
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.638879503879857
-    par2: 0.3198271866606795
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn8
-  type: Wind
-  parameters:
-    p_rated: 600
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.78303524122285
-    par2: 0.49144805027937555
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn9
-  type: Wind
-  parameters:
-    p_rated: 150
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.4597643895280067
-    par2: 0.43388639387858297
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn10
-  type: Wind
-  parameters:
-    p_rated: 900
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.9581497365739613
-    par2: 0.350409988801752
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn11
-  type: Wind
-  parameters:
-    p_rated: 250
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.8333686199672884
-    par2: 0.3224207161554025
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn12
-  type: Wind
-  parameters:
-    p_rated: 600
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 1.58379637438854
-    par2: 1.0301315619807885
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
-
-- name: WindOn13
-  type: Wind
-  parameters:
-    p_rated: 450
-    u_rated: 10.3  
-    u_cutin: 2.8  
-    u_cutout: 25  
-    cp: 0.40
-    diameter: 2
-    output_type: power
-    input_type: percentage
-    name: WindOn
-    area_type: onshore
-    par1: 0.8864320766998129
-    par2: 0.24725469909328615
-  inputs:
-    u: null
-    capacity_percentage: null
-  outputs:
-    wind_gen_out: null
-    u: null
-  states:
-    wind_gen: {}
 
 - name: GC1
   type: GridConnection
@@ -2477,57 +2045,6 @@ connections:
   to: Station36.receive
   line_id: line_44
 
-- from: WRandomizer_offshore.fraction
-  to: WindOff1.capacity_percentage
-
-- from: WRandomizer_offshore.fraction
-  to: WindOff2.capacity_percentage
-
-- from: WRandomizer_offshore.fraction
-  to: WindOff3.capacity_percentage
-
-- from: WRandomizer_offshore.fraction
-  to: WindOff4.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn1.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn2.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn3.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn4.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn5.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn6.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn7.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn8.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn9.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn10.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn11.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn12.capacity_percentage
-
-- from: WRandomizer_onshore.fraction
-  to: WindOn13.capacity_percentage
-
 - from: CSV_Load.load
   to: Load1.load
 
@@ -2711,18 +2228,6 @@ connections:
 - from: Station20.cp_powers
   to: FossilBio1.req_pow_dict
 
-- from: WindOff1.wind_gen
-  to: Station1.ncp_powers
-
-- from: WindOff2.wind_gen
-  to: Station2.ncp_powers
-
-- from: WindOff3.wind_gen
-  to: Station21.ncp_powers
-
-- from: WindOff4.wind_gen
-  to: Station24.ncp_powers
-
 # Format switch ---------------------
 
 - from: Load1.load_dem
@@ -2731,16 +2236,10 @@ connections:
 - from: PV1.pv_gen
   to: Station5.ncp_powers
 
-- from: WindOn1.wind_gen
-  to: Station5.ncp_powers
-
 - from: Load2.load_dem
   to: Station4.ncp_powers
 
 - from: PV2.pv_gen
-  to: Station4.ncp_powers
-
-- from: WindOn2.wind_gen
   to: Station4.ncp_powers
 
 - from: Load3.load_dem
@@ -2749,16 +2248,10 @@ connections:
 - from: PV3.pv_gen
   to: Station10.ncp_powers
 
-- from: WindOn3.wind_gen
-  to: Station10.ncp_powers
-
 - from: Load4.load_dem
   to: Station12.ncp_powers
 
 - from: PV4.pv_gen
-  to: Station12.ncp_powers
-
-- from: WindOn4.wind_gen
   to: Station12.ncp_powers
 
 - from: Load5.load_dem
@@ -2767,16 +2260,10 @@ connections:
 - from: PV5.pv_gen
   to: Station14.ncp_powers
 
-- from: WindOn5.wind_gen
-  to: Station14.ncp_powers
-
 - from: Load6.load_dem
   to: Station20.ncp_powers
 
 - from: PV6.pv_gen
-  to: Station20.ncp_powers
-
-- from: WindOn6.wind_gen
   to: Station20.ncp_powers
 
 - from: Load7.load_dem
@@ -2785,16 +2272,10 @@ connections:
 - from: PV7.pv_gen
   to: Station19.ncp_powers
 
-- from: WindOn7.wind_gen
-  to: Station19.ncp_powers
-
 - from: Load8.load_dem
   to: Station24.ncp_powers
 
 - from: PV8.pv_gen
-  to: Station24.ncp_powers
-
-- from: WindOn8.wind_gen
   to: Station24.ncp_powers
 
 - from: Load9.load_dem
@@ -2803,16 +2284,10 @@ connections:
 - from: PV9.pv_gen
   to: Station26.ncp_powers
 
-- from: WindOn9.wind_gen
-  to: Station26.ncp_powers
-
 - from: Load10.load_dem
   to: Station28.ncp_powers
 
 - from: PV10.pv_gen
-  to: Station28.ncp_powers
-
-- from: WindOn10.wind_gen
   to: Station28.ncp_powers
 
 - from: Load11.load_dem
@@ -2821,16 +2296,10 @@ connections:
 - from: PV11.pv_gen
   to: Station30.ncp_powers
 
-- from: WindOn11.wind_gen
-  to: Station30.ncp_powers
-
 - from: Load12.load_dem
   to: Station31.ncp_powers
 
 - from: PV12.pv_gen
-  to: Station31.ncp_powers
-
-- from: WindOn12.wind_gen
   to: Station31.ncp_powers
 
 - from: Load13.load_dem
@@ -2839,23 +2308,7 @@ connections:
 - from: PV13.pv_gen
   to: Station36.ncp_powers
 
-- from: WindOn13.wind_gen
-  to: Station36.ncp_powers
-
 monitor:
-  file: './out.csv'
+  file: './out_emission.csv'
   items:
-  - CSV_PV.utilization
-  - CSV_Load.load
-  - WRandomizer_offshore.fraction
-  - WRandomizer_onshore.fraction
-  - GC1.dump
-  - GC2.dump
-  - GC3.dump
-  - GC4.dump
-  - GC5.dump
-  - GC6.dump
-  - GC7.dump
-  - GC8.dump
-  - GC9.dump
-  - GC10.dump
+  - FossilCoal1.emission

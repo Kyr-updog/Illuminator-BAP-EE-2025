@@ -9,14 +9,15 @@ import datetime
 # construct the model
 class WindRandomizer(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
-    parameters={'type': 'offshore'
+    parameters={'area_type': 'offshore'
                 }
     inputs={}
-    outputs={'fraction': 0
+    outputs={'fraction_out': 0
              }
-    states={'s': 0,
-            'ds': 0,
-            'dds': 0
+    states={'s': -1,
+            'ds': 0.3,
+            'dds': 0,
+            'fraction': 0
             }
     
     # define other attributes
@@ -33,17 +34,16 @@ class WindRandomizer(ModelConstructor):
                 Additional keyword arguments to initialize the...
         """
         super().__init__(**kwargs)
-        self.type = self.parameters['type']
+        self.type = self.parameters['area_type']
+
+        self.fac = 0.5
 
         self.s = self._model.states.get('s')
         self.ds = self._model.states.get('ds')
         self.dds = self._model.states.get('dds')
 
         self.infinitesimal = 1e-6
-        self.dt = self.time_resolution/3600
-
-        self.s_init = -1
-        self.ds_init = 0.3
+        self.dt = 600.00/3600.00
 
         if self.type == 'offshore':
             self.a = 0.779
@@ -77,20 +77,19 @@ class WindRandomizer(ModelConstructor):
 
         fraction = self.sigmoid(self.s)
 
-        self.set_states({'s': self.s, 'ds': self.ds, 'dds': self.dds})
-        self.set_outputs({'fraction': fraction})
+        self.set_states({'s': self.s, 'ds': self.ds, 'dds': self.dds, 'fraction': fraction})
+        self.set_outputs({'fraction_out': fraction})
 
         # return the time of the next step (time until current information is valid)
         return time + self._model.time_step_size
     
 
 
-    def sigmoid(g):
-        return 1 / (1 + np.exp(-g))
+    def sigmoid(self, g):
+        return 1 / (1 + np.exp(-g/self.fac))
     
 
     def dUds(self, g):
-        s = self.sigmoid(g)
-        s = np.clip(s, self.infinitesimal, 1 - self.infinitesimal)
-        return (self.distrAlpha/s - self.distrBeta/(1-s)) * s * (1-s)
+        result = (self.distrAlpha - self.distrBeta * np.exp(g/self.fac)) / (self.fac * (np.exp(g/self.fac) + 1))
+        return result
 

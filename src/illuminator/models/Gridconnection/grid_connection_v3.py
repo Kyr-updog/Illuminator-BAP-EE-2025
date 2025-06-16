@@ -74,15 +74,16 @@ class GridConnection(ModelConstructor):
 
         input_data = self.unpack_inputs(inputs)
         self.time = time
-
+        """
         if input_data['dump'] is not None:
             dump = input_data.get('dump', 0)
         else:
-            dump = input_data['dump_dict'][self.name]
+        """
+        dump = input_data['dump_dict'][self.name]
 
         results = self.check_limits(dump=dump)
         
-        self.set_states(results)
+        #self.set_states(results)
         self.set_outputs({'dump': dump})
 
         return time + self._model.time_step_size

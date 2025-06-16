@@ -50,10 +50,12 @@ class PV(ModelConstructor):
         'output_type': 'power',
         'sim_start': 0,
         'input_type': 'percentage', # 'irradiation' or 'percentage' 
-        'name': 'PV1'
+        'name': 'PV1',
+        'par1': 0,
+        'par2': 0
         }
     inputs={
-        "G_Gh": 0,  # Global Horizontal Irradiance (GHI) in W/m², representing the total solar radiation received on a horizontal surface.
+        'G_Gh': 0,  # Global Horizontal Irradiance (GHI) in W/m², representing the total solar radiation received on a horizontal surface.
         "G_Dh": 0,  # Diffuse Horizontal Irradiance (DHI) in W/m², representing the solar radiation received from the sky, excluding the solar disk.
         "G_Bn": 0,  # Direct Normal Irradiance (DNI) in W/m², representing the solar radiation received directly from the sun on a surface perpendicular to the sun’s rays.
         "Ta": 0,  # Ambient temperature (°C) of the environment surrounding the PV panels.
@@ -63,7 +65,7 @@ class PV(ModelConstructor):
         "capacity_percentage": 0
         }
     outputs={
-        "pv_gen": 0,  # Generated PV power output (kW) or energy (kWh) based on the chosen output type (power or energy).
+        "pv_gen_out": 0,  # Generated PV power output (kW) or energy (kWh) based on the chosen output type (power or energy).
         "total_irr": 0,  # Total irradiance (W/m²) received on the PV module, considering direct, diffuse, and reflected components.
         "g_aoi": 0  # Total irradiance (W/m²) accounting for angle of incidence, diffuse, and reflected irradiance.
         }
@@ -71,10 +73,7 @@ class PV(ModelConstructor):
     time_step_size=1
     time=None
 
-    par1 = 0.9689748840268101 
-    par2 = 0.2620779777422495
 
-    laplaceMax = laplace.pdf(0, scale=par2)
 
     def __init__(self, **kwargs) -> None:
         """
@@ -98,6 +97,8 @@ class PV(ModelConstructor):
         self.sim_start = self._model.parameters.get('sim_start')
         self.input_type = self._model.parameters.get('input_type')
         self.name = self._model.parameters.get('name')
+        self.par1 = self._model.parameters.get('par1')
+        self.par2 = self._model.parameters.get('par2')
         self.G_Gh = 0
         self.G_Dh = 0
         self.G_Bn = 0
@@ -108,6 +109,8 @@ class PV(ModelConstructor):
         self.sun_az = 0
         self.svf = 0
         self.g_aoi = 0
+
+        self.laplaceMax = laplace.pdf(0, scale=self.par2)
 
 
     def step(self, time: int, inputs:dict=None, max_advance:int=900) -> None:
@@ -129,6 +132,7 @@ class PV(ModelConstructor):
         """
         
         input_data = self.unpack_inputs(inputs)
+        """
         self.G_Gh = input_data['G_Gh']
         self.G_Dh = input_data['G_Dh']
         self.G_Bn = input_data['G_Bn']
@@ -136,6 +140,7 @@ class PV(ModelConstructor):
         self.hs = input_data['hs']
         self.FF = input_data['FF']
         self.Az = input_data['Az']
+        """
         self.capacity_percentage = input_data['capacity_percentage']
 
         cap_percentage = self.addNoiseLaplace(self.capacity_percentage)
@@ -146,7 +151,7 @@ class PV(ModelConstructor):
             pv_gen = cap_percentage * self.cap
             results = {'pv_gen': pv_gen}
 
-        self.set_outputs({'pv_gen': results['pv_gen']})
+        self.set_outputs({'pv_gen_out': results['pv_gen']})
         self.set_states({'pv_gen': {self.name: results['pv_gen']}})
 
 

@@ -13,7 +13,7 @@ class Nuclear(ModelConstructor):
                 'name': 'Nuclear1'
                 }
     inputs={}
-    outputs={'gen_pow': 0,              # Generated power output (kW) or energy (kWh) based on the chosen output type (power or energy).
+    outputs={'gen_pow_out': 0,              # Generated power output (kW) or energy (kWh) based on the chosen output type (power or energy).
              'llw_ilw': 0,       # Amount of waste (kg) for that time step.
              'hlw': 0,
              'fuel_burned': 0           # Amount of fuel (kg) used for that time step.
@@ -37,7 +37,7 @@ class Nuclear(ModelConstructor):
         self.fuel_type = self.parameters['fuel_type']
         self.efficiency = self.parameters['efficiency']
         self.NRG_density = self.parameters['NRG_density']
-        self.llw_ilw = self.parameters['llw-ilw']
+        self.llw_ilw = self.parameters['llw_ilw']
         self.hlw = self.parameters['hlw']
         self.rated_pow = self.parameters['rated_pow']
         self.output_type = self.parameters['output_type']
@@ -63,7 +63,7 @@ class Nuclear(ModelConstructor):
 
         llw_ilw = self.llw_ilw * energy
         hlw = self.hlw * energy
-        results = {'gen_pow': self.rated_pow, 'llw_ilw': llw_ilw, 'hlw': hlw}
+        results = {'gen_pow_out': self.rated_pow, 'llw_ilw': llw_ilw, 'hlw': hlw}
         
 
         self.set_outputs(results)

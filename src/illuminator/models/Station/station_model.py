@@ -48,7 +48,7 @@ class Station(ModelConstructor):
         input_data = self.unpack_inputs(inputs)  # make input data easily accessible
         self.time = time
 
-        cp_powers = input_data['cp_power']
+        cp_powers = input_data['cp_powers']
         tl_powers = input_data['tl_powers']
 
         results = self.routing(cp_powers, tl_powers)

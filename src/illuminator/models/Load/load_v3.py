@@ -21,10 +21,10 @@ class Load(ModelConstructor):
                 'output_type': 'power',  # type of output for consumption calculation ('energy' or 'power')
                 'input_type': 'total', # 'per_house' or 'total'
                 'name': 'Load1',
-                'total': 500
+                'total': 5.00
                 }
     inputs={'load': 0}  # incoming energy or power demand per house kW
-    outputs={'load_dem': 0,  # total energy or power consumption for all houses (kWh) over the time step
+    outputs={'load_dem_out': 0,  # total energy or power consumption for all houses (kWh) over the time step
              'consumption': 0  # Current energy or power consumption based on the number of houses and input load (kWh)
              }
     states={'time': None,
@@ -81,17 +81,17 @@ class Load(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        load_in = input_data.get('load', 0)
+        load_in = 0.9616 * input_data.get('load', 0)
 
-        load_in = self.addNoiseLaplace(load_in)
+        load_out = load_in * self.total
 
         if self.input_type == 'per_house':
             results = self.demand(load=load_in)
         else:
-            results = {'load_dem': -load_in * self.total}
+            results = {'load_dem_out': -load_out}
 
-        self.set_outputs(results)
-        self.set_states({'load_dem': {self.name: results['load_dem']}})
+        #self.set_outputs(results)
+        self.set_states({'load_dem': {self.name: results['load_dem_out']}})
 
         return time + self._model.time_step_size
     
