@@ -67,7 +67,7 @@ def write_topology(connected_pair_array, key, filename, write_file):
             topology_list.append({'from': from_model, 'to': to_model, 'line_id': line_id})
     return topology_list
 
-def read_and_copy_yaml_data_plus_add_data_to_new_file(filename,write_file,LED_portmap, topology):
+def write_scenario_LEDs_and_connections(filename,write_file,LED_portmap, topology):
     with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
     with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
@@ -104,4 +104,4 @@ if __name__ == "__main__":
     print(connected_pair_array)
     topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'simulation_file')
     print (topology)
-    read_and_copy_yaml_data_plus_add_data_to_new_file('simulation_file', 'simulation_file', LED_portmap)
+    write_scenario_LEDs_and_connections('simulation_file', 'simulation_file', LED_portmap)
