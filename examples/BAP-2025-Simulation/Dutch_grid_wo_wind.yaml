@@ -1,0 +1,248 @@
+scenario:
+  name: "Pandalyzer test" # in mosaik so called world
+  start_time: '2025-04-15 00:00:00' # ISO 8601 start time of the simulation
+  end_time: '2025-04-15 01:15:00' # duration in seconds 
+  time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
+
+models:
+- name: PandaController1
+  type: PandaController
+  parameters:
+    peripherals: {}
+    stations: {}                 
+    ps_connections: {}
+    ss_connections: {}
+    lines_file_path: line_specs.csv
+  inputs:
+    ncp_powers: {}
+  states:
+    cp_powers: {}
+    tl_powers: {}
+    one_l_congestion: 0
+    max_congested: null
+    max_congested_all: 0
+    independence: 0
+    execution_time: 0
+    incoming: 0
+    outgoing: 0
+
+- name: CSV_Load
+  type: CSV
+  parameters:
+    file_path: 'test_load.csv'
+    delimiter: ','
+    date_format: 'YYYY-MM-DD HH:mm:ss'
+  states:
+    load:
+
+- name: Load1
+  type: Load
+  parameters:
+    houses: 1
+    output_type: power
+    input_type: total
+    name: Load
+    total: 60
+  inputs:
+    load:
+  states:
+    load_dem: {}
+
+- name: Load2
+  type: Load
+  parameters:
+    houses: 1
+    output_type: power
+    input_type: total
+    name: Load
+    total: 10
+  inputs:
+    load:
+  states:
+    load_dem: {}
+
+- name: Load3
+  type: Load
+  parameters:
+    houses: 1
+    output_type: power
+    input_type: total
+    name: Load
+    total: 70
+  inputs:
+    load:
+  states:
+    load_dem: {}
+
+- name: FossilCoal1
+  type: Fossil
+  parameters:
+    fos_type: coal
+    fos_eff: 1
+    bio_eff: 1
+    fos_NRG_density: 1
+    bio_NRG_density: 1
+    fos_specific_emission: 1
+    bio_specific_emission: 1
+    rated_pow: 100
+    output_type: power
+    name: FossilCoal
+    bio_emission_rate: 68
+    coal_emission_rate: 12
+    gas_emission_rate: 421
+    bio_frac: 0.15
+    bio_waste: 68
+    coal_waste: 809
+    gas_waste: 421
+  inputs:
+    req_pow: null
+    req_pow_dict: null
+    bio_frac: null
+  outputs:
+    gen_pow: null
+    emission: null
+    fossil_fuel_burned: null
+    biomass_burned: null
+
+- name: FossilCoal2
+  type: Fossil
+  parameters:
+    fos_type: coal
+    fos_eff: 1
+    bio_eff: 1
+    fos_NRG_density: 1
+    bio_NRG_density: 1
+    fos_specific_emission: 1
+    bio_specific_emission: 1
+    rated_pow: 80
+    output_type: power
+    name: FossilCoal
+    bio_emission_rate: 68
+    coal_emission_rate: 15
+    gas_emission_rate: 421
+    bio_frac: 0.15
+    bio_waste: 68
+    coal_waste: 809
+    gas_waste: 421
+  inputs:
+    req_pow: null
+    req_pow_dict: null
+    bio_frac: null
+  outputs:
+    gen_pow: null
+    emission: null
+    fossil_fuel_burned: null
+    biomass_burned: null
+
+- name: GC1
+  type: GridConnection
+  parameters:
+    connection_capacity: 1000
+    tolerance_limit: 1
+    critical_limit: 1
+    name: GC
+  inputs:
+    dump: null
+    dump_dict: null
+  outputs:
+    dump: null
+
+- name: Station1
+  type: Station
+  parameters:
+    station_ID: Station1
+    kv: 220
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station2
+  type: Station
+  parameters:
+    station_ID: Station2
+    kv: 110
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station3
+  type: Station
+  parameters:
+    station_ID: Station3
+    kv: 110
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+- name: Station4
+  type: Station
+  parameters:
+    station_ID: Station4
+    kv: 110
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+
+connections:
+  - from: Station1.transmit
+    to: Station2.receive
+    line_id: line_1
+
+  - from: Station2.transmit
+    to: Station3.receive
+    line_id: line_2
+
+  - from: Station2.transmit
+    to: Station4.receive
+    line_id: line_3
+
+  - from: Station3.transmit
+    to: Station4.receive
+    line_id: line_4
+
+  - from: Station1.cp_powers
+    to: GC1.dump_dict
+
+  - from: Station3.cp_powers
+    to: FossilCoal1.req_pow_dict
+
+  - from: Station4.cp_powers
+    to: FossilCoal2.req_pow_dict
+
+  - from: Load1.load_dem
+    to: Station2.ncp_powers
+
+  - from: Load2.load_dem
+    to: Station3.ncp_powers
+
+  - from: Load3.load_dem
+    to: Station4.ncp_powers
+
+  - from: CSV_Load.load
+    to: Load1.load
+
+  - from: CSV_Load.load
+    to: Load2.load
+
+  - from: CSV_Load.load
+    to: Load3.load
+
+monitor:
+  file: './test_out_test.csv'
+  items:
+  - GC1.dump
+  - FossilCoal1.gen_pow
+  - FossilCoal2.gen_pow
+  

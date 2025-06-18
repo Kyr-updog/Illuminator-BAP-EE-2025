@@ -20,10 +20,12 @@ class GridConnection(ModelConstructor):
 
     parameters={'connection_capacity': None,  #
                 'tolerance_limit': None,  #
-                'critical_limit': None
+                'critical_limit': None,
+                'name': 'GC1'
                 }
-    inputs={'dump': 0}  #
-    outputs={}
+    inputs={'dump': None,
+            'dump_dict': {}}  #
+    outputs={'dump': 0}
     states={'flag_critical': None,
             'flag_warning': None
             }
@@ -48,6 +50,7 @@ class GridConnection(ModelConstructor):
         self.connection_capacity = self.parameters['connection_capacity']
         self.tolerance_limit = self.parameters['tolerance_limit']
         self.critical_limit = self.parameters['critical_limit']
+        self.name = self.parameters['name']
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
@@ -71,10 +74,17 @@ class GridConnection(ModelConstructor):
 
         input_data = self.unpack_inputs(inputs)
         self.time = time
+        """
+        if input_data['dump'] is not None:
+            dump = input_data.get('dump', 0)
+        else:
+        """
+        dump = input_data['dump_dict'][self.name]
 
-        dump = input_data.get('dump', 0)
         results = self.check_limits(dump=dump)
-        self.set_states(results)
+        
+        #self.set_states(results)
+        self.set_outputs({'dump': dump})
 
         return time + self._model.time_step_size
 

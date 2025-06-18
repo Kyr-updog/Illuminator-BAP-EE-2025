@@ -228,10 +228,10 @@ connections:
 
 - from: Controller1.dump
   to: Grid1.dump
+  time_shifted: True
 
 - from: Grid1.flag_warning
   to: Controller1.flag_warning
-  time_shifted: True
 
 monitor:
   file: './out_Tutorial_bat_elec_assets_load_shift.csv'
