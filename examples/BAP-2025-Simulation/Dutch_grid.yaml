@@ -5,7 +5,7 @@ scenario:
   time_resolution: 600 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
 models:
-- name: Pandacontroller1
+- name: PandaController1
   type: PandaController
   parameters:
     peripherals: {}
@@ -23,6 +23,8 @@ models:
     max_congested_all: 0
     independence: 0
     execution_time: 0
+    incoming: 0
+    outgoing: 0
 
 - name: CSV_PV
   type: CSV
@@ -988,20 +990,7 @@ models:
 - name: GC1
   type: GridConnection
   parameters:
-    connection_capacity: 700
-    tolerance_limit: 1
-    critical_limit: 1
-    name: GC
-  inputs:
-    dump: null
-    dump_dict: null
-  outputs:
-    dump: null
-
-- name: GC2
-  type: GridConnection
-  parameters:
-    connection_capacity: 700
+    connection_capacity: 1400
     tolerance_limit: 1
     critical_limit: 1
     name: GC
@@ -1079,33 +1068,7 @@ models:
 - name: GC8
   type: GridConnection
   parameters:
-    connection_capacity: 2185
-    tolerance_limit: 1
-    critical_limit: 1
-    name: GC
-  inputs:
-    dump: null
-    dump_dict: null
-  outputs:
-    dump: null
-
-- name: GC9
-  type: GridConnection
-  parameters:
-    connection_capacity: 1092.5
-    tolerance_limit: 1
-    critical_limit: 1
-    name: GC
-  inputs:
-    dump: null
-    dump_dict: null
-  outputs:
-    dump: null
-
-- name: GC10
-  type: GridConnection
-  parameters:
-    connection_capacity: 1092.5
+    connection_capacity: 4370
     tolerance_limit: 1
     critical_limit: 1
     name: GC
@@ -2609,9 +2572,6 @@ connections:
 - from: Station1.cp_powers
   to: GC1.dump_dict
 
-- from: Station1.cp_powers
-  to: GC2.dump_dict
-
 - from: Station3.cp_powers
   to: GC3.dump_dict
 
@@ -2629,12 +2589,6 @@ connections:
 
 - from: Station26.cp_powers
   to: GC8.dump_dict
-
-- from: Station26.cp_powers
-  to: GC9.dump_dict
-
-- from: Station26.cp_powers
-  to: GC10.dump_dict
 
 - from: Station1.cp_powers
   to: FossilCoal1.req_pow_dict
@@ -2845,17 +2799,7 @@ connections:
 monitor:
   file: './out.csv'
   items:
-  - CSV_PV.utilization
-  - CSV_Load.load
-  - WRandomizer_offshore.fraction
-  - WRandomizer_onshore.fraction
-  - GC1.dump
-  - GC2.dump
-  - GC3.dump
-  - GC4.dump
-  - GC5.dump
-  - GC6.dump
-  - GC7.dump
-  - GC8.dump
-  - GC9.dump
-  - GC10.dump
+  - PV1.pv_gen_out
+  - PandaController1.incoming
+  - FossilCoal1.gen_pow
+  - PandaController1.outgoing

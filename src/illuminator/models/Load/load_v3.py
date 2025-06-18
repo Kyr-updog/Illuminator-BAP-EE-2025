@@ -81,7 +81,8 @@ class Load(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        load_in = 0.9616 * input_data.get('load', 0)
+        load_in = input_data.get('load', 0)
+        #load_in = 0.9616 * input_data.get('load', 0)
 
         load_out = load_in * self.total
 

@@ -2,7 +2,6 @@ from illuminator.builder import ModelConstructor
 import pandapower as pp
 import pandas as pd
 import time as tee
-
 import numpy as np
 import pandapower as pp
 import pandapower.networks as nw
@@ -28,7 +27,9 @@ class PandaController(ModelConstructor):
             'max_congested': None,
             'max_congested_all': 0,
             'independence': 0,
-            'execution_time': 0
+            'execution_time': 0,
+            'incoming': 0,
+            'outgoing': 0
             }
     
     # define other attributes
@@ -71,9 +72,9 @@ class PandaController(ModelConstructor):
             if line['tf'].iloc[0] == 0:
                 from_bus = pp.get_element_index(self.net, 'bus', connection[0])
                 to_bus = pp.get_element_index(self.net, 'bus', connection[1])
-                print('check')
-                pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
-                                           r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100)
+                pp.create_line(self.net, from_bus, to_bus, length_km=line['length_km'], std_type='149-AL1/24-ST1A 110.0', max_loading_percent=50, name=line_id)
+                #pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
+                                           #r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100)
             else:
                 kvs = {}
                 kvs[connection[0]] = self.stations[connection[0]]
@@ -89,10 +90,10 @@ class PandaController(ModelConstructor):
                 X_ohm = line['length_km'] * line['X_per_km']
                 vk = X_ohm * 1000*max_i_ka
                 vk_percent = 100 * vk/(1000*line['prim_kv_rating'])
-                print('check')
-                pp.create_transformer_from_parameters(self.net, hv_bus, lv_bus, sn_mva=line['capacity'], vn_hv_kv=kvs[high_station], vn_lv_kv=kvs[low_station], vkr_percent=0, vk_percent=vk_percent, pfe_kw=0,
-                                                      i0_percent=0, vector_group='Dyn', vk0_percent=0, vkr0_percent=0, mag0_percent=0, mag0_rx=0, si0_hv_partial=0, name=line_id, max_loading_percent=100)
-
+                pp.create_transformer(self.net, hv_bus, lv_bus, std_type="100 MVA 220/110 kV", max_loading_percent=50, name=line_id)
+                #pp.create_transformer_from_parameters(self.net, hv_bus, lv_bus, sn_mva=line['capacity'], vn_hv_kv=kvs[high_station], vn_lv_kv=kvs[low_station], vkr_percent=0, vk_percent=vk_percent, pfe_kw=0,
+                                                     #i0_percent=0, vector_group='Dyn', vk0_percent=0, vkr0_percent=0, mag0_percent=0, mag0_rx=0, si0_hv_partial=0, name=line_id, max_loading_percent=100)
+        #self.net.line.to_csv('lines.csv')
         # Peripherals
         ncps = ['PV', 'Wind', 'Load'] # Excluding nuclear, because that one gets special treatment
         for name, specs in self.peripherals.items():
@@ -102,7 +103,7 @@ class PandaController(ModelConstructor):
             elif specs['type'] == 'Nuclear':
                 pp.create_load(self.net, bus_index, p_mw=specs['rated_pow'], controllable=False, name=name)
             elif specs['type'] == 'Fossil':
-                fossil = pp.create_gen(self.net, bus_index, p_mw=10, min_p_mw=0, max_p_mw=specs['rated_pow'], controllable=True, name=name)
+                fossil = pp.create_gen(self.net, bus_index, p_mw=10, min_p_mw=0, max_p_mw=specs['rated_pow'], vm_pu=1.0, controllable=True, name=name)
                 if specs['fos_type'] == 'coal':
                     pp.create_poly_cost(self.net, fossil, 'gen', cp1_eur_per_mw=specs['coal_emission_rate'])
                 elif specs['fos_type'] == 'gas':
@@ -111,17 +112,20 @@ class PandaController(ModelConstructor):
                     pp.create_poly_cost(self.net, fossil, 'gen', cp1_eur_per_mw=specs['bio_emission_rate'])
             elif specs['type'] == 'GridConnection':
                 power_limit = specs['connection_capacity']
+                
                 connection = pp.create_ext_grid(self.net, bus_index, min_p_mw=-power_limit, max_p_mw=power_limit, name=name)
-                pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,0],[0,100000,10000]])
+                #pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,0],[0,100000,10000]])
+                pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=10)
+                
             elif specs['type'] == 'Battery':
                 power_limit = specs['max_p']
                 battery = pp.create_storage(self.net, bus_index, p_mw=10, max_e_mwh=specs['max_energy'], soc_percent=specs['init_soc'], min_p_mw=-power_limit, max_p_mw=power_limit, controllable=True, in_service=True, name=name) # Update Battery_v3.py!!!!!!!!!!!!!!!!!
                 pp.create_poly_cost(self.net, battery, 'storage', cp1_eur_per_mw=0)
             else:
                 pass
-
-            self.max_congested = ['None', -1]
-
+        #self.net.gen.to_csv('gens.csv')
+        self.max_congested = ['None', -1]
+        """
         plot.create_generic_coordinates(self.net, respect_switches=False)
         sizes = plot.get_collection_sizes(self.net)
         bc = plot.create_bus_collection(self.net, self.net.bus.index, size=sizes['bus'], color='b', zorder=10)
@@ -130,6 +134,7 @@ class PandaController(ModelConstructor):
         sc = plot.create_bus_collection(self.net, self.net.ext_grid.bus.values, patch_type="rect", size=sizes['ext_grid'], color="y", zorder=11)
         plot.draw_collections([lcd, bc, tlc, tpc, sc], figsize=(8,6))
         plt.savefig('network.png')
+        """
 
     # define step function
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:  # step function always needs arguments self, time, inputs and max_advance. Max_advance needs an initial value.
@@ -173,9 +178,9 @@ class PandaController(ModelConstructor):
             name = list(element.keys())[0]
             if self.peripherals[name]['type'] != 'Nuclear':
                 ncp_index = pp.get_element_index(self.net, 'load', name)
-                self.net.load.at[ncp_index, 'pm_w'] = -element[name]
-                if name == 'PV1' or name == 'Load1' or name == 'WindOff1':
-                    print(name + " " + str(self.net.load.at[ncp_index, 'pm_w']))
+                self.net.load.at[ncp_index, 'p_mw'] = -element[name]
+                if name == 'PV1':
+                    incoming = self.net.load.at[ncp_index, 'p_mw']
                 if self.peripherals[name]['type'] == 'Load':
                     total_load += -element[name]
                 total_power += element[name]
@@ -192,16 +197,20 @@ class PandaController(ModelConstructor):
         for name, specs in self.peripherals.items():
             if specs['type'] == 'Fossil':
                 fos_index = pp.get_element_index(self.net, 'gen', name)
-                fos_results = self.net.res_gen.iloc[fos_index]
-                cp_powers.setdefault(specs['station'], {})[name] = fos_results['p_mw']
-                generator_outputs.append(fos_results['p_mw'])
-                total_power += fos_results['p_mw']
+                fos_results = self.net.res_gen.at[fos_index, 'p_mw']
+                if name == 'FossilCoal1':
+                    outgoing = fos_results
+                cp_powers.setdefault(specs['station'], {})[name] = fos_results
+                generator_outputs.append(fos_results)
+                total_power += fos_results
             elif specs['type'] == 'GridConnection':
+                
                 grid_index = pp.get_element_index(self.net, 'ext_grid', name)
-                grid_results = self.net.res_ext_grid.iloc[grid_index]
-                cp_powers.setdefault(specs['station'], {})[name] = grid_results['p_mw']
-                total_supply_from_grid += grid_results['p_mw']
-                total_power += grid_results['p_mw']
+                grid_results = self.net.res_ext_grid.at[grid_index, 'p_mw']
+                cp_powers.setdefault(specs['station'], {})[name] = grid_results
+                total_supply_from_grid += grid_results
+                total_power += grid_results
+                
             elif specs['type'] == 'Battery': # Manually adjust SoC
                 bat_index = pp.get_element_index(self.net, 'storage', name)
                 bat_results = self.net.res_storage.iloc[bat_index]
@@ -209,13 +218,12 @@ class PandaController(ModelConstructor):
             else:
                 pass
 
-        print('total power: ', total_power)
+        
 
         for station in self.stations.keys():
             cp_powers.setdefault(station, {})['key'] = 'value'
 
         independence = total_supply_from_grid/total_load
-
         int_max_congested = ['None', -1]
 
         for line_id, connection in self.ss_connections.items():
@@ -240,8 +248,6 @@ class PandaController(ModelConstructor):
                 one_l_congestion = congestion
             if congestion > int_max_congested[1]:
                 int_max_congested = [line_id, congestion]
-            
-        print(int_max_congested)
 
         for station in self.stations.keys():
             tl_powers.setdefault(station, {})['key'] = 'value'
@@ -250,7 +256,15 @@ class PandaController(ModelConstructor):
         if max_all > self.max_congested[1]:
             self.max_congested = int_max_congested
 
-        re_params = {'cp_powers': cp_powers, 'tl_powers': tl_powers, 'one_l_congestion': one_l_congestion, 'max_congested': self.max_congested[0], 'max_congested_all': max_all, 'independence': independence} # Also battery SoC
+        self.net.load.to_csv('res_load.csv')
+        self.net.res_line.to_csv('res_line.csv')
+        self.net.res_bus.to_csv('res_bus.csv')
+        self.net.res_trafo.to_csv('res_trafo.csv')
+        self.net.res_gen.to_csv('res_gen.csv')
+        with open("res_cost.txt", "w") as text_file:
+            text_file.write("Cost: %s" % int(self.net.res_cost))
+
+        re_params = {'cp_powers': cp_powers, 'tl_powers': tl_powers, 'one_l_congestion': one_l_congestion, 'max_congested': self.max_congested[0], 'max_congested_all': max_all, 'independence': independence, 'incoming': 0, 'outgoing': outgoing} # Also battery SoC
 
         return re_params
 
