@@ -3,6 +3,12 @@ scenario:
   start_time: '2012-01-01 00:00:00' # ISO 8601 start time of the simulation
   end_time: '2012-01-01 01:00:00' # duration in seconds 
   time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
+  
+monitor:
+  file: './out_test2.csv' # optional with default, path to the results file for the scenario. This should be optional  # a list of models, its inputs, output and states to be monitored and logged
+  items:
+  - PV.pv_gen
+  - PV.G_Dh
 models: # list of models for the energy network
 - name: CSVB # name for the model (must be unique)
   type: CSV # name of the model registered in the Illuminator
@@ -36,8 +42,3 @@ connections:
   to: PV.FF
 - from: CSVB.Az
   to: PV.Az
-monitor:
-  file: './out_test2.csv' # optional with default, path to the results file for the scenario. This should be optional  # a list of models, its inputs, output and states to be monitored and logged
-  items:
-  - PV.pv_gen
-  - PV.G_Dh

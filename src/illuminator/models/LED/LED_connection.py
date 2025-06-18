@@ -1,8 +1,9 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 import serial
-import time
+import time as t
 from numpy import ceil
+from illuminator.models.LED.LED_strip_controller import sendPixelData
 
 
 
@@ -24,6 +25,7 @@ class LED_connection(ModelConstructor):
     parameters={'min_speed': 0,  # minimum speed for the connection
                 'max_speed': 0.5,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
+                'port': None
                 }
     inputs={'speed': 0}  # speed for the connection
     outputs={
@@ -51,8 +53,8 @@ class LED_connection(ModelConstructor):
         self.min_speed = self.parameters.get('min_speed')
         self.max_speed = self.parameters.get('max_speed')
         self.direction = self.parameters.get('direction')
+        self.port = self.parameters.get('port')
         return result
-
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
         """
@@ -90,15 +92,16 @@ class LED_connection(ModelConstructor):
         else:
             speed = ((speed - self.min_speed) / (self.max_speed - self.min_speed)) * 100
 
-        self.send_led_animation(speed, direction)
+        #self.send_led_animation(speed, direction)
         # self.set_outputs(results)
+        t.sleep(1)
 
         return time + self._model.time_step_size
     
 
     def send_led_animation(self, speed, direction) -> None:
-        device = '/dev/ttyACM0'
-        ser = serial.Serial(device, timeout=5)
+        device = self.port
+        ser = serial.Serial(device, timeout=1)
         line = ''
 
         if ser.in_waiting > 0:
@@ -106,19 +109,16 @@ class LED_connection(ModelConstructor):
             print(line)
         
         if speed == 0:
-            colour = 'g'
+            colour = [0,255,0]
             delay = 0
         else:
-            delay = max(0, min(4, ceil(4 * speed/100)))  # Maps 0-100% to 0-4, with bounds checking
+            delay = max(0, min(255, ceil(255 * speed/100)))  # Maps 0-100% to 0-255, with bounds checking
             delay = round(delay)
 
-            if delay >= 4:
-                colour = 'r'
-            else:
-                colour = 'g'
+            colour = [255-delay, delay, 0]
 
-        print(f"speed: {speed}%, Sending {delay}{colour}1")
-        ser.write(f"{delay}{colour}{direction}\n".encode('utf-8'))
+        print(f"speed: {speed}%, Sending {delay}{colour}")
+        sendPixelData(ser, int(delay), True, colour[0], colour[1], colour[2])
         time.sleep(3)
 
         return

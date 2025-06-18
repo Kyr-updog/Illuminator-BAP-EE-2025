@@ -1,0 +1,165 @@
+scenario:
+  name: Tutorial cluster
+  start_time: '2012-06-21 07:45:00'
+  end_time: '2012-06-21 18:00:00'
+  time_resolution: 900
+monitor:
+  file: ./out_Tutorial_cluster.csv
+  items:
+  - Controller1.flow2bState
+models:
+- name: USBdetector1
+  type: USBdetector
+  connect:
+    ip: 127.0.0.1
+    port: 2003
+  parameters:
+    start: true
+  states:
+    USBchange: null
+- name: USBtrigger1
+  type: USBtrigger
+  inputs:
+    USBchange: false
+- name: CSVload
+  type: CSV
+  parameters:
+    file_path: ./examples/Tutorial1/load_data.txt
+    delimiter: ','
+    date_format: YYYY-MM-DD HH:mm:ss
+  states:
+    load: null
+- name: Load1
+  type: Load
+  parameters:
+    houses: 7
+    output_type: power
+  inputs:
+    load: 0
+  outputs:
+    load_dem: null
+    consumption: null
+- name: CSV_pv
+  type: CSV
+  parameters:
+    file_path: ./examples/Cluster/pv_summer-15min.txt
+    delimiter: ','
+    date_format: YYYY-MM-DD HH:mm:ss
+- name: PV1
+  type: PV
+  parameters:
+    m_area: 1.26
+    NOCT: 44
+    m_efficiency_stc: 0.198
+    G_NOCT: 800
+    P_STC: 250
+    peak_power: 600
+    m_tilt: 14
+    m_az: 180
+    cap: 500
+    output_type: power
+  inputs:
+    G_Gh: null
+    G_Dh: null
+    G_Bn: null
+    Ta: null
+    hs: null
+    FF: null
+    Az: null
+  outputs:
+    pv_gen: null
+    g_aoi: null
+  states:
+    pv_genState: 0
+- name: PV_LED
+  type: LED_connection
+  connect:
+    ip: 127.0.0.1
+    port: 5678
+  parameters:
+    min_speed: 0
+    max_speed: 0.6
+    direction: 1
+    port: /dev/ttyACM0
+  inputs:
+    speed: 5
+- name: CSV_wind
+  type: CSV
+  parameters:
+    file_path: ./examples/Cluster/wind-15min.txt
+    delimiter: ','
+    date_format: YYYY-MM-DD HH:mm:ss
+- name: Wind1
+  type: Wind
+  parameters:
+    p_rated: 0.3
+    u_rated: 10.3
+    u_cutin: 2.8
+    u_cutout: 25
+    cp: 0.4
+    diameter: 2
+    output_type: power
+  inputs:
+    u: 0
+  outputs:
+    wind_gen: null
+    u: null
+  states:
+    wind_genState: 0
+    u60: 0
+- name: TopologyMaker1
+  type: TopologyMaker
+  parameters:
+    filename: examples/Cluster/Tutorial_cluster
+  inputs:
+    config: {}
+- name: IDrequester1
+  type: IDrequester
+  parameters:
+    deviceID: 1
+  states:
+    stripList: {}
+- name: IDrequester2
+  type: IDrequester
+  parameters:
+    deviceID: 2
+  states:
+    stripList: {}
+- name: Battery1
+  type: Battery
+  parameters:
+    max_p: 0.8
+    min_p: -0.8
+    max_energy: 0.8
+    charge_efficiency: 90
+    discharge_efficiency: 90
+    soc_min: 10
+    soc_max: 90
+  inputs:
+    flow2b: 0
+  outputs:
+    p_out: 0
+    p_in: 0
+  states:
+    mod: 0
+    soc: 10
+    flag: 0
+- name: Controller1
+  type: Controller_T1
+  parameters:
+    soc_min: 10
+    soc_max: 90
+    max_p: 0.8
+    battery_active: true
+  inputs:
+    wind_gen: 0
+    pv_gen: 0
+    load_dem: 0
+    soc: 0
+    load_EV: 0
+  outputs:
+    flow2b: null
+    res_load: null
+    dump: null
+  states:
+    flow2bState: 0

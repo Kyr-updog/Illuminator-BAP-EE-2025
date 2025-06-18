@@ -464,10 +464,10 @@ class Simulation:
         _results_file = config['monitor']['file']
 
         # Initialize the Mosaik worlds
-        world = create_world(sim_config, time_resolution=_time_resolution, start_time=_start_time)
+        self.world = create_world(sim_config, time_resolution=_time_resolution, start_time=_start_time)
         # TODO: collectors are also customisable simulators, define in the same way as models.
         # A way to define custom collectors should be provided by the Illuminator.
-        collector = world.start('Collector', 
+        collector = self.world.start('Collector', 
                                 time_resolution=_time_resolution, 
                                 start_date=_start_time,  
                                 results_show={'write2csv':True, 'dashboard_show':False, 
@@ -478,13 +478,13 @@ class Simulation:
         monitor = collector.Monitor()
 
         # Dictionary to keep track of created model entities
-        model_entities = start_simulators(world, config['models'])
+        model_entities = start_simulators(self.world, config['models'])
 
         # Connect the models based on the connections specified in the configuration
-        world = build_connections(world, model_entities, connections=config['connections'], models=config['models'])
+        self.world = build_connections(self.world, model_entities, connections=config['connections'], models=config['models'])
 
         # Connect monitor
-        world = connect_monitor(world, model_entities, monitor, config['monitor'])
+        self.world = connect_monitor(self.world, model_entities, monitor, config['monitor'])
         
         # Run the simulation until the specified end time
         mosaik_end_time =  compute_mosaik_end_time(_start_time,
@@ -492,12 +492,16 @@ class Simulation:
                                                 _time_resolution
                                             )
 
-        world.run(until=mosaik_end_time)
+        self.world.run(until=mosaik_end_time)
+        
 
     @property
     def config(self)-> dict:
         """Returns the configuration file for the simulation."""
         return self.config_file
+    
+    def shutdown(self):
+        self.world.shutdown()
     
     def set_scenario_param(self, parameter: str, value)-> None:
         """
