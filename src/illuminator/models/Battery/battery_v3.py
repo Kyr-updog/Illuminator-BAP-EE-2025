@@ -1,6 +1,12 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 
+import time as timer
+import board
+import neopixel
+ 
+pixels1 = neopixel.NeoPixel(board.D18, 20, brightness=1)
+
 # Define the model parameters, inputs, outputs...
 # TODO: Currently if a value or category isn't defined in the yaml
 # # it doesn't default to the ones below, it simply doesn't run. <- check if this is still the case
@@ -127,6 +133,19 @@ class Battery(ModelConstructor):
         self.mod = results.pop('mod')
         self.set_states({'soc': self.soc, 'flag': self.flag, 'mod': self.mod}) # set the state of charge and remove it from the results at the same time
         self.set_outputs(results)
+
+        #The colours gradient progress in 20\% increments from deep red, deep orange, yellow, lime-green and green.
+        if self.soc < 21:
+                pixels1.fill((139, 0, 0))
+        elif self.soc < 41:
+                pixels1.fill((255, 40, 0))
+        elif self.soc < 61:
+                pixels1.fill((255, 200, 0))
+        elif self.soc < 81:
+                pixels1.fill((142, 255, 0))
+        else:
+                pixels1.fill((0, 255, 0))
+        timer.sleep(1)
 
         return time + self._model.time_step_size
 
