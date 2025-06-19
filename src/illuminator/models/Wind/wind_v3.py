@@ -140,9 +140,9 @@ class Wind(ModelConstructor):
             self.set_states({'wind_gen': {self.name: wind_gen}, 'wind_genState': wind_gen})
 
         if self.output_type == 'energy':
-            motor = results['wind_gen'] / self.resolution_h 
+            motor = wind_gen / self.resolution_h 
         else:
-            motor = results['wind_gen']
+            motor = wind_gen
         print (motor, self.p_rated)
 
         delay_time = (0.0007 - motor/self.p_rated*0.0007 )  + 0.001  # 1 millisecond  #0.0017
