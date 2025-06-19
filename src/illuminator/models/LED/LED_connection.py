@@ -25,9 +25,10 @@ class LED_connection(ModelConstructor):
     parameters={'min_speed': 0,  # minimum speed for the connection
                 'max_speed': 0.5,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
-                'port': None
+                'port': None,
+                'file_path': 'line_specs.csv'
                 }
-    inputs={'speed': 0}  # speed for the connection
+    inputs={'power': 0}  # speed for the connection
     outputs={
              }
     states={
@@ -54,6 +55,19 @@ class LED_connection(ModelConstructor):
         self.max_speed = self.parameters.get('max_speed')
         self.direction = self.parameters.get('direction')
         self.port = self.parameters.get('port')
+        self.file_path = self.parameters.get('file_path')
+
+        connection = serial.Serial(self.port, timeout=1)
+        self.id = 0
+        while self.id == 0:
+            self.id = int.from_bytes(connection.read(1))
+
+        df = pd.read_csv(self.file_path)
+        line = df[df['line_id'] == self.id]
+        self.line_capacity = float(line['capacity'])
+
+        self.ps_ratio = self.max_speed/self.line_capacity # Power to speed ratio
+        
         return result
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
@@ -77,7 +91,8 @@ class LED_connection(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        speed = input_data.get('speed', 0)
+        power = float(input_data['power'][f"line_{self.id}"]) # Selects the power corresponding to its own line_ID
+        speed = self.ps_ratio*power
         direction = self.direction
         print("got speed: ", speed)
 
