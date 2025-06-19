@@ -1,6 +1,14 @@
 from numpy import log, pi
 from illuminator.builder import ModelConstructor
 
+from time import sleep
+from gpiozero import OutputDevice
+ 
+A = OutputDevice(18)
+B = OutputDevice(23)
+C = OutputDevice(24)
+D = OutputDevice(25)
+
 # construct the model
 class Wind(ModelConstructor):
     """
@@ -99,6 +107,76 @@ class Wind(ModelConstructor):
 
         self.set_outputs(results)
         self.set_states({'u60': self.u60})
+
+        if self.output_type == 'energy':
+            motor = results['wind_gen'] / self.resolution_h 
+        else:
+            motor = results['wind_gen']
+        print (motor, self.p_rated)
+ 
+        delay_time = (0.0007 - motor/self.p_rated*0.0007 )  + 0.001  # 1 millisecond  #0.0017
+        print("Light Level:", motor, delay_time, self.p_rated)
+ 
+ 
+        # Driving the coils of the motor
+        def step1():
+            D.on()
+            sleep(delay_time)
+            D.off()
+ 
+        def step2():
+            D.on()
+            C.on()
+            sleep(delay_time)
+            D.off()
+            C.off()
+ 
+        def step3():
+            C.on()
+            sleep(delay_time)
+            C.off()
+ 
+        def step4():
+            B.on()
+            C.on()
+            sleep(delay_time)
+            B.off()
+            C.off()
+ 
+        def step5():
+            B.on()
+            sleep(delay_time)
+            B.off()
+ 
+        def step6():
+            A.on()
+            B.on()
+            sleep(delay_time)
+            A.off()
+            B.off()
+ 
+        def step7():
+            A.on()
+            sleep(delay_time)
+            A.off()
+ 
+        def step8():
+            D.on()
+            A.on()
+            sleep(delay_time)
+            D.off()
+            A.off()
+ 
+        # Perform one fourth of a rotation
+        for _ in range(128):
+            step1()
+            step2()
+            step3()
+            step4()
+            step5()
+            step6()
+            step7()
+            step8()        
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size

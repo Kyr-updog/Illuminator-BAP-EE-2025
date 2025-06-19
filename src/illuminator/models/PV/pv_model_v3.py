@@ -1,5 +1,10 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import numpy as np
+import time as timer
+import board
+import neopixel
+
+pixels1 = neopixel.NeoPixel(board.D18,1 , brightness=1)
 
 # construct the model
 class PV(ModelConstructor):
@@ -129,6 +134,22 @@ class PV(ModelConstructor):
         results = self.output()
 
         self.set_outputs({'pv_gen': results['pv_gen']})
+
+ 
+        light = results['pv_gen']
+        if light <= 0:
+           pixels1.fill((0, 0,0))
+        elif light < self.cap/5:
+           pixels1.fill((139, 0,0))
+        elif light < self.cap/5*2:
+           pixels1.fill((255, 140,0))
+        elif light < self.cap/5*3:
+           pixels1.fill((255, 215,0))
+        elif light < self.cap/5*4:
+           pixels1.fill((144, 238,144))             
+        else:
+           pixels1.fill((0, 100,0))
+        timer.sleep(1)        
 
         return time + self._model.time_step_size
 
