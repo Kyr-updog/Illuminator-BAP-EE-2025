@@ -1,5 +1,7 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
+import numpy as np
+from scipy.stats import laplace
 
 
 class Load(ModelConstructor):
@@ -19,16 +21,24 @@ class Load(ModelConstructor):
 
     parameters={'houses': 1,  # number of houses that determine the total load demand
                 'output_type': 'power',  # type of output for consumption calculation ('energy' or 'power')
+                'input_type': 'total',
+                'name': 'Load1',
+                'total': 5.00
                 }
     inputs={'load': 0}  # incoming energy or power demand per house kW
-    outputs={'load_dem': 0,  # total energy or power consumption for all houses (kWh) over the time step
+    outputs={'load_dem_out': 0,  # total energy or power consumption for all houses (kWh) over the time step
              'consumption': 0,  # Current energy or power consumption based on the number of houses and input load (kWh)
              }
     states={'time': None,
-            'forecast': None
+            'forecast': None,
+            'load_dem': {}
             }
     time_step_size=1
     time=None
+
+    par1 = 1.003 
+    par2 = 0.189
+    laplaceMax = laplace.pdf(0, scale=par2)
 
 
     def init(self, *args, **kwargs) -> None:
@@ -46,6 +56,9 @@ class Load(ModelConstructor):
         """
         result = super().init(*args, **kwargs)
         self.consumption = 0
+        self.input_type = self.parameters['input_type']
+        self.name = self.parameters['name']
+        self.total = self.parameters['total']
         print(f"initialisation houses: {self._model.parameters.get('houses')}")
         return result
 
@@ -72,8 +85,15 @@ class Load(ModelConstructor):
         self.time = time
 
         load_in = input_data.get('load', 0)
-        results = self.demand(load=load_in)
+        load_out = load_in * self.total
+
+        if self.input_type == 'per_house':
+            results = self.demand(load=load_in)
+        else:
+            results = {'load_dem_out': -load_out, 'consumption': load_out}
+
         self.set_outputs(results)
+        self.set_states({'load_dem': {self.name: results['load_dem_out']}})
 
         return time + self._model.time_step_size
 
