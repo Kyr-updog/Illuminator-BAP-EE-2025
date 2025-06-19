@@ -31,6 +31,13 @@ from .USBdetector.USBtrigger import USBtrigger
 from .IDrequester.IDrequester import IDrequester
 from .TopologyMaker.TopologyMaker import TopologyMaker
 
+from .Fossil.fossil_model import Fossil
+from .Nuclear.nuclear_model import Nuclear
+from .Controllers.controller_T3_fos_nuc import ControllerT3_fos_nuc
+from .Controllers.pandapower_controller import PandaController
+from .Station.station_model import Station
+from .Station.wind_randomizer import WindRandomizer
+
 __all__ = [ 'Adder', 
             'Collector', 
             'CSV',
@@ -50,5 +57,11 @@ __all__ = [ 'Adder',
             'USBdetector',
             'USBtrigger',
             'IDrequester',
-            'TopologyMaker'
+            'TopologyMaker',
+            'Fossil',
+            'Nuclear',
+            'ControllerT3_fos_nuc',
+            'PandaController',
+            'Station',
+            'WindRandomizer
             ]
