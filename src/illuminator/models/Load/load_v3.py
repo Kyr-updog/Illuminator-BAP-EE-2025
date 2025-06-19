@@ -2,6 +2,12 @@ from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 import numpy as np
 from scipy.stats import laplace
+import time as timer
+import board
+import neopixel
+
+pixels1 = neopixel.NeoPixel(board.D18, 9, brightness=1)
+previous_dem = 0
 
 
 class Load(ModelConstructor):
@@ -94,6 +100,43 @@ class Load(ModelConstructor):
 
         self.set_outputs(results)
         self.set_states({'load_dem': {self.name: results['load_dem_out']}})
+
+        #Green is for base unit W or Wh, yellow is for kW or kWh and red is for MW or MWhh and above. 
+        #LEDs blinking indicated load demand is increased, while constant illumination indicates constant or decreased load demand.    
+        global previous_dem
+        if results['consumption'] > 1000000:
+            if results['consumption'] > previous_dem:
+                pixels1.fill((139, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((139, 0, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((139, 0, 0))        
+        elif results['consumption'] > 1000:
+            if results['consumption'] > previous_dem:
+                pixels1.fill((255, 200, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((255, 200, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((255, 200, 0))    
+        elif results['consumption'] > 0:
+            if results['consumption'] > previous_dem:
+                pixels1.fill((0, 255, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 0, 0))
+                timer.sleep(0.3)
+                pixels1.fill((0, 255, 0))
+                timer.sleep(0.4)
+            else:
+                pixels1.fill((0, 255, 0))  
+        else:
+            pixels1.fill((0, 0, 0))
+        previous_dem = results['consumption']
 
         return time + self._model.time_step_size
 
