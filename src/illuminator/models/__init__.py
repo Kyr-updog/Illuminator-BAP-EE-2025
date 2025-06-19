@@ -63,5 +63,5 @@ __all__ = [ 'Adder',
             'ControllerT3_fos_nuc',
             'PandaController',
             'Station',
-            'WindRandomizer
+            'WindRandomizer'
             ]
