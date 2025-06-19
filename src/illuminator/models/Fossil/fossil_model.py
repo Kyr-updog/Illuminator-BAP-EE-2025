@@ -1,5 +1,11 @@
 from illuminator.builder import ModelConstructor
 
+import RPi.GPIO as GPIO
+import time as timer
+ 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(23,GPIO.OUT)
+
 # construct the model
 class Fossil(ModelConstructor):
     # Define the model parameters, inputs, outputs, and states
@@ -102,6 +108,12 @@ class Fossil(ModelConstructor):
 
         results = {'gen_pow': req_pow, 'emission': emission}
         self.set_outputs(results)
+
+        if results['emission'] > 0:
+            GPIO.output(23, GPIO.HIGH)
+        else:
+            GPIO.output(23, GPIO.LOW)
+        timer.sleep(1)        
 
         # return the time of the next step (time until current information is valid)
         return time + self._model.time_step_size
