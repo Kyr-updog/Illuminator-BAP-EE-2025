@@ -68,13 +68,13 @@ class PandaController(ModelConstructor):
             text, id = line_id.split('_')
             id = int(id)
             line = self.lines_df[self.lines_df['line_id'] == id]
-            max_i_ka = line['capacity'] # Capacity in MW
+            max_i_ka = line['capacity'] # Capacity 
             if line['tf'].iloc[0] == 0:
                 from_bus = pp.get_element_index(self.net, 'bus', connection[0])
                 to_bus = pp.get_element_index(self.net, 'bus', connection[1])
-                pp.create_line(self.net, from_bus, to_bus, length_km=line['length_km'], std_type='149-AL1/24-ST1A 110.0', max_loading_percent=50, name=line_id)
-                #pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
-                                           #r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100)
+                #pp.create_line(self.net, from_bus, to_bus, length_km=line['length_km'], std_type='149-AL1/24-ST1A 110.0', max_loading_percent=50, name=line_id)
+                pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
+                                           r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100)
             else:
                 kvs = {}
                 kvs[connection[0]] = self.stations[connection[0]]
@@ -90,9 +90,9 @@ class PandaController(ModelConstructor):
                 X_ohm = line['length_km'] * line['X_per_km']
                 vk = X_ohm * 1000*max_i_ka
                 vk_percent = 100 * vk/(1000*line['prim_kv_rating'])
-                pp.create_transformer(self.net, hv_bus, lv_bus, std_type="100 MVA 220/110 kV", max_loading_percent=50, name=line_id)
-                #pp.create_transformer_from_parameters(self.net, hv_bus, lv_bus, sn_mva=line['capacity'], vn_hv_kv=kvs[high_station], vn_lv_kv=kvs[low_station], vkr_percent=0, vk_percent=vk_percent, pfe_kw=0,
-                                                     #i0_percent=0, vector_group='Dyn', vk0_percent=0, vkr0_percent=0, mag0_percent=0, mag0_rx=0, si0_hv_partial=0, name=line_id, max_loading_percent=100)
+                #pp.create_transformer(self.net, hv_bus, lv_bus, std_type="100 MVA 220/110 kV", max_loading_percent=50, name=line_id)
+                pp.create_transformer_from_parameters(self.net, hv_bus, lv_bus, sn_mva=max_i_ka*kvs[high_station], vn_hv_kv=kvs[high_station], vn_lv_kv=kvs[low_station], vkr_percent=0, vk_percent=vk_percent, pfe_kw=0,
+                                                     i0_percent=0, vector_group='Dyn', vk0_percent=0, vkr0_percent=0, mag0_percent=0, mag0_rx=0, si0_hv_partial=0, name=line_id, max_loading_percent=100)
         #self.net.line.to_csv('lines.csv')
         # Peripherals
         ncps = ['PV', 'Wind', 'Load'] # Excluding nuclear, because that one gets special treatment

@@ -97,6 +97,9 @@ models:
     total: 0.0164
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -110,6 +113,9 @@ models:
     total: 0.0164
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -123,6 +129,9 @@ models:
     total: 0.055
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -136,6 +145,9 @@ models:
     total: 0.0622
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -149,6 +161,9 @@ models:
     total: 0.1971
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -162,6 +177,9 @@ models:
     total: 0.1654
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -175,6 +193,11 @@ models:
     total: 0.1034
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
+  states:
+    load_dem: {}
 
 - name: Load8
   type: Load
@@ -186,6 +209,9 @@ models:
     total: 0.0281
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -199,6 +225,9 @@ models:
     total: 0.0716
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -212,6 +241,9 @@ models:
     total: 0.0495
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -225,6 +257,9 @@ models:
     total: 0.0249
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -238,6 +273,9 @@ models:
     total: 0.0321
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -251,6 +289,9 @@ models:
     total: 0.005
   inputs:
     load:
+  outputs:
+    load_dem_out: 0
+    consumption: 0
   states:
     load_dem: {}
 
@@ -2800,6 +2841,4 @@ monitor:
   file: './out.csv'
   items:
   - PV1.pv_gen_out
-  - PandaController1.incoming
   - FossilCoal1.gen_pow
-  - PandaController1.outgoing

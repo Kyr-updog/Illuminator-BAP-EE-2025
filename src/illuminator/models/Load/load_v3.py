@@ -80,7 +80,7 @@ class Load(ModelConstructor):
 
         input_data = self.unpack_inputs(inputs)
         self.time = time
-
+        # laplace
         load_in = input_data.get('load', 0)
         #load_in = 0.9616 * input_data.get('load', 0)
 
@@ -89,9 +89,9 @@ class Load(ModelConstructor):
         if self.input_type == 'per_house':
             results = self.demand(load=load_in)
         else:
-            results = {'load_dem_out': -load_out}
+            results = {'load_dem_out': -load_out, 'consumption': load_out}
 
-        #self.set_outputs(results)
+        self.set_outputs(results)
         self.set_states({'load_dem': {self.name: results['load_dem_out']}})
 
         return time + self._model.time_step_size

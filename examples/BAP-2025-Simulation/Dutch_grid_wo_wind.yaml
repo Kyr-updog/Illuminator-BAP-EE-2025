@@ -12,7 +12,7 @@ models:
     stations: {}                 
     ps_connections: {}
     ss_connections: {}
-    lines_file_path: line_specs.csv
+    lines_file_path: line_specs2.csv
   inputs:
     ncp_powers: {}
   states:

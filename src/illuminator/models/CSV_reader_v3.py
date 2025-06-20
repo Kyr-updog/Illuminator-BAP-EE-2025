@@ -35,7 +35,7 @@ class CSV(ModelConstructor):
 
     parameters={'date_format': '',
                 'delimiter': ',',
-                'datafile': '',             
+                'datafile': ''            
                 }
     inputs={}
     outputs={'next_row': ''}
