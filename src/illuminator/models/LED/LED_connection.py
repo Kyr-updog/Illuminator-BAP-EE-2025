@@ -64,7 +64,7 @@ class LED_connection(ModelConstructor):
 
         df = pd.read_csv(self.file_path)
         line = df[df['line_id'] == self.id]
-        self.line_capacity = float(line['capacity'])
+        self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
 
         self.ps_ratio = self.max_speed/self.line_capacity # Power to speed ratio
         
