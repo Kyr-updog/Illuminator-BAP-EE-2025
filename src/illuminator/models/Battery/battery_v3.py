@@ -1,6 +1,8 @@
-from illuminator.builder import ModelConstructor
+from illuminator.builder import IlluminatorModel, ModelConstructor
+import mosaik_api_v3 as mosaik_api
 
 import time as timer
+import board
 import rpi_ws281x as ws
 
 # LED strip configuration
@@ -183,3 +185,7 @@ class Battery(ModelConstructor):
             return self.discharge_battery(flow2b)
         else:
             return self.charge_battery(flow2b)
+
+
+if __name__ == '__main__':
+    mosaik_api.start_simulation(Battery(), 'Battery Simulator')
