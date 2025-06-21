@@ -1,0 +1,56 @@
+scenario:
+  name: startup
+  start_time: '2012-01-01 00:00:00'
+  end_time: '2012-01-01 00:15:00'
+  time_resolution: 900
+monitor:
+  file: ./out.csv
+  items:
+  - requester0.stripList
+models:
+- name: TopologyCreator
+  type: TopologyMaker
+  parameters:
+    filename: examples/Cluster/Tutorial_cluster
+  inputs:
+    config: {}
+- name: requester0
+  type: IDrequester
+  connect:
+    ip: 127.0.0.1
+    port: 5000
+  parameters:
+    deviceID:
+    - 127.0.0.1
+    - 5000
+  states:
+    stripList: null
+- name: requester1
+  type: IDrequester
+  connect:
+    ip: 127.0.0.1
+    port: 5001
+  parameters:
+    deviceID:
+    - 127.0.0.1
+    - 5001
+  states:
+    stripList: null
+- name: requester2
+  type: IDrequester
+  connect:
+    ip: 127.0.0.1
+    port: 5002
+  parameters:
+    deviceID:
+    - 127.0.0.1
+    - 5002
+  states:
+    stripList: null
+connections:
+- from: requester0.stripList
+  to: TopologyCreator.config
+- from: requester1.stripList
+  to: TopologyCreator.config
+- from: requester2.stripList
+  to: TopologyCreator.config

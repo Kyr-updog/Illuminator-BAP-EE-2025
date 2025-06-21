@@ -2,7 +2,6 @@ from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 
 import time as timer
-import board
 import rpi_ws281x as ws
 
 # LED strip configuration
@@ -43,8 +42,8 @@ class Battery(ModelConstructor):
     time_step_size = 1
     time = None
 
-    def _init_(self, **kwargs):
-        super()._init_(**kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.soc = self._model.states.get('soc')
         self.flag = self._model.states.get('flag')
