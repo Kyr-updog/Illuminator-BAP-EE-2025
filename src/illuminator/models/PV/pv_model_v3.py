@@ -1,428 +1,186 @@
-from illuminator.builder import IlluminatorModel, ModelConstructor
-import numpy as np
-import mosaik_api_v3 as mosaik_api
-from scipy.stats import laplace
+from illuminator.builder import ModelConstructor
+
 import time as timer
 import board
-import neopixel
+import rpi_ws281x as ws
 
-pixels1 = neopixel.NeoPixel(board.D18,1 , brightness=1)
+# LED strip configuration
+LED_COUNT = 20      # Number of LED pixels.
+LED_PIN = 18        # GPIO pin connected to the pixels (must support PWM!).
+LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA = 10         # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 255 # Set to 0 for darkest and 255 for brightest
+LED_INVERT = False   # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL = 0
 
-# construct the model
-class PV(ModelConstructor):
-    """
-    A class to represent a PV model.
-    This class provides methods to calculate PV power output based on environmental conditions and panel specifications.
+# Define the model class
+class Battery(ModelConstructor):
 
-    Attributes
-    parameters : dict
-        Dictionary containing PV parameters such as module area, NOCT, efficiencies, peak power, tilt angle, and azimuth.
-    inputs : dict
-        Dictionary containing environmental inputs like irradiance, temperature, solar angles and wind speed.
-    outputs : dict
-        Dictionary containing calculated outputs like PV generation and irradiance values.
-    states : dict
-        Dictionary containing the state variables of the PV model.
-    time_step_size : int
-        Time step size for the simulation.
-    time : int or None
-        Current simulation time.
+    parameters = {
+        'max_p': 150,
+        'min_p': 250,
+        'max_energy': 50,
+        'charge_efficiency': 90,
+        'discharge_efficiency': 90,
+        'soc_min': 3,
+        'soc_max': 80,
+    }
 
-    Methods
-    __init__(**kwargs)
-        Initializes the PV model with the provided parameters.
-    step(time, inputs, max_advance=900)
-        Simulates one time step of the PV model.
-    connect(G_Gh, G_Dh, G_Bn, Ta, hs, FF, Az)
-        Processes input parameters and calculates PV output.
-    total_irr()
-        Calculates total irradiance on tilted surface.
-    Temp_effect()
-        Calculates temperature-dependent module efficiency.
-    output()
-        Calculates final PV power or energy output.
-    """
+    inputs = {'flow2b': 0}
 
-    parameters={
-        "m_area": 0,  # Module area of the PV panel in m².
-        "NOCT": 0,  # Nominal Operating Cell Temperature of the PV panel in °C.
-        "m_efficiency_stc": 0,  # Module efficiency under standard test conditions (STC).
-        "G_NOCT": 0,  # Nominal Operating Cell Temperature of the PV panel in °C.
-        "P_STC": 0,  # Power output of the module under STC (W).
-        "peak_power": 0,  # Peak power output of the module (W).
-        "m_tilt": 0,
-        'm_az': 0,
-        'cap': 0,  # installed capacity
-        'output_type': 'power',
-        'sim_start': 0,
-        'input_type': 'percentage', # 'irradiation' or 'percentage' 
-        'name': 'PV1',
-        'par1': 0,
-        'par2': 0
-        }
-    inputs={
-        "G_Gh": 0,  # Global Horizontal Irradiance (GHI) in W/m², representing the total solar radiation received on a horizontal surface.
-        "G_Dh": 0,  # Diffuse Horizontal Irradiance (DHI) in W/m², representing the solar radiation received from the sky, excluding the solar disk.
-        "G_Bn": 0,  # Direct Normal Irradiance (DNI) in W/m², representing the solar radiation received directly from the sun on a surface perpendicular to the sun’s rays.
-        "Ta": 0,  # Ambient temperature (°C) of the environment surrounding the PV panels.
-        "hs": 0,  # Solar elevation angle (degrees), indicating the height of the sun in the sky.
-        "FF": 0,  # Wind speed (m/s), which affects the temperature and performance of the PV panels.
-        "Az": 0,  # Sun azimuth angle (degrees), indicating the sun's position in the horizontal plane.
-        "capacity_percentage": 0
-        }
-    outputs={
-        "pv_gen_out": 0,  # Generated PV power output (kW) or energy (kWh) based on the chosen output type (power or energy).
-        "total_irr": 0,  # Total irradiance (W/m²) received on the PV module, considering direct, diffuse, and reflected components.
-        "g_aoi": 0  # Total irradiance (W/m²) accounting for angle of incidence, diffuse, and reflected irradiance.
-        }
-    states={'pv_genState': 0,
-            'pv_gen': {}
-            }
-    time_step_size=1
-    time=None
+    outputs = {
+        'p_out': 20,
+        'p_in': 20,
+    }
 
-    def init(self, *args, **kwargs) -> None:
-        """
-        Initialize the PV model with the provided parameters.
+    states = {
+        'mod': 0,
+        'soc': 0,
+        'flag': -1
+    }
 
-        Parameters
-        ----------
-        kwargs : dict
-            Additional keyword arguments to initialize the model.
-        """
-        result = super().init(*args, **kwargs)
-        self.cap = self._model.parameters.get('cap')
-        self.output_type = self._model.parameters.get('output_type')
-        self.NOCT = self._model.parameters.get('NOCT')
-        self.m_efficiency_stc = self._model.parameters.get('m_efficiency_stc')
-        self.G_NOCT = self._model.parameters.get('G_NOCT')
-        self.P_STC = self._model.parameters.get('P_STC')
-        self.m_tilt = self._model.parameters.get('m_tilt')
-        self.m_az = self._model.parameters.get('m_az')
-        self.m_area = self._model.parameters.get('m_area')
-        self.sim_start = self._model.parameters.get('sim_start')
-        self.input_type = self._model.parameters.get('input_type')
-        self.name = self._model.parameters.get('name')
-        self.par1 = self._model.parameters.get('par1')
-        self.par2 = self._model.parameters.get('par2')
-        self.G_Gh = 0
-        self.G_Dh = 0
-        self.G_Bn = 0
-        self.Ta = 0
-        self.hs = 0
-        self.FF = 0
-        self.Az = 0
-        self.sun_az = 0
-        self.svf = 0
-        self.g_aoi = 0
+    time_step_size = 1
+    time = None
 
-        self.laplaceMax = laplace.pdf(0, scale=self.par2)
-        
-        return result
+    def _init_(self, **kwargs):
+        super()._init_(**kwargs)
 
+        self.soc = self._model.states.get('soc')
+        self.flag = self._model.states.get('flag')
+        self.mod = self._model.states.get('mod')
 
-    def step(self, time: int, inputs:dict=None, max_advance:int=900) -> None:
-        """
-        Advances the simulation one time step.
-        Args:
-            time (float): Current simulation time in seconds
-            inputs (dict): Dictionary containing input values from other components:
-                - G_Gh (float): Global horizontal irradiance [W/m²]
-                - G_Dh (float): Diffuse horizontal irradiance [W/m²]
-                - G_Bn (float): Direct normal irradiance [W/m²]
-                - Ta (float): Ambient temperature [°C]
-                - hs (float): Solar height [rad]
-                - FF (float): View factor to sky [-]
-                - Az (float): Solar azimuth [rad]
-            max_advance (int, optional): Maximum time to advance in seconds. Defaults to 900.
-        Returns:
-            float: Next simulation time in seconds
-        """
-        
+        self.charge_efficiency = self._model.parameters.get('charge_efficiency') / 100
+        self.discharge_efficiency = self._model.parameters.get('discharge_efficiency') / 100
+        self.max_p = self._model.parameters.get('max_p')
+        self.min_p = self._model.parameters.get('min_p')
+        self.max_energy = self._model.parameters.get('max_energy')
+        self.soc_min = self._model.parameters.get('soc_min')
+        self.soc_max = self._model.parameters.get('soc_max')
+
+        self.powerout = 0
+
+        # Initialize LED strip
+        self.strip = ws.PixelStrip(
+            LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA,
+            LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL
+        )
+        self.strip.begin()
+
+    def step(self, time: int, inputs: dict = None, max_advance: int = 900) -> int:
         input_data = self.unpack_inputs(inputs)
-        """
-        self.G_Gh = input_data['G_Gh']
-        self.G_Dh = input_data['G_Dh']
-        self.G_Bn = input_data['G_Bn']
-        self.Ta = input_data['Ta']
-        self.hs = input_data['hs']
-        self.FF = input_data['FF']
-        self.Az = input_data['Az']
-        """
-        self.capacity_percentage = input_data['capacity_percentage']
 
-        cap_percentage = self.addNoiseLaplace(self.capacity_percentage)
+        results = self.output_power(input_data['flow2b'])
 
-        if self.input_type == 'irradiation':
-            results = self.output()
-        else:
-            pv_gen = cap_percentage * self.cap
-            results = {'pv_gen': pv_gen}
+        self.soc = results.pop('soc')
+        self.flag = results.pop('flag')
+        self.mod = results.pop('mod')
 
-        self.set_outputs({'pv_gen_out': results['pv_gen']})
-        self.set_states({'pv_gen': {self.name: results['pv_gen']}, 'pv_genState': results['pv_gen']})
+        self.set_states({'soc': self.soc, 'flag': self.flag, 'mod': self.mod})
+        self.set_outputs(results)
 
-        light = results['pv_gen']
-        if light <= 0:
-           pixels1.fill((0, 0,0))
-        elif light < self.cap/5:
-           pixels1.fill((139, 0,0))
-        elif light < self.cap/5*2:
-           pixels1.fill((255, 140,0))
-        elif light < self.cap/5*3:
-           pixels1.fill((255, 215,0))
-        elif light < self.cap/5*4:
-           pixels1.fill((144, 238,144))             
-        else:
-           pixels1.fill((0, 100,0))
-        timer.sleep(1)  
+        # Update LEDs
+        self.update_leds()
+
+        timer.sleep(1)
 
         return time + self._model.time_step_size
 
-    def addNoiseLaplace(self, input):
-        while True:
-            x = np.random.uniform(0, 10)
-            y = np.random.uniform(0, self.laplaceMax)
-            if y < laplace.pdf(x, loc=self.par1, scale=self.par2):
-                break
-        return max(min(input * x, 1), 0)
+    def update_leds(self):
+        # Determine color based on SOC
+        if self.soc < 21:
+            color = ws.Color(139, 0, 0)
+        elif self.soc < 41:
+            color = ws.Color(255, 40, 0)
+        elif self.soc < 61:
+            color = ws.Color(255, 200, 0)
+        elif self.soc < 81:
+            color = ws.Color(142, 255, 0)
+        else:
+            color = ws.Color(0, 255, 0)
 
+        # Set all LEDs to this color
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, color)
+        self.strip.show()
 
-    def sun_azimuth(self):  # need to load sun_az
-        """
-        Getter for the `self.sun_az` attribute
+    def discharge_battery(self, flow2b: int) -> dict:
+        hours = self.time_resolution / 3600
+        flow = max(self.min_p, flow2b)
 
-        ...
+        if flow < 0:
+            energy2discharge = flow * hours / self.discharge_efficiency
+            energy_capacity = ((self.soc_min - self.soc) / 100) * self.max_energy
 
-        Returns
-        -------
-        sun_azimuth : float
-            Sun azimuth angle in degrees, indicating the sun's position in the horizontal plane.
-        sun_azimuth : float
-            Sun azimuth angle in degrees, indicating the sun's position in the horizontal plane.
-        """
-        sun_azimuth = self.sun_az
-        return sun_azimuth
+            if self.soc <= self.soc_min:
+                self.flag = -1
+                self.powerout = 0
+            else:
+                if energy2discharge > energy_capacity:
+                    self.soc += (energy2discharge / self.max_energy * 100)
+                    self.powerout = flow
+                    self.flag = 0
+                else:
+                    self.powerout = energy_capacity * self.discharge_efficiency / hours
+                    self.soc = self.soc_min
+                    self.flag = -1
 
-    def sun_elevation(self):
-        """
-        Getter for the `self.sun_el` attribute
+        self.soc = round(self.soc, 3)
+        return {
+            'p_out': self.powerout,
+            'p_in': flow,
+            'soc': self.soc,
+            'mod': -1,
+            'flag': self.flag
+        }
 
-        ...
+    def charge_battery(self, flow2b: int) -> dict:
+        hours = self.time_resolution / 3600
+        flow = min(self.max_p, flow2b)
 
-        Returns
-        -------
-        sun_elevation : float
-            Solar elevation angle in degrees, indicating the height of the sun in the sky.
-        sun_elevation : float
-            Solar elevation angle in degrees, indicating the height of the sun in the sky.
-        """
-        sun_elevation = self.hs
-        sun_elevation = self.hs
-        return sun_elevation
+        if flow > 0:
+            energy2charge = flow * hours * self.charge_efficiency
+            energy_capacity = ((self.soc_max - self.soc) / 100) * self.max_energy
 
-    def aoi(self):
-        """
-        Calculates the cosine of the angle of incidence (AOI) between the sun's rays and the PV module surface.
+            if self.soc >= self.soc_max:
+                self.flag = 1
+                self.powerout = 0
+            else:
+                if energy2charge <= energy_capacity:
+                    self.soc += (energy2charge / self.max_energy * 100)
+                    self.powerout = flow
+                    self.flag = 0
+                else:
+                    self.powerout = energy_capacity / self.charge_efficiency / hours
+                    self.soc = self.soc_max
+                    self.flag = 1
 
-        Takes into account:
-        - Module tilt angle
-        - Sun elevation angle
-        - Sun azimuth angle
-        - Module azimuth angle
-        Calculates the cosine of the angle of incidence (AOI) between the sun's rays and the PV module surface.
+        self.soc = round(self.soc, 3)
+        return {
+            'p_out': self.powerout,
+            'p_in': flow,
+            'soc': self.soc,
+            'mod': 1,
+            'flag': self.flag
+        }
 
-        Takes into account:
-        - Module tilt angle
-        - Sun elevation angle
-        - Sun azimuth angle
-        - Module azimuth angle
+    def output_power(self, flow2b: int) -> dict:
+        if flow2b == 0:
+            if self.soc >= self.soc_max:
+                self.flag = 1
+            elif self.soc <= self.soc_min:
+                self.flag = -1
+            else:
+                self.flag = 0
 
-        Returns
-        -------
-        cos_aoi : float
-            Cosine of the angle of incidence (AOI) as a fraction
-            Cosine of the angle of incidence (AOI) as a fraction
-        """
-        cos_aoi = np.array(np.cos(np.radians(90 - self.m_tilt)) * np.cos(np.radians(self.sun_elevation())) * np.cos(
-            np.radians(self.m_az - self.sun_azimuth())) + np.sin(np.radians(90 - self.m_tilt)) * np.sin(
-            self.sun_elevation()))
-        if cos_aoi < 0:
-            cos_aoi = 0
-        return cos_aoi
+            return {
+                'p_out': 0,
+                'p_in': 0,
+                'soc': self.soc,
+                'mod': 0,
+                'flag': self.flag
+            }
 
-    def diffused_irr(self) -> float:
-        """
-        Calculates diffuse irradiance on the tilted PV surface.
-        Calculates diffuse irradiance on the tilted PV surface.
-
-        Takes into account:
-        - Sky view factor (SVF) based on module tilt
-        - Diffuse Horizontal Irradiance (DHI)
-        Takes into account:
-        - Sky view factor (SVF) based on module tilt
-        - Diffuse Horizontal Irradiance (DHI)
-
-        Returns
-        -------
-        g_diff : float
-            Diffuse irradiance on the tilted PV surface in W/m²
-            Diffuse irradiance on the tilted PV surface in W/m²
-        """
-        self.svf = np.array((1 + np.cos(np.radians(self.m_tilt))) / 2)
-        g_diff = self.svf * self.G_Dh  # global diffused irradiance #W/m2
-        self.svf = np.array((1 + np.cos(np.radians(self.m_tilt))) / 2)
-        g_diff = self.svf * self.G_Dh  # global diffused irradiance #W/m2
-        return g_diff
-
-    def reflected_irr(self) -> float:
-        """
-        Calculates ground-reflected irradiance on the PV module.
-        Calculates ground-reflected irradiance on the PV module.
-
-        Takes into account:
-        - Albedo (reflectivity) of the ground surface
-        - Sky view factor (SVF) based on module tilt
-        - Global Horizontal Irradiance (GHI)
-        Takes into account:
-        - Albedo (reflectivity) of the ground surface
-        - Sky view factor (SVF) based on module tilt
-        - Global Horizontal Irradiance (GHI)
-
-        Returns
-        -------
-        g_ref : float
-            Ground-reflected irradiance on the PV module in W/m²
-            Ground-reflected irradiance on the PV module in W/m²
-        """
-        albedo = 0.2
-        g_ref = albedo * (1 - self.svf) * self.G_Gh
-        g_ref = albedo * (1 - self.svf) * self.G_Gh
-        return g_ref
-
-    def direct_irr(self) -> float:
-        """
-        Calculates direct beam irradiance on tilted surface.
-        Calculates direct beam irradiance on tilted surface.
-
-        Accounts for angle of incidence between sun rays and module surface.
-        Accounts for angle of incidence between sun rays and module surface.
-
-        Returns
-        -------
-        g_dir : float
-            Direct beam irradiance on tilted surface in W/m²
-            Direct beam irradiance on tilted surface in W/m²
-        """
-        g_dir = self.G_Bn * self.aoi()
-        g_dir = self.G_Bn * self.aoi()
-        return g_dir
-
-    def total_irr(self) -> float:
-        """
-        Calculates total irradiance on the tilted PV surface.
-        Calculates total irradiance on the tilted PV surface.
-
-        Combines direct beam, diffuse, and ground-reflected irradiance components
-        accounting for module tilt and orientation.
-        Combines direct beam, diffuse, and ground-reflected irradiance components
-        accounting for module tilt and orientation.
-
-        Returns
-        -------
-        self.g_aoi : float
-            Total irradiance on tilted surface in W/m²
-            Total irradiance on tilted surface in W/m²
-        """
-        self.g_aoi = self.diffused_irr() + self.reflected_irr() + self.direct_irr()
-        return self.g_aoi
-
-
-    # the effect of temperature and wind speed on the module efficiency.
-    def Temp_effect(self) -> float:
-        """
-        Calculates the temperature-dependent module efficiency.
-        Calculates the temperature-dependent module efficiency.
-
-        Takes into account:
-        - Module temperature based on NOCT conditions
-        - Wind speed effects
-        - Temperature coefficient of efficiency
-        Takes into account:
-        - Module temperature based on NOCT conditions
-        - Wind speed effects
-        - Temperature coefficient of efficiency
-
-        Returns
-        -------
-        efficiency : float
-            Temperature-adjusted module efficiency as a fraction
-            Temperature-adjusted module efficiency as a fraction
-        """
-        m_temp = self.Ta + (np.divide(self.total_irr(), self.G_NOCT)) * (self.NOCT - 20) * (
-            np.divide(9.5, (5.7 + 3.8 * self.FF))) * (1 - (self.m_efficiency_stc / 0.90))
-        m_temp = self.Ta + (np.divide(self.total_irr(), self.G_NOCT)) * (self.NOCT - 20) * (
-            np.divide(9.5, (5.7 + 3.8 * self.FF))) * (1 - (self.m_efficiency_stc / 0.90))
-
-        efficiency = self.m_efficiency_stc * (1 + (-0.0035 * (m_temp - 25)))
-        return efficiency
-
-    def output(self) -> dict:
-        """
-        Calculates PV power or energy output based on environmental conditions.
-        
-        Takes into account:
-        - Module temperature effects
-        - Inverter and MPPT efficiency
-        - System losses
-        - Total module area
-        - Solar irradiance
-        Calculates PV power or energy output based on environmental conditions.
-        
-        Takes into account:
-        - Module temperature effects
-        - Inverter and MPPT efficiency
-        - System losses
-        - Total module area
-        - Solar irradiance
-
-        Returns
-        -------
-        dict
-            Dictionary containing:
-            - 'pv_gen': PV generation in kW (power) or kWh (energy)
-            - 'total_irr': Total irradiance on tilted surface in W/m² <- check
-            Dictionary containing:
-            - 'pv_gen': PV generation in kW (power) or kWh (energy)
-            - 'total_irr': Total irradiance on tilted surface in W/m² <- check
-        """
-        # constants
-        # inverter efficiency. We can use sandia model to actually find an inverter that suits our needs
-        inv_eff = 0.96
-        mppt_eff = 0.99  # again, can calculate it accurately
-        losses = 0.97  # other losses
-        sf = 1.1
-
-        # generation calculation
-        num_of_modules = np.ceil(self.cap * sf / self.P_STC)
-
-
-        # [W] again we get this for every time step
-        # this is for the DC output from the number of panes we require (calculated above) at every hour
-        #p_dc = self.Temp_effect() * num_of_modules * self.m_area * self.total_irr()
-        total_m_area = num_of_modules * self.m_area
-
-        # AC output at every hour from all the panels (a solar farm)
-        p_ac = 0
-        p_ac = 0
-        if self.output_type == 'energy':
-            p_ac = (total_m_area * self.total_irr() *
-                    self.Temp_effect() * inv_eff * mppt_eff * losses)/4 / 1000 # kWh TODO: implement time interval or smh
-        elif self.output_type == 'power':
-            p_ac = ((total_m_area * self.total_irr() *
-                    self.Temp_effect() * inv_eff * mppt_eff * losses) ) / 1000  # kW
-
-        return {'pv_gen': p_ac, 'total_irr': self.g_aoi}
-
-if __name__ == '__main__':
-    mosaik_api.start_simulation(PV(), 'PV Simulator')
+        elif flow2b < 0:
+            return self.discharge_battery(flow2b)
+        else:
+            return self.charge_battery(flow2b)
