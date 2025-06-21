@@ -37,24 +37,28 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
     simulation.run()
     
 @demonstrator_app.command("run")#run for the demonstrator part of the illuminator
-def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):
-    "Runs a simulation scenario using a YAML file. Keep in mind that this only works on linux"
+def scenario_run():
+    "Runs a demonstration scenario using a YAML file. Keep in mind that this only works on linux. The starter file should be under the cli folder."
     
     #while True:
-    file = open("data.csv", 'a')
-    for _ in range(10):
-        begin_time = time.time()
-        os.system('src/illuminator/cli/starter.sh')
-        time.sleep(30)
+    file = open("data.csv", 'a') #for writing the results to a file for easy analysis
+    for _ in range(10): #It is on 10 now for testing purposes. Make it while True and it runs forever.
+        begin_time = time.time() #the start time
+        os.system('src/illuminator/cli/starter.sh') #start the slaves 
+        
+        time.sleep(30)#time to let all slaves start up
+        
         makeSim = Simulation("src/illuminator/cli/starter.yaml") #the path to the startup simulation (is only 1 step)
         makeSim.run()
-        file.write(str(time.time()-begin_time)+"\n")
-        time.sleep(10)
         
-        #os.system('./run.sh')
-        #global simulation
-        #simulation = Simulation('simulation.yaml')
-        #simulation.run()
+        os.system('./run.sh') #start real simulation slaves
+        
+        time.sleep(5)#time to let all slaves start up
+        
+        global simulation #a dirty way for letting the simulation be able to exit mosaik
+        simulation = Simulation('simulation.yaml') #yaml file will always be written to the same location
+        simulation.run()
+        file.write(str(time.time()-begin_time)+"\n")#measure the time taken
 
 @cluster_app.command("build")
 def cluster_build(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):

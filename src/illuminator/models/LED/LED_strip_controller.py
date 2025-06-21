@@ -1,4 +1,4 @@
-#volgorde: speed (2 bytes), dir, r, g, b
+#order: speed (2 bytes), dir, r, g, b
 from serial import Serial
 from time import sleep, time
 
@@ -23,10 +23,10 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
     if direction > 1 : direction = 1
     if red > 255 : red = 255
     if green > 255 : green = 255
-    if blue > 255 : blue = 255
+    if blue > 255 : blue = 255 #don't send invalid values
     
     while not do_send:
-        checks = [False, False, False, False, False]
+        checks = [False, False, False, False, False] #if all phases are done at the end, the transfer is good, otherwise it should be redone.
         do_send = True
         if case <=1:
             connection.write(animationSpeed.to_bytes(1, "big"))
@@ -34,7 +34,7 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
             if case != 2:
                 do_send = False
             else:
-                checks[0] = True
+                checks[0] = True #when done, check 
                 
         if case == 2:
             connection.write(direction.to_bytes(1, "big"))
@@ -74,15 +74,15 @@ def sendPixelData(connection: Serial, animationSpeed: int, direction: bool, red:
             do_send = False
             case = 0
         
-    if return_dummy == 2:
+    if return_dummy == 2: #number to string
         return_dummy = 'sender'
     else:
         return_dummy = 'dummy'
     return id, return_dummy
 
-if __name__ == "__main__":
-    connection = Serial("/dev/ttyACM0", timeout=0.5)
-    for j in [0.5,1,2,3,4,5]:
+if __name__ == "__main__":#testing function; usually doesn't run as you only run the function of this script
+    connection = Serial("/dev/ttyACM0", timeout=1) #if it takes at least the timeout, then it errors
+    for j in [0,0.5,1,2,3,4,5]: #all delay times for easier automated testing
         file = open("delay_"+str(j)+".csv", 'w')
         for i in range(100):
             begin_time = time()

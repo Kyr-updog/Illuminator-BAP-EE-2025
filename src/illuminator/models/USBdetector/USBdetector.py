@@ -12,7 +12,7 @@ class USBdetector(ModelConstructor):
     
     def __init__(self, *args, **kwargs):
         result = super().__init__(*args, **kwargs)
-        self.connections = serial.tools.list_ports.comports()
+        self.connections = serial.tools.list_ports.comports() #store the initial connections
         return result
         
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
@@ -31,7 +31,7 @@ class USBdetector(ModelConstructor):
         if len(old_connections) != len(current_connections): #detects if a comport is removed
             self.set_outputs({"USBchange": True})
          
-        t.sleep(1)
+        t.sleep(1) #making sure it doesn't run the detection all at once as that would remove the use of it. 
            
         return time + 1
     
