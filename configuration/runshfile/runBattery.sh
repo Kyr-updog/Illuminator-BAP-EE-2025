@@ -1,3 +1,3 @@
 #! /bin/bash
 cd $3/Battery
-python battery_mosaik.py $1:$2 --remote
+sudo python battery_v3.py $1:$2 --remote
