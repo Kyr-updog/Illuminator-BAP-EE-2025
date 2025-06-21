@@ -1,9 +1,10 @@
+
 ###### Interactivity ##############################################################
 
 
-from gpiozero import Button
+
 from datetime import datetime, date
-import time as timee
+import time as timer
 
 import signal
 from collections import deque
@@ -11,15 +12,26 @@ import subprocess
 
 import pandas as pd
 
+import RPi.GPIO as GPIO
+
+
+SENSOR_PIN = 24  # BCM numbering
+
+# Set up
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
  
 data_time = deque(maxlen=10)
 data_u = deque(maxlen=10)
 
-sensor = Button(24, pull_up=True)
+
 
 #interrupt function
 def handle_sigquit(signum, frame):
 
+
+    global data_time
     new_rows = []
     new_row_load = []
     new_row_sun = []
@@ -27,8 +39,8 @@ def handle_sigquit(signum, frame):
     #specify the input .txt file that is not the interactive model but is in the .yaml file.
     
     #model 1
-    df = pd.read_csv('/home/Raspinator/Illuminator/examples/Tutorial1/data/pv_data_Rotterdam_NL-15min.txt', skiprows=1, parse_dates=['time'])
-    df.set_index('time', inplace=True)
+    df = pd.read_csv('/home/Raspinator/Illuminator/examples/Tutorial1/data/pv_data_Rotterdam_NL-15min.txt', skiprows=1, parse_dates=['Time'])
+    df.set_index('Time', inplace=True)
    
     
     # Extract only .txt file time data
@@ -38,8 +50,8 @@ def handle_sigquit(signum, frame):
     # Combine today's date with original time
     new_date = datetime.now().date()
  
-    df_day['time'] = [datetime.combine(new_date, t.time()) for t in df_day['time']]
-    df_day.set_index('time',inplace=True)
+    df_day['Time'] = [datetime.combine(new_date, t.time()) for t in df_day['Time']]
+    df_day.set_index('Time',inplace=True)
     sun_df_day = df_day
     
     
@@ -63,9 +75,10 @@ def handle_sigquit(signum, frame):
 
     
     #Arange the rows that should be added to all input .txt file.
-    diffs = [t2 - t1 for t1, t2 in zip(data_time, data_time[1:])]
+    data_time = list(data_time)
+    diffs = [(t2 - t1).total_seconds()  for t1, t2 in zip(data_time, data_time[1:])]
     for i in range(len(diffs)):
-        row = f"{list(data_time)[i]},{diffs[i]}"
+        row = f"{list(data_time)[i]},{24*1 / diffs[i]}" #24 is the maximum wind speed level seen in data file. 1second is the maximum speed rotation of the physical wind turbine model.
         new_rows.append(row)
         
         # Find closest row
@@ -83,7 +96,7 @@ def handle_sigquit(signum, frame):
         
         
     #append the iterpolated and interactive model data to the input .txt file.    
-    with open('/home/Raspinator/Illuminator/examples/Tutorial1/data/winddata_NL.txt ', "a") as file:
+    with open('/home/Raspinator/Illuminator/examples/Tutorial1/data/winddata_NL.txt', "a") as file:
         for row in new_rows:   
             file.write(row + "\n" )
             
@@ -149,18 +162,21 @@ signal.signal(signal.SIGQUIT, handle_sigquit)
 
 
 #take the last 10samples of the wind_mill
-# This function is executed when a signal is detected (falling edge).
-def ausgabeFunktion():
-    print(list(data_u))
-    now = datetime.now()
-    if not list(data_time):
-        data_time.append(now.replace(microsecond=0))
-        timee.sleep(0.40)      
-    elif now.replace(microsecond=0) != list(data_time)[-1]:
-        data_time.append(now.replace(microsecond=0))
-        timee.sleep(0.40)
-    else:
-        dummy = 0
 
-# The 'outputFunction' function is bound to the 'when_pressed' event of the sensor.
-sensor.when_pressed = ausgabeFunktion
+
+
+while True:
+    if GPIO.input(SENSOR_PIN) == GPIO.LOW:
+        print("Signal recognized")
+        print(list(data_u))
+        now = datetime.now()
+        if not list(data_time):
+            data_time.append(now.replace(microsecond=0))
+            timer.sleep(0.40)      
+        elif now.replace(microsecond=0) != list(data_time)[-1]:
+            data_time.append(now.replace(microsecond=0))
+            timer.sleep(0.40)
+        else:
+            dummy = 0
+        while GPIO.input(SENSOR_PIN) == GPIO.LOW:
+            dummy = 0
