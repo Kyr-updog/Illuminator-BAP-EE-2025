@@ -6,7 +6,7 @@ import time as timer
 import rpi_ws281x as ws
 
 # LED strip configuration
-LED_COUNT = 1
+LED_COUNT = 20
 LED_PIN = 18
 LED_FREQ_HZ = 800000
 LED_DMA = 10
@@ -87,7 +87,7 @@ class PV(ModelConstructor):
     time_step_size=1
     time=None
 
-    def init(self, *args, **kwargs) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Initialize the PV model with the provided parameters.
 
@@ -96,7 +96,7 @@ class PV(ModelConstructor):
         kwargs : dict
             Additional keyword arguments to initialize the model.
         """
-        result = super().init(*args, **kwargs)
+        super().__init__(**kwargs)
         self.cap = self._model.parameters.get('cap')
         self.output_type = self._model.parameters.get('output_type')
         self.NOCT = self._model.parameters.get('NOCT')
@@ -121,9 +121,7 @@ class PV(ModelConstructor):
         self.sun_az = 0
         self.svf = 0
         self.g_aoi = 0
-
         self.laplaceMax = laplace.pdf(0, scale=self.par2)
-        
         # Initialize LED strip
         self.strip = ws.PixelStrip(
             LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA,
@@ -131,7 +129,7 @@ class PV(ModelConstructor):
         )
         self.strip.begin()
 
-        return result
+        #return result
 
 
     def step(self, time: int, inputs:dict=None, max_advance:int=900) -> None:

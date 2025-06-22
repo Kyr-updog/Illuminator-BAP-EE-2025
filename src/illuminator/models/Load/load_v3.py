@@ -6,7 +6,7 @@ import time as timer
 import rpi_ws281x as ws
 
 # LED strip configuration
-LED_COUNT = 9
+LED_COUNT = 20
 LED_PIN = 18
 LED_FREQ_HZ = 800000
 LED_DMA = 10
@@ -52,7 +52,7 @@ class Load(ModelConstructor):
     laplaceMax = laplace.pdf(0, scale=par2)
 
 
-    def init(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
 
@@ -65,7 +65,7 @@ class Load(ModelConstructor):
         -------
         None
         """
-        result = super().init(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.consumption = 0
         self.input_type = self.parameters['input_type']
         self.name = self.parameters['name']
@@ -79,7 +79,7 @@ class Load(ModelConstructor):
         )
         self.strip.begin()
 
-        return result
+        #return result
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:

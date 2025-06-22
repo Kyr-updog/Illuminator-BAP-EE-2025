@@ -156,3 +156,6 @@ class LoadEV(ModelConstructor):
             consumption = power * self.houses_case/self.houses_data # scaling if necessary
         re_params = {'load_EV': consumption, 'n': n}
         return re_params
+        
+if __name__ == '__main__':
+    mosaik_api.start_simulation(LoadEV(), 'Battery Simulator')
