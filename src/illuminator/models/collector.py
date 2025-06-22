@@ -233,10 +233,30 @@ class Collector(mosaik_api.Simulator):
         df = df.set_index('date')
 
         if self.results_show['dashboard_show']==True:
-            # TODO: raise warning, not implemented
-            for key, value in df.items():
-                wandb.log({key: value[0],
-                           "custom_step":time/900})  # TODO replace 900 by something better
+            # === CONFIGURATION ===
+            token = "Lfw7MDESxhk3NoeK3a8_bygrZB3U-2gHc6Vr-CxSHbyT8XjcZL_aq_SMHoEKdWJssZgXlrG4vBEqxXHMQtap-w=="
+            org = "Illuminator"
+            bucket = "Illuminator"
+            url = "http://localhost:8086"  # or your cloud instance
+                          
+            # === Connect to InfluxDB ===
+            client = InfluxDBClient(url=url, token=token, org=org)
+            write_api = client.write_api(write_options=SYNCHRONOUS)
+             
+             
+            # === Write Each Row as a Point ===
+            for index, row in df.iterrows():
+                print(row)
+                point = Point("energy_metrics").tag("source", "illuminator")  # Optional tag
+                for col,val in row.items():
+                    point = point.field(col, float(val))
+                point = point.time(index, WritePrecision.NS)
+                
+                write_api.write(bucket=bucket, org=org, record=point)
+            #             # TODO: raise warning, not implemented
+            #             for key, value in df.items():
+            #                 wandb.log({key: value[0],
+            #                            "custom_step":time/900})  # TODO replace 900 by something better
 
         if self.results_show['write2csv'] == True:
             if time == 0:

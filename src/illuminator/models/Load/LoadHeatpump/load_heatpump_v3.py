@@ -1,5 +1,11 @@
 from illuminator.builder import ModelConstructor
 
+import RPi.GPIO as GPIO
+import time as timer
+ 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(23,GPIO.OUT)
+
 class LoadHeatpump(ModelConstructor):
     """
     Heat pump load model for calculating and scaling demand based on number of houses.
@@ -73,6 +79,12 @@ class LoadHeatpump(ModelConstructor):
         load_in = input_data.get('hp_load', 0)
         results = self.demand(hp_load=load_in)
         self.set_outputs(results)
+
+        if results['load_HP'] > 0:
+            GPIO.output(23, GPIO.HIGH)
+        else:
+            GPIO.output(23, GPIO.LOW)
+        timer.sleep(1)     
 
         return time + self._model.time_step_size
 

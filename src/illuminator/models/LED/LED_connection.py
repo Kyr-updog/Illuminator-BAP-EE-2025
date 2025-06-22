@@ -1,8 +1,9 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 import serial
-import time
+import time as t
 from numpy import ceil
+from illuminator.models.LED.LED_strip_controller import sendPixelData
 
 
 
@@ -24,8 +25,10 @@ class LED_connection(ModelConstructor):
     parameters={'min_speed': 0,  # minimum speed for the connection
                 'max_speed': 0.5,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
+                'port': None,
+                'file_path': 'line_specs.csv'
                 }
-    inputs={'speed': 0}  # speed for the connection
+    inputs={'power': 0}  # speed for the connection
     outputs={
              }
     states={
@@ -51,8 +54,21 @@ class LED_connection(ModelConstructor):
         self.min_speed = self.parameters.get('min_speed')
         self.max_speed = self.parameters.get('max_speed')
         self.direction = self.parameters.get('direction')
-        return result
+        self.port = self.parameters.get('port')
+        self.file_path = self.parameters.get('file_path')
 
+        connection = serial.Serial(self.port, timeout=1)
+        self.id = 0
+        while self.id == 0:
+            self.id = int.from_bytes(connection.read(1))
+
+        df = pd.read_csv(self.file_path)
+        line = df[df['line_id'] == self.id]
+        self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
+
+        self.ps_ratio = self.max_speed/self.line_capacity # Power to speed ratio
+        
+        return result
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
         """
@@ -75,7 +91,8 @@ class LED_connection(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        speed = input_data.get('speed', 0)
+        power = float(input_data['power'][f'line_{self.id}']) # Selects the power corresponding to its own line_ID
+        speed = self.ps_ratio*power
         direction = self.direction
         print("got speed: ", speed)
 
@@ -90,15 +107,16 @@ class LED_connection(ModelConstructor):
         else:
             speed = ((speed - self.min_speed) / (self.max_speed - self.min_speed)) * 100
 
-        self.send_led_animation(speed, direction)
+        #self.send_led_animation(speed, direction)
         # self.set_outputs(results)
+        t.sleep(1)
 
         return time + self._model.time_step_size
     
 
     def send_led_animation(self, speed, direction) -> None:
-        device = '/dev/ttyACM0'
-        ser = serial.Serial(device, timeout=5)
+        device = self.port
+        ser = serial.Serial(device, timeout=1)
         line = ''
 
         if ser.in_waiting > 0:
@@ -106,19 +124,16 @@ class LED_connection(ModelConstructor):
             print(line)
         
         if speed == 0:
-            colour = 'g'
+            colour = [0,255,0]
             delay = 0
         else:
-            delay = max(0, min(4, ceil(4 * speed/100)))  # Maps 0-100% to 0-4, with bounds checking
+            delay = max(0, min(255, ceil(255 * speed/100)))  # Maps 0-100% to 0-255, with bounds checking
             delay = round(delay)
 
-            if delay >= 4:
-                colour = 'r'
-            else:
-                colour = 'g'
+            colour = [255-delay, delay, 0]
 
-        print(f"speed: {speed}%, Sending {delay}{colour}1")
-        ser.write(f"{delay}{colour}{direction}\n".encode('utf-8'))
+        print(f"speed: {speed}%, Sending {delay}{colour}")
+        sendPixelData(ser, int(delay), True, colour[0], colour[1], colour[2])
         time.sleep(3)
 
         return

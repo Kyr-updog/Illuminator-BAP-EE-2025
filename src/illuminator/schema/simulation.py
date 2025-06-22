@@ -159,7 +159,8 @@ schema = Schema(  # a mapping of mappings
             [{
                 "from": Regex(valid_model_item_format, error="Invalid format for 'from'. Must be in the format: <model>.<item>"),
                 "to": Regex(valid_model_item_format, error="Invalid format for 'to'. Must be in the format: <model>.<item>"),
-                Optional("time_shifted", default=False): bool
+                Optional("time_shifted", default=False): bool,
+                Optional("line_id"): str
             }]
         ),
         "monitor":  Schema(

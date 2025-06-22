@@ -4,8 +4,27 @@ scenario:
   #end_time: '2012-01-01 01:00:00' # duration in seconds 
   end_time: '2012-06-21 18:00:00' # duration in seconds 
   time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
-
+monitor:
+  file: './out_Tutorial_cluster.csv'
+  items:
+    - Controller1.flow2bState
 models: 
+
+- name: USBdetector1
+  type: USBdetector
+  connect:
+    ip: 127.0.0.1
+    port: 2003
+  parameters:
+    start: True
+  states:
+    USBchange: 
+
+- name: USBtrigger1
+  type: USBtrigger
+  inputs:
+    USBchange: False
+
 - name: CSVload
   type: CSV
   parameters:
@@ -16,9 +35,6 @@ models:
     load:  # incoming energy or power demand per house (kWh) for each time step (15 minutes)
 - name: Load1
   type: Load
-  # connect:
-  #   ip: 145.94.213.75
-  #   port: 5123
   parameters:
     houses: 7  # number of houses that determine the total load demand
     output_type: 'power'  # type of output for consumption calculation ('energy' or 'power')
@@ -37,9 +53,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
 - name: PV1
   type: PV # models can reuse the same type
-  # connect:
-  #   ip: 192.168.27.161
-  #   port: 5123
   parameters:
     m_area: 1.26  # m2
     NOCT: 44  # Celcius
@@ -64,17 +77,18 @@ models:
     g_aoi:
   states:
     pv_genState: 0
-# - name: PV_LED
-#   type: LED_connection
-#   # connect:
-#   #   ip: 192.168.27.161
-#   #   port: 5124
-#   parameters:
-#     min_speed: 0  # minimum speed for the LED connection (0-100%)
-#     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
-#     direction: 1  # direction of the LED connection (0=towards the white connector)
-#   inputs:
-#     speed: 0  # speed for the LED connection (0-100%)
+- name: PV_LED
+  type: LED_connection
+  connect:
+    ip: 127.0.0.1
+    port: 5678
+  parameters:
+    min_speed: 0  # minimum speed for the LED connection (0-100%)
+    max_speed: 0.6  # maximum speed for the LED connection (0-100%)
+    direction: 1  # direction of the LED connection (0=towards the white connector)
+    port: /dev/ttyACM0
+  inputs:
+    speed: 5  # speed for the LED connection (0-100%)
   
 - name: CSV_wind
   type: CSV
@@ -84,9 +98,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
 - name: Wind1
   type: Wind # models can reuse the same type
-  connect:
-    ip: 192.168.27.19
-    port: 5123
   parameters:
     p_rated: 0.3  # Rated power output (kW) of the wind turbine at the rated wind speed and above.
     u_rated: 10.3  # Rated wind speed (m/s) where the wind turbine reaches its maximum power output.
@@ -103,24 +114,43 @@ models:
   states:
     wind_genState: 0  # Wind power generation state (kW) based on the chosen output type (power or energy).
     u60: 0  # Wind speed at 60m height (m/s) used to calculate the wind power generation.
-- name: Wind_LED
-  type: LED_connection
-  connect:
-    ip: 192.168.27.19 # IP address
-    port: 5124
+
+- name: TopologyMaker1
+  type: TopologyMaker
   parameters:
-    min_speed: 0  # minimum speed for the LED connection (0-100%)
-    max_speed: 0.2  # maximum speed for the LED connection (0-100%)
-    direction: 1  # direction of the LED connection (0=towards the white connector)
-  inputs:
-    speed: 0  # speed for the LED connection (0-100%)
+    filename: "examples/Cluster/Tutorial_cluster"
+  inputs: 
+    config: {}
+
+- name: IDrequester1
+  type: IDrequester
+  parameters:
+    deviceID: 1
+  states:
+    stripList: {}
+
+- name: IDrequester2
+  type: IDrequester
+  parameters:
+    deviceID: 2
+  states:
+    stripList: {}
+
+#- name: Wind_LED
+#  type: LED_connection
+#  connect:
+#    ip: 192.168.137.209 # IP address
+#    port: 5126
+#  parameters:
+#    min_speed: 0  # minimum speed for the LED connection (0-100%)
+#    max_speed: 0.2  # maximum speed for the LED connection (0-100%)
+#    direction: 1  # direction of the LED connection (0=towards the white connector)
+#  inputs:
+#    speed: 0  # speed for the LED connection (0-100%)
 
 
 - name: Battery1
   type: Battery # models can reuse the same type
-  # connect:
-  #   ip: 127.0.0.1
-  #   port: 5002
   parameters:
     max_p: 0.8  # maximum charging power limit (kW)
     min_p: -0.8  # maximum discharging power limit (kW)
@@ -138,23 +168,24 @@ models:
     mod: 0 # operation mode: 0=no action, 1=charge, -1=discharge
     soc: 10  # state of charge of the battery (%)
     flag: 0  # flag indicating battery status: 1=fully charged, -1=fully discharged, 0=available for control
-- name: Bat_LED
-  type: LED_connection
-  # connect:
-  #   ip: 145.94.213.75
-  #   port: 5123
-  parameters:
-    min_speed: 0  # minimum speed for the LED connection (0-100%)
-    max_speed: 0.09  # maximum speed for the LED connection (0-100%)
-    direction: 0  # direction of the LED connection (0=towards the white connector)
-  inputs:
-    speed: 0  # speed for the LED connection (0-100%)
+
+#- name: Bat_LED
+#  type: LED_connection
+#  # connect:
+#  #   ip: 192.168.137.209
+#  #   port: 5123
+#  parameters:
+#    min_speed: 0  # minimum speed for the LED connection (0-100%)
+#    max_speed: 0.09  # maximum speed for the LED connection (0-100%)
+#    direction: 0  # direction of the LED connection (0=towards the white connector)
+#  inputs:
+#    speed: 0  # speed for the LED connection (0-100%)
 
 - name: Controller1
   type: Controller_T1 # models can reuse the same type
-  # connect:
-  #   ip: 127.0.0.1
-  #   port: 5003
+  #connect:
+  #  ip: 127.0.0.1
+  #  port: 5003
   parameters:
     soc_min: 10  # Minimum state of charge of the battery before discharging stops
     soc_max: 90  # Maximum state of charge of the battery before charging stops
@@ -175,10 +206,19 @@ models:
 
 
 connections:
+
+- from: USBdetector1.USBchange
+  to: USBtrigger1.USBchange
+
 - from: CSVload.load
   to: Load1.load
 - from: Load1.load_dem
   to: Controller1.load_dem
+
+- from: IDrequester1.stripList
+  to: TopologyMaker1.config
+- from: IDrequester2.stripList
+  to: TopologyMaker1.config
 
 - from: CSV_pv.G_Gh # start model, pattern: model_name.output_name/input_name
   to: PV1.G_Gh # end model
@@ -196,15 +236,15 @@ connections:
   to: PV1.Az
 - from: PV1.pv_gen
   to: Controller1.pv_gen
-# - from: PV1.pv_genState
-#   to: PV_LED.speed
+- from: PV1.pv_genState
+  to: PV_LED.speed
 
 - from: CSV_wind.u
   to: Wind1.u
 - from: Wind1.wind_gen
   to: Controller1.wind_gen
-- from: Wind1.wind_genState
-  to: Wind_LED.speed
+#- from: Wind1.wind_genState
+#  to: Wind_LED.speed
 
 - from: Battery1.soc
   to: Controller1.soc
@@ -212,11 +252,7 @@ connections:
 - from: Controller1.flow2b
   to: Battery1.flow2b
   time_shifted: True
-- from: Controller1.flow2bState
-  to: Bat_LED.speed
+#- from: Controller1.flow2bState
+#  to: Bat_LED.speed
 
 
-monitor:
-  file: './out_Tutorial_cluster.csv'
-  items:
-    - Controller1.flow2bState

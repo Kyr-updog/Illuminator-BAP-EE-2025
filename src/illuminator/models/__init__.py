@@ -26,6 +26,17 @@ from .Agents.generators.generation_company_agent_v3 import GenerationCompanyAgen
 from .Agents.operators.operator_v3 import Operator_Market
 
 from .LED.LED_connection import LED_connection
+from .USBdetector.USBdetector import USBdetector
+from .USBdetector.USBtrigger import USBtrigger
+from .IDrequester.IDrequester import IDrequester
+from .TopologyMaker.TopologyMaker import TopologyMaker
+
+from .Fossil.fossil_model import Fossil
+from .Nuclear.nuclear_model import Nuclear
+from .Controllers.controller_T3_fos_nuc import ControllerT3_fos_nuc
+from .Controllers.pandapower_controller import PandaController
+from .Station.station_model import Station
+from .Station.wind_randomizer import WindRandomizer
 
 __all__ = [ 'Adder', 
             'Collector', 
@@ -42,5 +53,15 @@ __all__ = [ 'Adder',
             'ControllerT3Congestion',
             'GenerationCompanyAgent',
             'Operator_Market',
-            'LED_connection'
+            'LED_connection',
+            'USBdetector',
+            'USBtrigger',
+            'IDrequester',
+            'TopologyMaker',
+            'Fossil',
+            'Nuclear',
+            'ControllerT3_fos_nuc',
+            'PandaController',
+            'Station',
+            'WindRandomizer'
             ]

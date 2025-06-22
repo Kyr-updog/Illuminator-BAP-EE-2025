@@ -1,6 +1,15 @@
 from numpy import log, pi
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
+import numpy as np
+from scipy.stats import laplace
+from time import sleep
+from gpiozero import OutputDevice
+ 
+A = OutputDevice(18)
+B = OutputDevice(23)
+C = OutputDevice(24)
+D = OutputDevice(25)
 
 # construct the model
 class Wind(ModelConstructor):
@@ -40,16 +49,23 @@ class Wind(ModelConstructor):
                 'u_cutout': 1000,  # Cut-out wind speed (m/s) above which the wind turbine stops generating power to prevent damage.
                 'cp': 0.40,  # Coefficient of performance of the wind turbine, typically around 0.40 and never more than 0.59.
                 'diameter': 30,  # Diameter of the wind turbine rotor (m), used in calculating the swept area for wind power production.
-                'output_type': 'power'  # Output type of the wind generation, either 'power' (kW) or 'energy' (kWh).
+                'output_type': 'power',  # Output type of the wind generation, either 'power' (kW) or 'energy' (kWh).
+                'input_type': 'percentage', # 'wind_speed' or 'percentage' (capacity_percentage)
+                'name': 'Wind1',
+                'area_type': 'offshore', # Or onshore
+                'par1': 0,
+                'par2': 0
                 }
     inputs={'u': 0,  # Wind speed (m/s) at a specific height used to calculate the wind power generation.
+            'capacity_percentage': 0
             }
-    outputs={'wind_gen': 0,  # Generated wind power output (kW) or energy (kWh) based on the chosen output type (power or energy).
+    outputs={'wind_gen_out': 0,  # Generated wind power output (kW) or energy (kWh) based on the chosen output type (power or energy).
              'u': 0  # Adjusted wind speed (m/s) at 25m height after converting from the original height (e.g., 100m or 60m).
              }
     states={'u60': 10,  # Wind speeds adjusted for 60m height using logarithmic wind profile equations.
             'u25': 0,  # Wind speeds adjusted for 25m height using logarithmic wind profile equations.
-            'wind_genState': 0
+            'wind_genState': 0,
+            'wind_gen': {}
             }
 
     # define other attributes
@@ -79,6 +95,19 @@ class Wind(ModelConstructor):
         self.cp = self.parameters['cp']
         self.diameter = self.parameters['diameter']
         self.output_type = self.parameters['output_type']
+        self.input_type = self.parameters['input_type']
+        self.name = self.parameters['name']
+        self.type = self.parameters['area_type']
+
+        if self.type == 'offshore':
+            self.par1 = 0.877
+            self.par2 = 0.404
+        else:
+            self.par1 = self.parameters['par1']
+            self.par2 = self.parameters['par2']
+        
+        self.laplaceMax = laplace.pdf(0, scale=self.par2)
+        
         return result
 
 
@@ -98,13 +127,98 @@ class Wind(ModelConstructor):
         self.resolution_h = self.time_resolution / 60 / 60  # convert scenario resolution to hours
         input_data = self.unpack_inputs(inputs)  # make input data easily accessible
 
-        results = self.generation(u=input_data['u'])
+        if self.input_type == 'wind_speed':
+            results = self.generation(u=input_data['u'])
+            wind_gen = results['wind_gen']
+            self.set_outputs(results)
+            self.set_states({'u60': self.u60, 'wind_gen': {self.name: wind_gen}})
+        else:
+            percentage = input_data['capacity_percentage']
+            percentage = self.addNoiseLaplace(percentage)
+            wind_gen = percentage * self.p_rated
+            self.set_outputs({'wind_gen_out': wind_gen})
+            self.set_states({'wind_gen': {self.name: wind_gen}, 'wind_genState': wind_gen})
 
-        self.set_outputs(results)
-        self.set_states({'u60': self.u60, 'wind_genState': results['wind_gen']})
+        if self.output_type == 'energy':
+            motor = wind_gen / self.resolution_h 
+        else:
+            motor = wind_gen
+        print (motor, self.p_rated)
+
+        delay_time = (0.0007 - motor/self.p_rated*0.0007 )  + 0.001  # 1 millisecond  #0.0017
+        print("Light Level:", motor, delay_time, self.p_rated)
+ 
+ 
+        # Driving the coils of the motor
+        def step1():
+            D.on()
+            sleep(delay_time)
+            D.off()
+ 
+        def step2():
+            D.on()
+            C.on()
+            sleep(delay_time)
+            D.off()
+            C.off()
+ 
+        def step3():
+            C.on()
+            sleep(delay_time)
+            C.off()
+ 
+        def step4():
+            B.on()
+            C.on()
+            sleep(delay_time)
+            B.off()
+            C.off()
+ 
+        def step5():
+            B.on()
+            sleep(delay_time)
+            B.off()
+ 
+        def step6():
+            A.on()
+            B.on()
+            sleep(delay_time)
+            A.off()
+            B.off()
+ 
+        def step7():
+            A.on()
+            sleep(delay_time)
+            A.off()
+ 
+        def step8():
+            D.on()
+            A.on()
+            sleep(delay_time)
+            D.off()
+            A.off()
+ 
+        # Perform one fourth of a rotation
+        for _ in range(128):
+            step1()
+            step2()
+            step3()
+            step4()
+            step5()
+            step6()
+            step7()
+            step8()      
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size
+
+    def addNoiseLaplace(self, input):
+        while True:
+            x = np.random.uniform(0, 10)
+            y = np.random.uniform(0, self.laplaceMax)
+            if y < laplace.pdf(x, loc=self.par1, scale=self.par2):
+                break
+        return max(min(input * x, 1), 0)
 
 
     def production(self, u:float) -> dict:
