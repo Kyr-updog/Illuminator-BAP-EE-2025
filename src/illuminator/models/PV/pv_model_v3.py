@@ -111,6 +111,10 @@ class PV(ModelConstructor):
         self.name = self._model.parameters.get('name')
         self.par1 = self._model.parameters.get('par1')
         self.par2 = self._model.parameters.get('par2')
+
+        self.laplaceMax = laplace.pdf(0, scale=self.par2)
+
+
         self.G_Gh = 0
         self.G_Dh = 0
         self.G_Bn = 0
@@ -121,7 +125,7 @@ class PV(ModelConstructor):
         self.sun_az = 0
         self.svf = 0
         self.g_aoi = 0
-        self.laplaceMax = laplace.pdf(0, scale=self.par2)
+
         # Initialize LED strip
         self.strip = ws.PixelStrip(
             LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA,
