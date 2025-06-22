@@ -88,6 +88,7 @@ class Wind(ModelConstructor):
 
 
 
+
     # define step function
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:  # step function always needs arguments self, time, inputs and max_advance. Max_advance needs an initial value.
         """
@@ -169,14 +170,14 @@ class Wind(ModelConstructor):
  
         # Perform one fourth of a rotation
         for _ in range(128):
-            step1()
-            step2()
-            step3()
-            step4()
-            step5()
-            step6()
+            step8()
             step7()
-            step8()        
+            step6()
+            step5()
+            step4()
+            step3()
+            step2()
+            step1()        
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size
