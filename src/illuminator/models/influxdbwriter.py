@@ -158,11 +158,12 @@ class Simulator(mosaik_api.Simulator):
         assert self._influx_writer is None, errmsg
         assert num == 1, errmsg
 
-        url = model_params["url"]
-        org = model_params["org"]
-        token = model_params.get("token", os.environ.get("INFLUX_TOKEN", None))
-        self._bucket = model_params["bucket"]
-        self._measurement = model_params["measurement"]
+        url = "http://localhost:8086"
+        token = "Lfw7MDESxhk3NoeK3a8_bygrZB3U-2gHc6Vr-CxSHbyT8XjcZL_aq_SMHoEKdWJssZgXlrG4vBEqxXHMQtap-w=="
+        org = "Illuminator"
+        self._bucket = "Illuminator"
+        self._measurement = model_params.get("measurement", "default_measurement")
+
 
         self._influx_writer = influx.InfluxDBClient(
             url=url, token=token, org=org

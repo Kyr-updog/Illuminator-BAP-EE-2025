@@ -4,6 +4,11 @@
 
 from .adder import Adder
 
+from .Nuclear.nuclear_model import Nuclear
+
+
+from .Fossil.fossil_model import Fossil
+
 from .collector import Collector
 from .CSV_reader_v3 import CSV
 
@@ -29,6 +34,7 @@ from .Agents.justice_agent.justice_agent_v3 import JusticeAgent
 __all__ = [ 'Adder', 
             'Collector', 
             'CSV',
+            'Fossil',
             'GridConnection',
             'PV',
             'Wind',

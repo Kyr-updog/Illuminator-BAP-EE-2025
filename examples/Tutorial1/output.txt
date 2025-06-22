@@ -1,0 +1,1 @@
+battery_output,model=Battery flag=0i,mod=-1i,p_in=-6.399999999999295e-05,p_out=-6.399999999999295e-05,soc=10.006 1749146400631925300

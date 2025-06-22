@@ -5,7 +5,47 @@ scenario:
   end_time: '2012-06-01 23:45:00' # duration in seconds 
   time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
-models: 
+models:
+
+- name: Nuclear1
+  type: Nuclear
+  parameters:
+    fuel_type: 'uranium-235'
+    efficiency: 0.33
+    NRG_density: 8000000  # e.g. 8 MWh/kg for uranium-235
+    specific_waste: 0.0001  # Arbitrary low number
+    rated_pow: 500
+    output_type: 'power'
+  inputs:
+    req_pow: 
+  outputs:
+    gen_pow:
+    waste_produced:
+    fuel_burned:
+
+- name: FossilPlant1
+  type: Fossil
+  parameters:
+    bio_frac: 0.2     # ⬅ vaste waarde
+    fos_type: coal
+    fos_eff: 0.4
+    bio_eff: 0.3
+    fos_NRG_density: 6.7
+    bio_NRG_density: 4.5
+    fos_specific_emission: 2.4
+    bio_specific_emission: 0.3
+    rated_pow: 500
+    output_type: power
+  inputs:
+    req_pow: 0        # alleen deze blijft dynamisch
+  outputs:
+    gen_pow: 0
+    emission: 0
+    fossil_fuel_burned: 0
+    biomass_burned: 0
+  states:
+    limit_flag: 0
+
 - name: CSVload
   type: CSV
   parameters:
@@ -123,6 +163,11 @@ models:
 connections:
 - from: CSVload.load
   to: Load1.load
+- from: Controller1.res_load
+  to: FossilPlant1.req_pow
+- from: Controller1.res_load
+  to: Nuclear1.req_pow
+
 
 - from: CSV_pv.G_Gh # start model, pattern: model_name.output_name/input_name
   to: PV1.G_Gh # end model
@@ -165,7 +210,6 @@ monitor:
     # - PV1.pv_gen
     # - Wind1.wind_gen
     # - Load1.load_dem
-
     - Controller1.flow2b
     - Controller1.res_load
     - Controller1.dump
@@ -174,6 +218,13 @@ monitor:
     - PV1.pv_gen
     - Wind1.wind_gen
     - Load1.load_dem
+    - FossilPlant1.gen_pow
+    - FossilPlant1.emission
+    - FossilPlant1.fossil_fuel_burned
+    - FossilPlant1.biomass_burned
+    - Nuclear1.gen_pow
+    - Nuclear1.waste_produced
+    - Nuclear1.fuel_burned
   #    - Wind1.u60
 
   #- CSVload.load

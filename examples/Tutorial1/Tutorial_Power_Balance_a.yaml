@@ -6,6 +6,8 @@ scenario:
   time_resolution: 900 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
 models: 
+
+
 - name: CSVload
   type: CSV
   parameters:
@@ -100,6 +102,7 @@ models:
 
 
 connections:
+
 - from: CSVload.load
   to: Load1.load
 
