@@ -5,6 +5,8 @@ import os
 import sqlite3
 import paho.mqtt.client as mqtt
 from urllib.parse import urlparse
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 META = {
     'type': 'hybrid',
@@ -246,6 +248,9 @@ class Collector(mosaik_api.Simulator):
              
             # === Write Each Row as a Point ===
             for index, row in df.iterrows():
+                print("printing df")
+                print(df)
+                print("row")
                 print(row)
                 point = Point("energy_metrics").tag("source", "illuminator")  # Optional tag
                 for col,val in row.items():

@@ -545,7 +545,7 @@ class Simulation:
         collector = self.world.start('Collector', 
                                 time_resolution=_time_resolution, 
                                 start_date=_start_time,  
-                                results_show={'write2csv':True, 'dashboard_show':True, 
+                                results_show={'write2csv':False, 'dashboard_show':True, 
                                             'Finalresults_show':False,'database':False, 'mqtt':False}, 
                                 output_file=_results_file)
         

@@ -1,13 +1,13 @@
 scenario:
   name: startup
   start_time: '2012-01-01 00:00:00'
-  end_time: '2012-01-01 00:30:00'
+  end_time: '2012-01-01 00:15:00'
   time_resolution: 900
 
 monitor:
   file: './out.csv'
   items:
-  - request2.stripList
+  - request5.stripList
 
 models:
 

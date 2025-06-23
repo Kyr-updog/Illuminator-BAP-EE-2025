@@ -6,10 +6,7 @@ from scipy.stats import laplace
 from time import sleep
 from gpiozero import OutputDevice
  
-A = OutputDevice(18)
-B = OutputDevice(23)
-C = OutputDevice(24)
-D = OutputDevice(25)
+
 
 
 # construct the model
@@ -75,6 +72,11 @@ class Wind(ModelConstructor):
     powerout = 0  # Output power of the wind turbine at a specific wind speed u.
     u60 = 10  # Wind speeds adjusted for different heights (e.g., 60m and 25m) using logarithmic wind profile equations.
     u25 = 0  # Wind speeds adjusted for different heights (e.g., 60m and 25m) using logarithmic wind profile equations.
+    
+    A = OutputDevice(18)
+    B = OutputDevice(23)
+    C = OutputDevice(24)
+    D = OutputDevice(25)
 
 
     def init(self, *args, **kwargs) -> None:
@@ -151,52 +153,52 @@ class Wind(ModelConstructor):
 
         # Driving the coils of the motor
         def step1():
-            D.on()
+            self.D.on()
             sleep(delay_time)
-            D.off()
+            self.D.off()
  
         def step2():
-            D.on()
-            C.on()
+            self.D.on()
+            self.C.on()
             sleep(delay_time)
-            D.off()
-            C.off()
+            self.D.off()
+            self.C.off()
  
         def step3():
-            C.on()
+            self.C.on()
             sleep(delay_time)
-            C.off()
+            self.C.off()
  
         def step4():
-            B.on()
-            C.on()
+            self.B.on()
+            self.C.on()
             sleep(delay_time)
-            B.off()
-            C.off()
+            self.B.off()
+            self.C.off()
  
         def step5():
-            B.on()
+            self.B.on()
             sleep(delay_time)
-            B.off()
+            self.B.off()
  
         def step6():
-            A.on()
-            B.on()
+            self.A.on()
+            self.B.on()
             sleep(delay_time)
-            A.off()
-            B.off()
+            self.A.off()
+            self.B.off()
  
         def step7():
-            A.on()
+            self.A.on()
             sleep(delay_time)
-            A.off()
+            self.A.off()
  
         def step8():
-            D.on()
-            A.on()
+            self.D.on()
+            self.A.on()
             sleep(delay_time)
-            D.off()
-            A.off()
+            self.D.off()
+            self.A.off()
  
         # Perform one fourth of a rotation
         for _ in range(128):
