@@ -40,6 +40,11 @@ models:
     incoming: 0
     outgoing: 0
 
+- name: USBtrigger1
+  type: USBtrigger
+  inputs:
+    USBchange: False
+
 - name: CSV_PV
   type: CSV
   parameters:
@@ -286,6 +291,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.9
     port: 5102
@@ -301,6 +308,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.6
     port: 5102
@@ -316,6 +325,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.7
     port: 5103
@@ -331,6 +342,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.8
     port: 5102
@@ -346,6 +359,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.10
     port: 5101
@@ -361,6 +376,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.12
     port: 5101
@@ -376,6 +393,8 @@ models:
   states:
     cp_powers: {}
     transmit: {}
+  outputs:
+    USBchange: False
   connect:
     ip: 192.168.0.11
     port: 5101
@@ -419,3 +438,24 @@ connections:
 
 - from: Station7.cp_powers
   to: GC1.dump_dict
+
+- from: Station1.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station2.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station3.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station5.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station6.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station7.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station4.USBchange
+  to: USBtrigger1.USBchange

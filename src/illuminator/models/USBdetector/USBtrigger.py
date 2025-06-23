@@ -1,5 +1,3 @@
-import serial.tools
-import serial.tools.list_ports
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 from ...cli.main import simulation
