@@ -26,9 +26,10 @@ class LoadHeatpump(ModelConstructor):
     """
 
     parameters={'houses_case': 1, 
-                'houses_data': None
+                'houses_data': None,
+                'name': 'HP1'
                 }
-    inputs={'hp_load': 0}
+    inputs={'hp_load': {}}
     outputs={'load_HP': 0,
              }
     states={}
@@ -51,6 +52,7 @@ class LoadHeatpump(ModelConstructor):
         super().__init__(**kwargs)
         self.houses_case = self.parameters['houses_case']
         self.houses_data = self.parameters['houses_data']
+        self.name = self.parameters['name']
         self.fan = gp.OutputDevice(23)
 
 
@@ -75,7 +77,7 @@ class LoadHeatpump(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        load_in = input_data.get('hp_load', 0)
+        load_in = input_data['hp_load'][self.name]
         results = self.demand(hp_load=load_in)
         self.set_outputs(results)
 

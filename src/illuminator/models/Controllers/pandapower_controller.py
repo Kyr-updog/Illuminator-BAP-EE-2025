@@ -68,7 +68,7 @@ class PandaController(ModelConstructor):
             text, id = line_id.split('_')
             id = int(id)
             line = self.lines_df[self.lines_df['line_id'] == id]
-            max_i_ka = line['capacity'] # Capacity in MW
+            max_i_ka = line['capacity'] # Capacity in kA
             if line['tf'].iloc[0] == 0:
                 from_bus = pp.get_element_index(self.net, 'bus', connection[0])
                 to_bus = pp.get_element_index(self.net, 'bus', connection[1])
@@ -112,15 +112,21 @@ class PandaController(ModelConstructor):
                     pp.create_poly_cost(self.net, fossil, 'gen', cp1_eur_per_mw=specs['bio_emission_rate'])
             elif specs['type'] == 'GridConnection':
                 power_limit = specs['connection_capacity']
-                
                 connection = pp.create_ext_grid(self.net, bus_index, min_p_mw=-power_limit, max_p_mw=power_limit, name=name)
-                #pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,0],[0,100000,10000]])
-                pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=10)
-                
+                pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,-100000],[0,100000,100000]])
+                #pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=10)
             elif specs['type'] == 'Battery':
                 power_limit = specs['max_p']
-                battery = pp.create_storage(self.net, bus_index, p_mw=10, max_e_mwh=specs['max_energy'], soc_percent=specs['init_soc'], min_p_mw=-power_limit, max_p_mw=power_limit, controllable=True, in_service=True, name=name) # Update Battery_v3.py!!!!!!!!!!!!!!!!!
+                min_p_mw = max(-power_limit, -specs['soc_init']*specs['max_energy']/(self.time_resolution/3600))
+                max_p_mw = min(power_limit, (1-specs['soc_init'])*specs['max_energy']/(self.time_resolution/3600))
+                battery = pp.create_storage(self.net, bus_index, p_mw=10, max_e_mwh=specs['max_energy'], min_e_mwh=0, soc_percent=specs['soc_init'], min_p_mw=min_p_mw, max_p_mw=max_p_mw, controllable=True, in_service=True, name=name) # Update Battery_v3.py!!!!!!!!!!!!!!!!!
                 pp.create_poly_cost(self.net, battery, 'storage', cp1_eur_per_mw=0)
+            elif specs['type'] == 'LoadEV':
+                ev = pp.create_load(self.net, bus_index, p_mw=10, min_p_mw=0, max_p_mw=1000, vm_pu=1.0, controllable=True, name=name)
+                pp.create_poly_cost(self.net, ev, 'load', cp1_eur_per_mw=1000)
+            elif specs['type'] == 'LoadHeatpump':
+                hp = pp.create_load(self.net, bus_index, p_mw=10, min_p_mw=0, max_p_mw=1000, vm_pu=1.0, controllable=True, name=name)
+                pp.create_poly_cost(self.net, hp, 'load', cp1_eur_per_mw=1000)
             else:
                 pass
         #self.net.gen.to_csv('gens.csv')
@@ -204,17 +210,31 @@ class PandaController(ModelConstructor):
                 generator_outputs.append(fos_results)
                 total_power += fos_results
             elif specs['type'] == 'GridConnection':
-                
                 grid_index = pp.get_element_index(self.net, 'ext_grid', name)
                 grid_results = self.net.res_ext_grid.at[grid_index, 'p_mw']
                 cp_powers.setdefault(specs['station'], {})[name] = grid_results
                 total_supply_from_grid += grid_results
                 total_power += grid_results
-                
             elif specs['type'] == 'Battery': # Manually adjust SoC
                 bat_index = pp.get_element_index(self.net, 'storage', name)
-                bat_results = self.net.res_storage.iloc[bat_index]
-                cp_powers.setdefault(specs['station'], {})[name] = bat_results['p_mw']
+                bat_results = self.net.res_storage.at[bat_index, 'p_mw']
+                cp_powers.setdefault(specs['station'], {})[name] = bat_results
+                max_e = specs['max_energy']
+                power_limit = specs['max_p']
+                soc_old = self.net.storage.at[bat_index, 'soc_percent']
+                soc_new = soc_old + bat_results*self.time_resolution/3600 / max_e
+                min_p_mw = max(-power_limit, -soc_new*max_e/(self.time_resolution/3600))
+                max_p_mw = min(power_limit, (1-soc_new)*max_e/(self.time_resolution/3600))
+                self.net.storage.at[bat_index, 'min_p_mw'] = min_p_mw
+                self.net.storage.at[bat_index, 'max_p_mw'] = max_p_mw
+            elif specs['type'] == 'LoadEV':
+                EV_index = pp.get_element_index(self.net, 'load', name)
+                EV_results = self.net.res_load.at[EV_index, 'p_mw']
+                cp_powers.setdefault(specs['station'], {})[name] = EV_results
+            elif specs['type'] == 'LoadHeatpump':
+                HP_index = pp.get_element_index(self.net, 'load', name)
+                HP_results = self.net.res_load.at[HP_index, 'p_mw']
+                cp_powers.setdefault(specs['station'], {})[name] = HP_results
             else:
                 pass
 
