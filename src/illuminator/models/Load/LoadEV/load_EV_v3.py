@@ -23,8 +23,9 @@ class LoadEV(ModelConstructor):
 
     parameters={'houses_case': None,  # number of EVs you want to model
                 'houses_data': None,  # number of EVs for which the profile is for
+                'name': 'EV1'
                 }
-    inputs={'power': 0,
+    inputs={'power': {},
              'n': 0,  # # n is number of EVs charging at a certain point in time (its in the database but unused for now)
             }
     outputs={'load_EV': 0,  #
@@ -49,6 +50,7 @@ class LoadEV(ModelConstructor):
         super().__init__(**kwargs)
         self.houses_case = self.parameters['houses_case']
         self.houses_data = self.parameters['houses_data']
+        self.name = self.parameters['name']
         
 
 
@@ -74,7 +76,7 @@ class LoadEV(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
 
-        load_in = input_data.get('power', 0)
+        load_in = input_data['power'][self.name]
         n = input_data.get('n', 0)
         results = self.demand(power=load_in, n=n)
         self.set_outputs({'load_EV': results['load_EV']})

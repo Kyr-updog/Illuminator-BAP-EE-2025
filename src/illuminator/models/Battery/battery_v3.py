@@ -24,9 +24,11 @@ class Battery(ModelConstructor):
         'discharge_efficiency': 90,
         'soc_min': 3,
         'soc_max': 80,
+        'name': 'Battery1',
+        'soc_init': 0
     }
 
-    inputs = {'flow2b': 0}
+    inputs = {'flow2b': {}}
 
     outputs = {
         'p_out': 20,
@@ -56,6 +58,9 @@ class Battery(ModelConstructor):
         self.max_energy = self._model.parameters.get('max_energy')
         self.soc_min = self._model.parameters.get('soc_min')
         self.soc_max = self._model.parameters.get('soc_max')
+        self.name = self._model.parameters.get('name')
+        self.soc_init = self._model.parameters.get('soc_init')
+
 
         self.powerout = 0
 
@@ -69,7 +74,7 @@ class Battery(ModelConstructor):
     def step(self, time: int, inputs: dict = None, max_advance: int = 900) -> int:
         input_data = self.unpack_inputs(inputs)
 
-        results = self.output_power(input_data['flow2b'])
+        results = self.output_power(input_data['flow2b'][self.name])
 
         self.soc = results.pop('soc')
         self.flag = results.pop('flag')

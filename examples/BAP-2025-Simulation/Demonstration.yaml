@@ -1,1 +1,69 @@
+scenario:
+  name: "Pandalyzer test" # in mosaik so called world
+  start_time: '2025-04-15 00:00:00' # ISO 8601 start time of the simulation
+  end_time: '2025-04-15 23:50:00' # duration in seconds 
+  time_resolution: 1800 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
+models:
+- name: PandaController1
+  type: PandaController
+  parameters:
+    peripherals: {}
+    stations: {}                 
+    ps_connections: {}
+    ss_connections: {}
+    lines_file_path: demo_line_specs.csv
+  inputs:
+    ncp_powers: {}
+  states:
+    cp_powers: {}
+    tl_powers: {}
+    one_l_congestion: 0
+    max_congested: null
+    max_congested_all: 0
+    independence: 0
+    execution_time: 0
+    incoming: 0
+    outgoing: 0
+
+- name: CSV_PV
+  type: CSV
+  parameters:
+    file_path: 'Solar_april.csv'
+    delimiter: ','
+    date_format: 'YYYY-MM-DD HH:mm:ss'
+  states:
+    utilization: 
+
+- name: CSV_Load
+  type: CSV
+  parameters:
+    file_path: 'load_april.csv'
+    delimiter: ','
+    date_format: 'YYYY-MM-DD HH:mm:ss'
+  states:
+    load:
+
+- name: WRandomizer_offshore
+  type: WindRandomizer
+  parameters:
+    area_type: offshore
+  outputs:
+    fraction_out: null
+  states:
+    s: -1
+    ds: 0.3
+    dds: 0
+    fraction: 0
+
+- name: WRandomizer_onshore
+  type: WindRandomizer
+  parameters:
+    area_type: onshore
+  outputs:
+    fraction_out: null
+  states:
+    s: -1
+    ds: 0.3
+    dds: 0
+    fraction: 0
