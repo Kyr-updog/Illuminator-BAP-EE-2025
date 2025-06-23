@@ -1,6 +1,7 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 from .Dynamic_yaml_scenario_module import *
+import yaml
 
 class TopologyMaker(ModelConstructor):
 
@@ -15,8 +16,14 @@ class TopologyMaker(ModelConstructor):
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
         print("BOE!!")
         input = self.unpack_inputs(inputs)
-        print(input)
+        filename = self.parameters.get("filename")
         network = []
+        
+        #station aan ip koppelen
+        with open(filename, 'r') as yaml_file:
+            data = yaml.safe_load(yaml_file)
+            
+        
         for device in input['config']:#make the input one giant list for the mapping function
             for led_strip in device:
                 network.append([led_strip[0], led_strip[1], led_strip[3]])
@@ -24,11 +31,12 @@ class TopologyMaker(ModelConstructor):
         led_connections = []
         for device in input['config']:
             for led_strip in device:
-                if led_strip[3] == 'sender':
+                if led_strip[3] == 'Sender':
                     led_connections.append([led_strip[1], led_strip[2], led_strip[4]])
         
         print(network)
-        filename = self.parameters.get("filename")
+        print("network")
+        print(led_connections)
         connected_pairs = determine_connected_pairs(network)
         topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con.yaml')
         led_map = write_LED_portmaps(led_connections)
