@@ -1,6 +1,7 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import arrow
 from illuminator.engine import current_model
+import mosaik_api_v3 as mosaik_api
 
 # Define the model parameters, inputs, outputs...
 csv = IlluminatorModel(
@@ -237,6 +238,7 @@ class CSV(ModelConstructor):
         self.datafile.close()
 
 if __name__ == '__main__':
-    csv_model = CSV(csv)
+    #csv_model = CSV(csv)
+    mosaik_api.start_simulation(CSV(), "CSV reader")
 
 #     print(csv_model.step(1))

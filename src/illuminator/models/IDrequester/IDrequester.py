@@ -19,12 +19,11 @@ class IDrequester(ModelConstructor):
         print(connectionList)
         self.connections = []
         ip = self.parameters.get("deviceID")
-        for connection in connectionList:
+        for i, connection in enumerate(connectionList):
             serialCon = serial.Serial("/dev/"+ str(connection.name))
-            print(connection.name)
             id, sender = sendPixelData(serialCon, 0, 0, 0, 0, 0)
             serialCon.close()
-            self.connections.append([id, ip[0], ip[1], sender, connection.name])
+            self.connections.append([id, ip[0], ip[1]+i, sender, connection.name])
             
         output = {'stripList': self.connections}
         self.set_states(output)
