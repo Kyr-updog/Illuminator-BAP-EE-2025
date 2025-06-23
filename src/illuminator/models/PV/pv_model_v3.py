@@ -3,10 +3,16 @@ import numpy as np
 import mosaik_api_v3 as mosaik_api
 from scipy.stats import laplace
 import time as timer
-import board
-import neopixel
+import rpi_ws281x as ws
 
-pixels1 = neopixel.NeoPixel(board.D18,1 , brightness=1)
+# LED strip configuration
+LED_COUNT = 20
+LED_PIN = 18
+LED_FREQ_HZ = 800000
+LED_DMA = 10
+LED_BRIGHTNESS = 255
+LED_INVERT = False
+LED_CHANNEL = 0
 
 # construct the model
 class PV(ModelConstructor):
@@ -81,7 +87,7 @@ class PV(ModelConstructor):
     time_step_size=1
     time=None
 
-    def init(self, *args, **kwargs) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Initialize the PV model with the provided parameters.
 
@@ -90,7 +96,7 @@ class PV(ModelConstructor):
         kwargs : dict
             Additional keyword arguments to initialize the model.
         """
-        result = super().init(*args, **kwargs)
+        super().__init__(**kwargs)
         self.cap = self._model.parameters.get('cap')
         self.output_type = self._model.parameters.get('output_type')
         self.NOCT = self._model.parameters.get('NOCT')
@@ -105,6 +111,10 @@ class PV(ModelConstructor):
         self.name = self._model.parameters.get('name')
         self.par1 = self._model.parameters.get('par1')
         self.par2 = self._model.parameters.get('par2')
+
+        self.laplaceMax = laplace.pdf(0, scale=self.par2)
+
+
         self.G_Gh = 0
         self.G_Dh = 0
         self.G_Bn = 0
@@ -116,9 +126,14 @@ class PV(ModelConstructor):
         self.svf = 0
         self.g_aoi = 0
 
-        self.laplaceMax = laplace.pdf(0, scale=self.par2)
-        
-        return result
+        # Initialize LED strip
+        self.strip = ws.PixelStrip(
+            LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA,
+            LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL
+        )
+        self.strip.begin()
+
+        #return result
 
 
     def step(self, time: int, inputs:dict=None, max_advance:int=900) -> None:
@@ -162,22 +177,31 @@ class PV(ModelConstructor):
         self.set_outputs({'pv_gen_out': results['pv_gen']})
         self.set_states({'pv_gen': {self.name: results['pv_gen']}, 'pv_genState': results['pv_gen']})
 
-        light = results['pv_gen']
-        if light <= 0:
-           pixels1.fill((0, 0,0))
-        elif light < self.cap/5:
-           pixels1.fill((139, 0,0))
-        elif light < self.cap/5*2:
-           pixels1.fill((255, 140,0))
-        elif light < self.cap/5*3:
-           pixels1.fill((255, 215,0))
-        elif light < self.cap/5*4:
-           pixels1.fill((144, 238,144))             
-        else:
-           pixels1.fill((0, 100,0))
+        # Update LEDs based on pv_gen
+        self.update_leds(results['pv_gen'])
+
         timer.sleep(1)  
 
         return time + self._model.time_step_size
+    
+    def update_leds(self, light):
+        if light <= 0:
+            color = ws.Color(0, 0, 0)
+        elif light < self.cap / 5:
+            color = ws.Color(139, 0, 0)
+        elif light < self.cap / 5 * 2:
+            color = ws.Color(255, 140, 0)
+        elif light < self.cap / 5 * 3:
+            color = ws.Color(255, 215, 0)
+        elif light < self.cap / 5 * 4:
+            color = ws.Color(144, 238, 144)
+        else:
+            color = ws.Color(0, 100, 0)
+
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, color)
+
+        self.strip.show()
 
     def addNoiseLaplace(self, input):
         while True:

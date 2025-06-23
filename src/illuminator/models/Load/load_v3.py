@@ -3,11 +3,16 @@ import mosaik_api_v3 as mosaik_api
 import numpy as np
 from scipy.stats import laplace
 import time as timer
-import board
-import neopixel
+import rpi_ws281x as ws
 
-pixels1 = neopixel.NeoPixel(board.D18, 9, brightness=1)
-previous_dem = 0
+# LED strip configuration
+LED_COUNT = 20
+LED_PIN = 18
+LED_FREQ_HZ = 800000
+LED_DMA = 10
+LED_BRIGHTNESS = 255
+LED_INVERT = False
+LED_CHANNEL = 0
 
 
 class Load(ModelConstructor):
@@ -47,7 +52,7 @@ class Load(ModelConstructor):
     laplaceMax = laplace.pdf(0, scale=par2)
 
 
-    def init(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
 
@@ -60,13 +65,21 @@ class Load(ModelConstructor):
         -------
         None
         """
-        result = super().init(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.consumption = 0
         self.input_type = self.parameters['input_type']
         self.name = self.parameters['name']
         self.total = self.parameters['total']
         print(f"initialisation houses: {self._model.parameters.get('houses')}")
-        return result
+        
+        # Initialize LED strip
+        self.strip = ws.PixelStrip(
+            LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA,
+            LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL
+        )
+        self.strip.begin()
+
+        #return result
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
@@ -103,43 +116,46 @@ class Load(ModelConstructor):
 
         #Green is for base unit W or Wh, yellow is for kW or kWh and red is for MW or MWhh and above. 
         #LEDs blinking indicated load demand is increased, while constant illumination indicates constant or decreased load demand.    
-        global previous_dem
-        if results['consumption'] > 1000000:
-            if results['consumption'] > previous_dem:
-                pixels1.fill((139, 0, 0))
-                timer.sleep(0.3)
-                pixels1.fill((0, 0, 0))
-                timer.sleep(0.3)
-                pixels1.fill((139, 0, 0))
-                timer.sleep(0.4)
-            else:
-                pixels1.fill((139, 0, 0))        
-        elif results['consumption'] > 1000:
-            if results['consumption'] > previous_dem:
-                pixels1.fill((255, 200, 0))
-                timer.sleep(0.3)
-                pixels1.fill((0, 0, 0))
-                timer.sleep(0.3)
-                pixels1.fill((255, 200, 0))
-                timer.sleep(0.4)
-            else:
-                pixels1.fill((255, 200, 0))    
-        elif results['consumption'] > 0:
-            if results['consumption'] > previous_dem:
-                pixels1.fill((0, 255, 0))
-                timer.sleep(0.3)
-                pixels1.fill((0, 0, 0))
-                timer.sleep(0.3)
-                pixels1.fill((0, 255, 0))
-                timer.sleep(0.4)
-            else:
-                pixels1.fill((0, 255, 0))  
-        else:
-            pixels1.fill((0, 0, 0))
-        previous_dem = results['consumption']
+        
+        # Update LEDs
+        self.update_leds(results['consumption'])
+
+        self.previous_dem = results['consumption']
 
         return time + self._model.time_step_size
 
+    def update_leds(self, consumption):
+        if consumption > 1_000_000:
+            color = ws.Color(139, 0, 0)
+        elif consumption > 1_000:
+            color = ws.Color(255, 200, 0)
+        elif consumption > 0:
+            color = ws.Color(0, 255, 0)
+        else:
+            color = ws.Color(0, 0, 0)
+
+        if consumption > self.previous_dem and consumption > 0:
+            # blinking if demand increased
+            for _ in range(2):
+                for i in range(self.strip.numPixels()):
+                    self.strip.setPixelColor(i, color)
+                self.strip.show()
+                timer.sleep(0.3)
+
+                for i in range(self.strip.numPixels()):
+                    self.strip.setPixelColor(i, ws.Color(0, 0, 0))
+                self.strip.show()
+                timer.sleep(0.3)
+
+            for i in range(self.strip.numPixels()):
+                self.strip.setPixelColor(i, color)
+            self.strip.show()
+            timer.sleep(0.4)
+        else:
+            # constant color
+            for i in range(self.strip.numPixels()):
+                self.strip.setPixelColor(i, color)
+            self.strip.show()
 
     def demand(self, load:float) -> dict:
         """
