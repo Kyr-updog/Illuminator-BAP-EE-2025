@@ -11,6 +11,7 @@ B = OutputDevice(23)
 C = OutputDevice(24)
 D = OutputDevice(25)
 
+
 # construct the model
 class Wind(ModelConstructor):
     """
@@ -147,8 +148,7 @@ class Wind(ModelConstructor):
 
         delay_time = (0.0007 - motor/self.p_rated*0.0007 )  + 0.001  # 1 millisecond  #0.0017
         print("Light Level:", motor, delay_time, self.p_rated)
- 
- 
+
         # Driving the coils of the motor
         def step1():
             D.on()
@@ -200,14 +200,14 @@ class Wind(ModelConstructor):
  
         # Perform one fourth of a rotation
         for _ in range(128):
-            step1()
-            step2()
-            step3()
-            step4()
-            step5()
-            step6()
+            step8()
             step7()
-            step8()      
+            step6()
+            step5()
+            step4()
+            step3()
+            step2()
+            step1() 
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size
