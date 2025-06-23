@@ -1,6 +1,6 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
-from .Dynamic_yaml_scenario_module import *
+#from .Dynamic_yaml_scenario_module import *
 import yaml
 
 class TopologyMaker(ModelConstructor):
@@ -14,25 +14,31 @@ class TopologyMaker(ModelConstructor):
         return result
         
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
-        print("BOE!!")
         input = self.unpack_inputs(inputs)
         filename = self.parameters.get("filename")
         network = []
         
         #station aan ip koppelen
-        with open(filename, 'r') as yaml_file:
-            data = yaml.safe_load(yaml_file)
+       
+        stationlist = self.get_stations(filename)
             
-        
         for device in input['config']:#make the input one giant list for the mapping function
             for led_strip in device:
-                network.append([led_strip[0], led_strip[1], led_strip[3]])
+                station = None
+                for ip_name in stationlist:
+                    if ip_name in led_strip:
+                        station = ip_name[1]
+                network.append([led_strip[0], station, led_strip[3]])
                 
         led_connections = []
         for device in input['config']:
             for led_strip in device:
                 if led_strip[3] == 'Sender':
-                    led_connections.append([led_strip[1], led_strip[2], led_strip[4]])
+                    station = None
+                    for ip_name in stationlist:
+                        if ip_name in led_strip:
+                            station = ip_name[1]
+                    led_connections.append([led_strip[1], led_strip[2], led_strip[4], station])
         
         print(network)
         print("network")
@@ -46,6 +52,21 @@ class TopologyMaker(ModelConstructor):
             
         return time + self._model.time_step_size
     
+    def get_stations(self, filename):
+        with open(filename, 'r') as yaml_file:
+            data = yaml.safe_load(yaml_file)
+            models = data["models"]
+            ip_name = []
+            for model in models:
+                if model["type"] == "Station":
+                    name = model["name"]
+                    ip = model["connect"]["ip"]
+                    ip_name.append([ip, name])
+        return ip_name
+            
+            
     
 if __name__ == "__main__":
-    mosaik_api.start_simulation(TopologyMaker(), "USB connections")
+    #mosaik_api.start_simulation(TopologyMaker(), "USB connections")
+    maker = TopologyMaker()
+    maker.get_stations("examples/BAP-2025-Simulation/Demonstration.yaml")
