@@ -1,10 +1,8 @@
 from illuminator.builder import ModelConstructor
 
-import RPi.GPIO as GPIO
+import gpiozero as gp
 import time as timer
- 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23,GPIO.OUT)
+
 
 # construct the model
 class Fossil(ModelConstructor):
@@ -74,6 +72,8 @@ class Fossil(ModelConstructor):
         self.coal_waste = self.parameters['coal_waste']
         self.gas_waste = self.parameters['gas_waste']
 
+        self.steam = gp.OutputDevice(23)
+
          
 
     # define step function
@@ -110,9 +110,9 @@ class Fossil(ModelConstructor):
         self.set_outputs(results)
 
         if results['emission'] > 0:
-            GPIO.output(23, GPIO.HIGH)
+            self.steam.on()
         else:
-            GPIO.output(23, GPIO.LOW)
+            self.steam.off()
         timer.sleep(1)        
 
         # return the time of the next step (time until current information is valid)
@@ -161,3 +161,6 @@ class Fossil(ModelConstructor):
         re_params = {'gen_pow': req_pow, 'emission': emission, 'fossil_fuel_burned': fossil_fuel_burned,
                      'biomass_burned': biomass_burned, 'limit_flag': limit_flag}
         return re_params
+        
+if __name__ == '__main__':
+    mosaik_api.start_simulation(Fossil(), 'Fossil sim')
