@@ -33,7 +33,7 @@ from .TopologyMaker.TopologyMaker import TopologyMaker
 
 from .Fossil.fossil_model import Fossil
 from .Nuclear.nuclear_model import Nuclear
-from .Controllers.controller_T3_fos_nuc import ControllerT3_fos_nuc
+from .Controllers.controllerT3_fos_nuc import ControllerT3_fos_nuc
 from .Controllers.pandapower_controller import PandaController
 from .Station.station_model import Station
 from .Station.wind_randomizer import WindRandomizer
