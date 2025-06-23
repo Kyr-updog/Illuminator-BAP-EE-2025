@@ -247,21 +247,20 @@ class Collector(mosaik_api.Simulator):
              
              
             # === Write Each Row as a Point ===
-            for index, row in df.iterrows():
-                print("printing df")
-                print(df)
-                print("row")
-                print(row)
-                point = Point("energy_metrics").tag("source", "illuminator")  # Optional tag
-                for col,val in row.items():
-                    point = point.field(col, float(val))
-                point = point.time(index, WritePrecision.NS)
-                
-                write_api.write(bucket=bucket, org=org, record=point)
-            #             # TODO: raise warning, not implemented
-            #             for key, value in df.items():
-            #                 wandb.log({key: value[0],
-            #                            "custom_step":time/900})  # TODO replace 900 by something better
+            try:
+                for index, row in df.iterrows():
+                    point = Point("energy_metrics").tag("source", "illuminator")  # Optional tag
+                    for col,val in row.items():
+                        point = point.field(col, float(val))
+                    point = point.time(index, WritePrecision.NS)
+                    
+                    write_api.write(bucket=bucket, org=org, record=point)
+                #             # TODO: raise warning, not implemented
+                #             for key, value in df.items():
+                #                 wandb.log({key: value[0],
+                #                            "custom_step":time/900})  # TODO replace 900 by something better
+            except:
+                print("meh, I don't want to do my stuff")
 
         if self.results_show['write2csv'] == True:
             if time == 0:

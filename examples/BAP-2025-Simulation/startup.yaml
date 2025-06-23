@@ -14,7 +14,7 @@ models:
 - name: TopologyCreator
   type: TopologyMaker
   parameters: 
-    filename: 'examples/BAP-2025-simulation/Demonstration.yaml'
+    filename: 'examples/BAP-2025-Simulation/Demonstration.yaml'
   inputs:
     config: {}
 
