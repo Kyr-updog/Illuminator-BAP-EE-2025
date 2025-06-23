@@ -28,13 +28,12 @@ class TopologyMaker(ModelConstructor):
                     led_connections.append([led_strip[1], led_strip[2], led_strip[4]])
         
         print(network)
-        raise ValueError(network)
         filename = self.parameters.get("filename")
         connected_pairs = determine_connected_pairs(network)
         topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con')
         led_map = write_LED_portmaps(led_connections)
         filename = self._model.parameters.get('filename')
-        read_and_copy_yaml_data_plus_add_data_to_new_file('temp_no_con', 'simulation', led_map, topology)
+        write_scenario_LEDs_and_connections('temp_no_con', 'simulation', led_map, topology)
         print(network)
             
         return time + self._model.time_step_size

@@ -38,25 +38,25 @@ models:
 #  states:
 #    stripList: None
 #
-#- name: request3
-#  type: IDrequester
-#  connect: 
-#    ip: '192.168.0.8'
-#    port: 5000
-#  parameters:
-#    deviceID: ['192.168.0.8', 5000]
-#  states:
-#    stripList: None
-
-- name: request4
+- name: request3
   type: IDrequester
   connect: 
-    ip: '192.168.0.9'
+    ip: '192.168.0.8'
     port: 5000
   parameters:
-    deviceID: ['192.168.0.9', 5000]
+    deviceID: ['192.168.0.8', 5000]
   states:
     stripList: None
+
+#- name: request4
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.9'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.9', 5000]
+#  states:
+#    stripList: None
 
 - name: request5
   type: IDrequester
@@ -93,10 +93,10 @@ connections:
 #  to: TopologyCreator.config
 #- from: request2.stripList
 #  to: TopologyCreator.config
-#- from: request3.stripList
-#  to: TopologyCreator.config
-- from: request4.stripList
+- from: request3.stripList
   to: TopologyCreator.config
+#- from: request4.stripList
+#  to: TopologyCreator.config
 - from: request5.stripList
   to: TopologyCreator.config
 - from: request6.stripList
