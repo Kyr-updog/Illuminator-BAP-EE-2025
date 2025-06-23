@@ -38,7 +38,7 @@ def determine_connected_pairs(Network):           #this function creates an arra
             continue
 
         if (len(connected_pair) == 6):
-            if ('Sender' in connected_pair[1]):
+            if ('sender' in connected_pair[1]):
                 connected_pair_array = np.append(connected_pair_array, [[connected_pair[0], connected_pair[3], connected_pair[2]]], axis=0)
                 #add connected Station pair to next row in array in standard order (for S/R) 
             else:    
