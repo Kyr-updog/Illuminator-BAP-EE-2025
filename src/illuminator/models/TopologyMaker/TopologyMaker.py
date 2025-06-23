@@ -1,6 +1,6 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
-#from .Dynamic_yaml_scenario_module import *
+from .Dynamic_yaml_scenario_module import *
 import yaml
 
 class TopologyMaker(ModelConstructor):
@@ -24,25 +24,24 @@ class TopologyMaker(ModelConstructor):
             
         for device in input['config']:#make the input one giant list for the mapping function
             for led_strip in device:
-                station = None
+                station = ""
                 for ip_name in stationlist:
-                    if ip_name in led_strip:
+                    if ip_name[0] in led_strip:
                         station = ip_name[1]
                 network.append([led_strip[0], station, led_strip[3]])
                 
         led_connections = []
         for device in input['config']:
             for led_strip in device:
-                if led_strip[3] == 'Sender':
-                    station = None
+                if led_strip[3] == 'sender':
+                    station = ""
                     for ip_name in stationlist:
-                        if ip_name in led_strip:
+                        print(ip_name)
+                        if ip_name[0] in led_strip:
                             station = ip_name[1]
                     led_connections.append([led_strip[1], led_strip[2], led_strip[4], station])
         
-        print(network)
-        print("network")
-        print(led_connections)
+
         connected_pairs = determine_connected_pairs(network)
         topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con.yaml')
         led_map = write_LED_portmaps(led_connections)
@@ -67,6 +66,4 @@ class TopologyMaker(ModelConstructor):
             
     
 if __name__ == "__main__":
-    #mosaik_api.start_simulation(TopologyMaker(), "USB connections")
-    maker = TopologyMaker()
-    maker.get_stations("examples/BAP-2025-Simulation/Demonstration.yaml")
+    mosaik_api.start_simulation(TopologyMaker(), "USB connections")
