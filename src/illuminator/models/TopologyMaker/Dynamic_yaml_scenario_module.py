@@ -13,8 +13,8 @@ def write_LED_portmaps(LED_model):
 
         LED_portmap.append({'name': f'LED_model_{i+1}', 'type': 'LED_connection', 
                             'connect': {'ip': Pi_IP_address, 'port': ip_port}, 
-                            'parameters': {'min_speed': 0, 'max_speed': 0.6, 'direction': 0, 'port': serial_port},
-                            'input': {'speed': 5}
+                            'parameters': {'max_delay': 100, 'direction': 0, 'port': "/dev/"+str(serial_port)},
+                            'inputs': {'delay': 5}
                             })
     return LED_portmap
 
@@ -50,7 +50,7 @@ def write_topology(connected_pair_array, key, filename, write_file):
         topology_list = (data[key])                #copies everything under a given "key:" to a list
         print("going strong")
         data.pop(key)                                   #pops the "key:" and everything underneath
-    with open(filename, 'w') as file:   #opens a different yaml file to write to
+    with open(write_file, 'w') as file:   #opens a different yaml file to write to
         yaml.dump(data,file,sort_keys=False)            #writes the original yaml data, excluding the popped key, to said different yaml file
                                                     #the purpose of this operation is to copy the static connections to the topology
                                                     #and then remove them in a new intermediary yaml file
@@ -71,7 +71,7 @@ def write_topology(connected_pair_array, key, filename, write_file):
 def write_scenario_LEDs_and_connections(filename,write_file,LED_portmap, topology):
     with open(filename, 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
-    with open(filename, 'w') as file:   #opens a different yaml file to write to
+    with open(write_file, 'w') as file:   #opens a different yaml file to write to
         print(topology)
         connections = {'connections' : topology}            #defines a dict with connections: {topology}, to recover the popped
                                                             #connections: section from the original yaml file

@@ -30,10 +30,10 @@ class TopologyMaker(ModelConstructor):
         print(network)
         filename = self.parameters.get("filename")
         connected_pairs = determine_connected_pairs(network)
-        topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con')
+        topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con.yaml')
         led_map = write_LED_portmaps(led_connections)
         filename = self._model.parameters.get('filename')
-        write_scenario_LEDs_and_connections('temp_no_con', 'simulation', led_map, topology)
+        write_scenario_LEDs_and_connections('temp_no_con.yaml', 'simulation.yaml', led_map, topology)
         print(network)
             
         return time + self._model.time_step_size

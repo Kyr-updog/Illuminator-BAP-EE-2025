@@ -22,8 +22,7 @@ class LED_connection(ModelConstructor):
         Dictionary containing calculated load demand values
     """
 
-    parameters={'min_speed': 0,  # minimum speed for the connection
-                'max_speed': 0.5,  # maximum speed for the connection
+    parameters={'max_delay': 100,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
                 'port': None,
                 'file_path': 'line_specs.csv'
@@ -66,7 +65,7 @@ class LED_connection(ModelConstructor):
         line = df[df['line_id'] == self.id]
         self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
 
-        self.ps_ratio = self.max_speed/self.line_capacity # Power to speed ratio
+        self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
         
         return result
 
@@ -97,20 +96,11 @@ class LED_connection(ModelConstructor):
         print("got speed: ", speed)
 
         if speed < 0:
-            direction = 1 - direction
+            direction = not direction
             speed *=-1
 
-        if speed <= self.min_speed:
-            speed = 0
-        # elif speed >= self.max_speed:
-        #     speed = 100
-        else:
-            speed = ((speed - self.min_speed) / (self.max_speed - self.min_speed)) * 100
 
-        #self.send_led_animation(speed, direction)
-        # self.set_outputs(results)
-        t.sleep(1)
-
+        self.send_led_animation(speed, direction)
         return time + self._model.time_step_size
     
 
@@ -123,8 +113,8 @@ class LED_connection(ModelConstructor):
             line = ser.readline().decode('utf-8').strip()
             print(line)
         
-        if speed == 0:
-            colour = [0,255,0]
+        if speed > 100:
+            colour = [255,0,0]
             delay = 0
         else:
             delay = max(0, min(255, ceil(255 * speed/100)))  # Maps 0-100% to 0-255, with bounds checking
