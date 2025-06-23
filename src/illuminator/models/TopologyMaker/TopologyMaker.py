@@ -1,6 +1,6 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
-#from .Dynamic_yaml_scenario_module import *
+from .Dynamic_yaml_scenario_module import *
 import yaml
 
 class TopologyMaker(ModelConstructor):
@@ -10,7 +10,6 @@ class TopologyMaker(ModelConstructor):
     
     def __init__(self, *args, **kwargs):
         result = super().__init__(*args, **kwargs)
-        print("hi there")
         return result
         
     def step(self, time: int, inputs: dict=None, max_advance: int=1) -> None:
@@ -89,7 +88,5 @@ class TopologyMaker(ModelConstructor):
         
     
 if __name__ == "__main__":
-    #mosaik_api.start_simulation(TopologyMaker(), "USB connections")
-    maker = TopologyMaker()
-    maker.create_shell_file("examples/BAP-2025-Simulation/Demonstration.yaml", [['127.0.0.1', 5100], ['192.168.0.1', 5101], ['192.168.0.6', 5102]])
-
+    mosaik_api.start_simulation(TopologyMaker(), "USB connections")
+   
