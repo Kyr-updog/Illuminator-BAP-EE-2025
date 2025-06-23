@@ -5,18 +5,22 @@ import numpy as np
 def write_LED_portmaps(LED_model):
     LED_model_array = np.asarray(LED_model, dtype=object)
     LED_portmap = []
+    LED_Station_map = []
 
     for i in np.arange(len(LED_model_array)):
         Pi_IP_address = LED_model_array[i, 0]
         ip_port = LED_model_array[i, 1]
         serial_port = LED_model_array[i, 2]
+        Station_name = LED_model_array[i, 3]
 
         LED_portmap.append({'name': f'LED_model_{i+1}', 'type': 'LED_connection', 
                             'connect': {'ip': Pi_IP_address, 'port': ip_port}, 
-                            'parameters': {'max_delay': 100, 'direction': 0, 'port': "/dev/"+str(serial_port), 'file_path': 'demo_line_specs.csv'},
-                            'inputs': {'power': 5}
+                            'parameters': {'min_speed': 0, 'max_delay': 255, 'direction': 0, 'port': serial_port},
+                            'input': {'power': 5}
                             })
-    return LED_portmap
+        
+        LED_Station_map.append({'from': f'{Station_name}_transmit', 'to': f'LED_connection_{i+1}.power'})
+    return LED_portmap, LED_Station_map
 
 def determine_connected_pairs(Network):           #this function creates an array of all Station pairs in S/R order
 
@@ -34,7 +38,7 @@ def determine_connected_pairs(Network):           #this function creates an arra
             continue
 
         if (len(connected_pair) == 6):
-            if ('Sender' in connected_pair[1]):
+            if ('sender' in connected_pair[1]):
                 connected_pair_array = np.append(connected_pair_array, [[connected_pair[0], connected_pair[3], connected_pair[2]]], axis=0)
                 #add connected Station pair to next row in array in standard order (for S/R) 
             else:    
@@ -68,12 +72,21 @@ def write_topology(connected_pair_array, key, filename, write_file):
             topology_list.append({'from': from_model, 'to': to_model, 'line_id': line_id})
     return topology_list
 
-def write_scenario_LEDs_and_connections(filename,write_file,LED_portmap, topology):
+def write_scenario_LEDs_and_connections(filename, LED_portmap, LED_Station_map, line_topology):
     with open(filename, 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
     with open(write_file, 'w') as file:   #opens a different yaml file to write to
         print(topology)
-        connections = {'connections' : topology}            #defines a dict with connections: {topology}, to recover the popped
+
+        full_topology = []
+
+        for i in (line_topology):       #collect all rows of the line topology
+            full_topology.append(i)
+
+        for i in (LED_Station_map):     #collect all rows of the LED-to-Station map
+            full_topology.append(i)
+            
+        connections = {'connections' : full_topology}            #defines a dict with connections: {topology}, to recover the popped
                                                             #connections: section from the original yaml file
         yaml.dump(data,file,sort_keys=False)                #writes the read yaml data to said different yaml file
         yaml.dump(LED_portmap,file, sort_keys=False)        #writes the LED models to the models: section (which should be at the bottom)
@@ -95,15 +108,12 @@ if __name__ == "__main__":
           ]
 
     #LED_Model = [ip, ip_port, serial_port]
-    LED_Model = [['192.168.137.150', 5023, 'dev/ttyACM0'], 
-                 ['127.0.0.1', 5023, 'dev/ttyACM1'], 
-                 ['127.0.0.1', 5024, 'dev/ttyACM0']
+    LED_Model = [['192.168.137.150', 5023, 'dev/ttyACM0', 'Station1'], 
+                 ['127.0.0.1', 5023, 'dev/ttyACM1', 'Station2'], 
+                 ['127.0.0.1', 5024, 'dev/ttyACM0', 'Station3']
                  ]
     
-    LED_portmap = write_LED_portmaps(LED_Model)
-    print(LED_portmap)
+    LED_portmap, LED_Station_map = write_LED_portmaps(LED_Model)
     connected_pair_array = determine_connected_pairs(Network)
-    print(connected_pair_array)
-    topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'simulation_file')
-    print (topology)
-    write_scenario_LEDs_and_connections('simulation_file', 'simulation_file', LED_portmap)
+    line_topology = write_topology(connected_pair_array, 'connections', 'simple_test2', 'simulation_file')
+    write_scenario_LEDs_and_connections('simulation_file', LED_portmap, LED_Station_map, line_topology)
