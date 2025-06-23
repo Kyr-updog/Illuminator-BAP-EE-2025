@@ -14,39 +14,39 @@ models:
 - name: TopologyCreator
   type: TopologyMaker
   parameters: 
-    filename: 'examples/Cluster/Tutorial_cluster'
+    filename: 'examples/BAP-2025-simulation/Demonstration.yaml'
   inputs:
     config: {}
 
-- name: request1
-  type: IDrequester
-  connect: 
-    ip: 192.168.0.6
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.6', 5000]
-  states:
-    stripList: None
-
-- name: request2
-  type: IDrequester
-  connect: 
-    ip: '192.168.0.7'
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.7', 5000]
-  states:
-    stripList: None
-
-- name: request3
-  type: IDrequester
-  connect: 
-    ip: '192.168.0.8'
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.8', 5000]
-  states:
-    stripList: None
+#- name: request1
+#  type: IDrequester
+#  connect: 
+#    ip: 192.168.0.6
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.6', 5000]
+#  states:
+#    stripList: None
+#
+#- name: request2
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.7'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.7', 5000]
+#  states:
+#    stripList: None
+#
+#- name: request3
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.8'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.8', 5000]
+#  states:
+#    stripList: None
 
 - name: request4
   type: IDrequester
@@ -89,12 +89,12 @@ models:
     stripList: None
 
 connections:
-- from: request1.stripList
-  to: TopologyCreator.config
-- from: request2.stripList
-  to: TopologyCreator.config
-- from: request3.stripList
-  to: TopologyCreator.config
+#- from: request1.stripList
+#  to: TopologyCreator.config
+#- from: request2.stripList
+#  to: TopologyCreator.config
+#- from: request3.stripList
+#  to: TopologyCreator.config
 - from: request4.stripList
   to: TopologyCreator.config
 - from: request5.stripList
