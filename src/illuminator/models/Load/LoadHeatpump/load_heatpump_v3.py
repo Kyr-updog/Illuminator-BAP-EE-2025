@@ -53,7 +53,7 @@ class LoadHeatpump(ModelConstructor):
         self.houses_case = self.parameters['houses_case']
         self.houses_data = self.parameters['houses_data']
         self.name = self.parameters['name']
-        self.fan = gp.DigitalOutputDevice(23)
+        self.fan = gp.OutputDevice(23)
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
@@ -112,4 +112,4 @@ class LoadHeatpump(ModelConstructor):
         return re_params
 
 if __name__ == '__main__':
-    mosaik_api.start_simulation(LoadHeatpump(), 'Wind Simulator')
+    mosaik_api.start_simulation(LoadHeatpump(), 'Heat pump sim')
