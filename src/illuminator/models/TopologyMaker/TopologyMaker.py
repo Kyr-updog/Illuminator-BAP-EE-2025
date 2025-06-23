@@ -28,6 +28,7 @@ class TopologyMaker(ModelConstructor):
                     led_connections.append([led_strip[1], led_strip[2], led_strip[4]])
         
         print(network)
+        raise ValueError(network)
         filename = self.parameters.get("filename")
         connected_pairs = determine_connected_pairs(network)
         topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con')

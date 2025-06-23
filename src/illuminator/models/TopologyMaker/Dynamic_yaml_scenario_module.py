@@ -45,11 +45,12 @@ def determine_connected_pairs(Network):           #this function creates an arra
 
 
 def write_topology(connected_pair_array, key, filename, write_file):
-    with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
+    with open(filename, 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                        #loads the yaml data in safe mode
-        topology_list = (data[f'{key}'])                #copies everything under a given "key:" to a list
+        topology_list = (data[key])                #copies everything under a given "key:" to a list
+        print("going strong")
         data.pop(key)                                   #pops the "key:" and everything underneath
-    with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
+    with open(filename, 'w') as file:   #opens a different yaml file to write to
         yaml.dump(data,file,sort_keys=False)            #writes the original yaml data, excluding the popped key, to said different yaml file
                                                     #the purpose of this operation is to copy the static connections to the topology
                                                     #and then remove them in a new intermediary yaml file
@@ -68,9 +69,10 @@ def write_topology(connected_pair_array, key, filename, write_file):
     return topology_list
 
 def write_scenario_LEDs_and_connections(filename,write_file,LED_portmap, topology):
-    with open(f'{filename}.yaml', 'r') as f:        #opens a yaml file to read
+    with open(filename, 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
-    with open(f'{write_file}.yaml', 'w') as file:   #opens a different yaml file to write to
+    with open(filename, 'w') as file:   #opens a different yaml file to write to
+        print(topology)
         connections = {'connections' : topology}            #defines a dict with connections: {topology}, to recover the popped
                                                             #connections: section from the original yaml file
         yaml.dump(data,file,sort_keys=False)                #writes the read yaml data to said different yaml file

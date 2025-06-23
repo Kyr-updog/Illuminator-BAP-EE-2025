@@ -42,7 +42,7 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
     
     while True:
         os.system('examples/BAP-2025-Simulation/startup.sh')
-        time.sleep(5)
+        time.sleep(7)
         makeSim = Simulation("examples/BAP-2025-Simulation/startup.yaml") #the path to the startup simulation (is only 1 step)
         makeSim.run()
         
