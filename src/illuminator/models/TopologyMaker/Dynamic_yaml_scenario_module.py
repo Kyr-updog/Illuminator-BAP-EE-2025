@@ -19,7 +19,7 @@ def write_LED_portmaps(LED_model):
                             'input': {'power': 5}
                             })
         
-        LED_Station_map.append({'from': f'{Station_name}_transmit', 'to': f'LED_connection_{i+1}.power'})
+        LED_Station_map.append({'from': f'{Station_name}.transmit', 'to': f'LED_connection_{i+1}.power'})
     return LED_portmap, LED_Station_map
 
 def determine_connected_pairs(Network):           #this function creates an array of all Station pairs in S/R order
