@@ -73,10 +73,7 @@ class Wind(ModelConstructor):
     u60 = 10  # Wind speeds adjusted for different heights (e.g., 60m and 25m) using logarithmic wind profile equations.
     u25 = 0  # Wind speeds adjusted for different heights (e.g., 60m and 25m) using logarithmic wind profile equations.
     
-    A = OutputDevice(18)
-    B = OutputDevice(23)
-    C = OutputDevice(24)
-    D = OutputDevice(25)
+    
 
 
     def init(self, *args, **kwargs) -> None:
@@ -110,6 +107,11 @@ class Wind(ModelConstructor):
             self.par2 = self.parameters['par2']
         
         self.laplaceMax = laplace.pdf(0, scale=self.par2)
+        
+        self.A = OutputDevice(18)
+        self.B = OutputDevice(23)
+        self.C = OutputDevice(24)
+        self.D = OutputDevice(25)
         
         return result
 
