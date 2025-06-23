@@ -5,9 +5,18 @@ scenario:
   time_resolution: 1800 # time step in seconds (optional). Defaults to 15 minutes (900 s)
 
 monitor:
-  file:
+  file: './to_dashboard.csv'
   items:
   - FossilGas1.emission
+  - HP1.load_HP
+  - EV1.load_EV
+  - GC1.dump # grid connection
+  - Battery1.soc
+  - Load1.load_dem_out
+  - Load2.load_dem_out
+  - WindOn1.wind_gen_out
+  - PV1.pv_gen_out
+
 
 models:
 - name: PandaController1
@@ -30,9 +39,6 @@ models:
     execution_time: 0
     incoming: 0
     outgoing: 0
-  connect:
-    ip: 192.168.0.5
-    port: 5100
 
 - name: CSV_PV
   type: CSV
@@ -209,7 +215,6 @@ models:
     soc_init: 0
   inputs:
     flow2b: 0
-    soc_val: 0
   outputs:
     p_out: 0
     p_in: 0
