@@ -15,7 +15,7 @@ import pandas as pd
 import RPi.GPIO as GPIO
 
 
-SENSOR_PIN = 24  # BCM numbering
+SENSOR_PIN = 14  # BCM numbering
 
 # Set up
 GPIO.setmode(GPIO.BCM)
