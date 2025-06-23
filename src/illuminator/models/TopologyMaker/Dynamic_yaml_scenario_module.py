@@ -19,7 +19,7 @@ def write_LED_portmaps(LED_model):
                             'input': {'power': 5}
                             })
         
-        LED_Station_map.append({'from': f'{Station_name}_transmit', 'to': f'LED_connection_{i+1}.power'})
+        LED_Station_map.append({'from': f'{Station_name}.transmit', 'to': f'LED_connection_{i+1}.power'})
     return LED_portmap, LED_Station_map
 
 def determine_connected_pairs(Network):           #this function creates an array of all Station pairs in S/R order
@@ -75,8 +75,7 @@ def write_topology(connected_pair_array, key, filename, write_file):
 def write_scenario_LEDs_and_connections(filename, LED_portmap, LED_Station_map, line_topology):
     with open(filename, 'r') as f:        #opens a yaml file to read
         data = yaml.safe_load(f)                    #loads the yaml data in safe mode
-    with open(write_file, 'w') as file:   #opens a different yaml file to write to
-        print(topology)
+    with open(filename, 'w') as file:   #opens a different yaml file to write to
 
         full_topology = []
 

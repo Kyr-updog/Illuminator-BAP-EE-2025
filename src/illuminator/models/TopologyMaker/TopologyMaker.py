@@ -36,18 +36,17 @@ class TopologyMaker(ModelConstructor):
                 if led_strip[3] == 'sender':
                     station = ""
                     for ip_name in stationlist:
-                        print(ip_name)
                         if ip_name[0] in led_strip:
                             station = ip_name[1]
                     led_connections.append([led_strip[1], led_strip[2], led_strip[4], station])
         
 
         connected_pairs = determine_connected_pairs(network)
-        topology = write_topology(connected_pairs, 'connections', filename, 'temp_no_con.yaml')
-        led_map = write_LED_portmaps(led_connections)
+        topology = write_topology(connected_pairs, 'connections', filename, 'simulation.yaml')
+        LED_portmap, LED_Station_map = write_LED_portmaps(led_connections)
         filename = self._model.parameters.get('filename')
-        write_scenario_LEDs_and_connections('temp_no_con.yaml', 'simulation.yaml', led_map, topology)
-        print(network)
+        write_scenario_LEDs_and_connections('simulation.yaml',LED_portmap, LED_Station_map, topology)
+
             
         return time + self._model.time_step_size
     
