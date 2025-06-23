@@ -1,26 +1,29 @@
 scenario:
-  name: Pandalyzer test
-  start_time: '2025-04-15 00:00:00'
-  end_time: '2025-04-15 23:50:00'
-  time_resolution: 1800
+  name: "Pandalyzer test" # in mosaik so called world
+  start_time: '2025-04-15 00:00:00' # ISO 8601 start time of the simulation
+  end_time: '2025-04-15 23:50:00' # duration in seconds 
+  time_resolution: 1800 # time step in seconds (optional). Defaults to 15 minutes (900 s)
+
 monitor:
-  file: ./to_dashboard.csv
+  file: './to_dashboard.csv'
   items:
   - FossilGas1.emission
   - HP1.load_HP
   - EV1.load_EV
-  - GC1.dump
+  - GC1.dump # grid connection
   - Battery1.soc
   - Load1.load_dem_out
   - Load2.load_dem_out
   - WindOn1.wind_gen_out
   - PV1.pv_gen_out
+
+
 models:
 - name: PandaController1
   type: PandaController
   parameters:
     peripherals: {}
-    stations: {}
+    stations: {}                 
     ps_connections: {}
     ss_connections: {}
     lines_file_path: demo_line_specs.csv
@@ -36,28 +39,31 @@ models:
     execution_time: 0
     incoming: 0
     outgoing: 0
+
 - name: CSV_PV
   type: CSV
   parameters:
-    file_path: Solar_april.csv
+    file_path: 'Solar_april.csv'
     delimiter: ','
-    date_format: YYYY-MM-DD HH:mm:ss
+    date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
-    utilization: null
+    utilization: 
   connect:
     ip: 192.168.0.6
     port: 5100
+
 - name: CSV_Load
   type: CSV
   parameters:
-    file_path: load_april.csv
+    file_path: 'load_april.csv'
     delimiter: ','
-    date_format: YYYY-MM-DD HH:mm:ss
+    date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
-    load: null
+    load:
   connect:
     ip: 192.168.0.7
     port: 5100
+
 - name: WRandomizer_onshore
   type: WindRandomizer
   parameters:
@@ -72,6 +78,7 @@ models:
   connect:
     ip: 192.168.0.9
     port: 5100
+
 - name: Load1
   type: Load
   parameters:
@@ -81,7 +88,7 @@ models:
     name: Load
     total: 0.06
   inputs:
-    load: null
+    load:
   outputs:
     load_dem_out: 0
     consumption: 0
@@ -90,6 +97,7 @@ models:
   connect:
     ip: 192.168.0.7
     port: 5101
+
 - name: HP1
   type: LoadHeatpump
   parameters:
@@ -103,6 +111,7 @@ models:
   connect:
     ip: 192.168.0.7
     port: 5102
+
 - name: Load2
   type: Load
   parameters:
@@ -112,7 +121,7 @@ models:
     name: Load
     total: 0.04
   inputs:
-    load: null
+    load:
   outputs:
     load_dem_out: 0
     consumption: 0
@@ -121,6 +130,7 @@ models:
   connect:
     ip: 192.168.0.8
     port: 5100
+
 - name: EV1
   type: LoadEV
   parameters:
@@ -135,6 +145,7 @@ models:
   connect:
     ip: 192.168.0.8
     port: 5101
+
 - name: PV1
   type: PV
   parameters:
@@ -162,14 +173,15 @@ models:
   connect:
     ip: 192.168.0.6
     port: 5101
+
 - name: WindOn1
   type: Wind
   parameters:
     p_rated: 100
-    u_rated: 10.3
-    u_cutin: 2.8
-    u_cutout: 25
-    cp: 0.4
+    u_rated: 10.3  
+    u_cutin: 2.8  
+    u_cutout: 25  
+    cp: 0.40
     diameter: 2
     output_type: power
     input_type: percentage
@@ -188,6 +200,7 @@ models:
   connect:
     ip: 192.168.0.9
     port: 5101
+
 - name: Battery1
   type: Battery
   parameters:
@@ -212,6 +225,7 @@ models:
   connect:
     ip: 192.168.0.10
     port: 5100
+
 - name: GC1
   type: GridConnection
   parameters:
@@ -227,6 +241,7 @@ models:
   connect:
     ip: 192.168.0.11
     port: 5100
+
 - name: FossilGas1
   type: Fossil
   parameters:
@@ -259,6 +274,7 @@ models:
   connect:
     ip: 192.168.0.12
     port: 5100
+
 - name: Station1
   type: Station
   parameters:
@@ -273,6 +289,7 @@ models:
   connect:
     ip: 192.168.0.9
     port: 5102
+
 - name: Station2
   type: Station
   parameters:
@@ -287,6 +304,7 @@ models:
   connect:
     ip: 192.168.0.6
     port: 5102
+
 - name: Station3
   type: Station
   parameters:
@@ -301,6 +319,7 @@ models:
   connect:
     ip: 192.168.0.7
     port: 5103
+
 - name: Station4
   type: Station
   parameters:
@@ -315,6 +334,7 @@ models:
   connect:
     ip: 192.168.0.8
     port: 5102
+
 - name: Station5
   type: Station
   parameters:
@@ -329,6 +349,7 @@ models:
   connect:
     ip: 192.168.0.10
     port: 5101
+
 - name: Station6
   type: Station
   parameters:
@@ -343,6 +364,7 @@ models:
   connect:
     ip: 192.168.0.12
     port: 5101
+
 - name: Station7
   type: Station
   parameters:
@@ -357,3 +379,43 @@ models:
   connect:
     ip: 192.168.0.11
     port: 5101
+
+connections:
+- from: CSV_Load.load
+  to: Load1.load
+
+- from: CSV_Load.load
+  to: Load2.load
+
+- from: CSV_PV.power
+  to: PV1.capacity_percentage
+
+- from: WRandomizer_onshore.fraction_out
+  to: WindOn.capacity_percentage
+
+- from: WindOn1.wind_gen
+  to: Station1.ncp_powers
+
+- from: PV1.pv_gen
+  to: Station2.ncp_powers
+
+- from: Load1.load_dem
+  to: Station3.ncp_powers
+
+- from: Station3.cp_powers
+  to: LoadHeatpump.hp_load
+
+- from: Load2.load_dem
+  to: Station4.ncp_powers
+
+- from: Station4.cp_powers
+  to: LoadEV.power
+
+- from: Station5.cp_powers
+  to: Battery1.flow2b
+
+- from: Station6.cp_powers
+  to: FossilGas1.req_pow_dict
+
+- from: Station7.cp_powers
+  to: GC1.dump_dict
