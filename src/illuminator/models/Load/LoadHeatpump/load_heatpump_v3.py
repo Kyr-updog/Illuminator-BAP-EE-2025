@@ -1,10 +1,8 @@
 from illuminator.builder import ModelConstructor
+import mosaik_api_v3 as mosaik_api
 
-import RPi.GPIO as GPIO
+import gpiozero as gp
 import time as timer
- 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23,GPIO.OUT)
 
 class LoadHeatpump(ModelConstructor):
     """
@@ -53,6 +51,7 @@ class LoadHeatpump(ModelConstructor):
         super().__init__(**kwargs)
         self.houses_case = self.parameters['houses_case']
         self.houses_data = self.parameters['houses_data']
+        self.fan = gp.DigitalOutputDevice(23)
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
@@ -81,9 +80,9 @@ class LoadHeatpump(ModelConstructor):
         self.set_outputs(results)
 
         if results['load_HP'] > 0:
-            GPIO.output(23, GPIO.HIGH)
+            self.fan.on()
         else:
-            GPIO.output(23, GPIO.LOW)
+            self.fan.off()
         timer.sleep(1)     
 
         return time + self._model.time_step_size
@@ -109,3 +108,6 @@ class LoadHeatpump(ModelConstructor):
             consumption = hp_load * self.houses_case/self.houses_data # scaling if necessary
         re_params = {'load_HP': consumption}
         return re_params
+
+if __name__ == '__main__':
+    mosaik_api.start_simulation(LoadHeatpump(), 'Wind Simulator')
