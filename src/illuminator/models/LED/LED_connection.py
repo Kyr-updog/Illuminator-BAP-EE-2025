@@ -139,7 +139,7 @@ class LED_connection(ModelConstructor):
 
 if __name__ == '__main__':
     #send_led_animation()
-    #mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
-    led = LED_connection()
-    led.init("LED-connection", sim_params = {'name': 'Station4', 'type': 'Station', 'parameters': {'station_ID': 'Station4', 'kv': 380}, 'inputs': {'cp_powers': {}, 'tl_powers': {}}, 'states': {'cp_powers': {}, 'transmit': {}}, 'outputs': {'USBchange': False}, 'connect': {'ip': '192.168.0.8', 'port': 5102}})
+    mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
+    #led = LED_connection()
+    #led.init("LED-connection", sim_params = {'name': 'Station4', 'type': 'Station', 'parameters': {'station_ID': 'Station4', 'kv': 380}, 'inputs': {'cp_powers': {}, 'tl_powers': {}}, 'states': {'cp_powers': {}, 'transmit': {}}, 'outputs': {'USBchange': False}, 'connect': {'ip': '192.168.0.8', 'port': 5102}})
 
