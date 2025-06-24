@@ -46,7 +46,8 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
         makeSim = Simulation("examples/BAP-2025-Simulation/startup.yaml") #the path to the startup simulation (is only 1 step)
         makeSim.run()
         
-        os.system('./run.sh')
+        os.system('chmod +x ./simulation.sh')
+        os.system('./simulation.sh')
         global simulation
         simulation = Simulation('simulation.yaml')
         simulation.run()
