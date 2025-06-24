@@ -68,12 +68,13 @@ class LED_connection(ModelConstructor):
         
         try:
             df = pd.read_csv(self.file_path)
+            line = df[df['line_id'] == self.id]
+            self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
+
+            self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
         except:
             print("oops, no file available")
-        line = df[df['line_id'] == self.id]
-        self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
 
-        self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
         
         
         return result
