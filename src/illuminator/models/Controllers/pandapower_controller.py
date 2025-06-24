@@ -201,6 +201,7 @@ class PandaController(ModelConstructor):
         cp_powers = {}
         tl_powers = {}
         SoCs = {}
+        outgoing = 0
 
         generator_outputs = []
         for name, specs in self.peripherals.items():
@@ -248,6 +249,7 @@ class PandaController(ModelConstructor):
 
         independence = total_supply_from_grid/total_load
         int_max_congested = ['None', -1]
+        one_l_congestion = 0
 
         for line_id, connection in self.ss_connections.items():
             text, id = line_id.split('_')

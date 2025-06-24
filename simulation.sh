@@ -3,9 +3,10 @@ lxterminal -e ssh Raspinator@192.168.0.7 './Illuminator/configuration/runshfile/
 lxterminal -e ssh Raspinator@192.168.0.8 './Illuminator/configuration/runshfile/runLoad.sh 192.168.0.8 5100 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.8 './Illuminator/configuration/runshfile/runLoadEV.sh 192.168.0.8 5101 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.6 './Illuminator/configuration/runshfile/runPV.sh 192.168.0.6 5101 /home/Raspinator/Illuminator/src/illuminator/models/'&
+lxterminal -e ssh Raspinator@192.168.0.6 './Illuminator/configuration/runshfile/runGridConnection.sh 192.168.0.6 5200 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.6 './Illuminator/configuration/runshfile/runStation.sh 192.168.0.6 5102 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.7 './Illuminator/configuration/runshfile/runStation.sh 192.168.0.7 5103 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.8 './Illuminator/configuration/runshfile/runStation.sh 192.168.0.8 5102 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.6 './Illuminator/configuration/runshfile/runLED_connection.sh 192.168.0.6 5000 /home/Raspinator/Illuminator/src/illuminator/models/'&
+lxterminal -e ssh Raspinator@192.168.0.7 './Illuminator/configuration/runshfile/runLED_connection.sh 192.168.0.7 5001 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.8 './Illuminator/configuration/runshfile/runLED_connection.sh 192.168.0.8 5000 /home/Raspinator/Illuminator/src/illuminator/models/'&
-lxterminal -e ssh Raspinator@192.168.0.8 './Illuminator/configuration/runshfile/runLED_connection.sh 192.168.0.8 5001 /home/Raspinator/Illuminator/src/illuminator/models/'&

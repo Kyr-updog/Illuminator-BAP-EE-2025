@@ -168,6 +168,7 @@ models:
     g_aoi: null
   states:
     pv_gen: {}
+    pv_genState: {}
   connect:
     ip: 192.168.0.6
     port: 5101
@@ -224,21 +225,21 @@ models:
 #    ip: 192.168.0.10
 #    port: 5100
 
-#- name: GC1
-#  type: GridConnection
-#  parameters:
-#    connection_capacity: 100
-#    tolerance_limit: 1
-#    critical_limit: 1
-#    name: GC
-#  inputs:
-#    dump: null
-#    dump_dict: null
-#  outputs:
-#    dump: null
-#  connect:
-#    ip: 192.168.0.11
-#    port: 5100
+- name: GC1
+  type: GridConnection
+  parameters:
+    connection_capacity: 100
+    tolerance_limit: 1
+    critical_limit: 1
+    name: GC
+  inputs:
+    dump: null
+    dump_dict: null
+  outputs:
+    dump: null
+  connect:
+    ip: 192.168.0.6 #11
+    port: 5200 #5100
 
 #- name: FossilGas1
 #  type: Fossil
@@ -429,8 +430,8 @@ connections:
 #- from: Station6.cp_powers
 #  to: FossilGas1.req_pow_dict
 #
-#- from: Station7.cp_powers
-#  to: GC1.dump_dict
+- from: Station4.cp_powers #was 7
+  to: GC1.dump_dict
 
 #- from: Station1.USBchange
 #  to: USBtrigger1.USBchange
