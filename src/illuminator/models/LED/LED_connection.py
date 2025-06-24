@@ -59,7 +59,7 @@ class LED_connection(ModelConstructor):
         self.port = self.parameters.get('port')
         self.file_path = self.parameters.get('file_path')
 
-        connection = serial.Serial(self.port, timeout=1)
+        
         self.id = 0
         while self.id == 0:
             self.id = int.from_bytes(connection.read(1))
