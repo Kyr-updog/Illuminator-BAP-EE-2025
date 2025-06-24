@@ -156,13 +156,13 @@ class PV(ModelConstructor):
         
         input_data = self.unpack_inputs(inputs)
         
-        self.G_Gh = input_data['G_Gh']
-        self.G_Dh = input_data['G_Dh']
-        self.G_Bn = input_data['G_Bn']
-        self.Ta = input_data['Ta']
-        self.hs = input_data['hs']
-        self.FF = input_data['FF']
-        self.Az = input_data['Az']
+        #self.G_Gh = input_data['G_Gh']
+        #self.G_Dh = input_data['G_Dh']
+        #self.G_Bn = input_data['G_Bn']
+        #self.Ta = input_data['Ta']
+        #self.hs = input_data['hs']
+        #self.FF = input_data['FF']
+        #self.Az = input_data['Az']
          
         self.capacity_percentage = input_data['capacity_percentage']
 
