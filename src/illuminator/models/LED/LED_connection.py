@@ -4,6 +4,7 @@ import serial
 import time as t
 from numpy import ceil
 from illuminator.models.LED.LED_strip_controller import sendPixelData
+import pandas as pd
 
 
 
@@ -25,7 +26,7 @@ class LED_connection(ModelConstructor):
     parameters={'max_delay': 100,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
                 'port': None,
-                'file_path': 'line_specs.csv'
+                'file_path': 'examples/BAP-2025-Simulation/line_specs.csv'
                 }
     inputs={'power': 0}  # speed for the connection
     outputs={
@@ -36,8 +37,7 @@ class LED_connection(ModelConstructor):
     time=None
 
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+
 
     def init(self, *args, **kwargs) -> None:
         """
@@ -52,7 +52,7 @@ class LED_connection(ModelConstructor):
         -------
         None
         """
-        result = super().init(*args, **kwargs)
+        #result = super().init(*args, **kwargs)
         self.min_speed = self.parameters.get('min_speed')
         self.max_speed = self.parameters.get('max_speed')
         self.direction = self.parameters.get('direction')
@@ -60,6 +60,7 @@ class LED_connection(ModelConstructor):
         self.file_path = self.parameters.get('file_path')
 
         connection = serial.Serial(self.port, timeout=1)
+
         self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
 
         df = pd.read_csv(self.file_path)
@@ -67,6 +68,7 @@ class LED_connection(ModelConstructor):
         self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
 
         self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
+        
         
         return None
 
@@ -133,3 +135,4 @@ class LED_connection(ModelConstructor):
 if __name__ == '__main__':
     #send_led_animation()
     mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
+
