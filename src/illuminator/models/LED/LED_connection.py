@@ -26,7 +26,7 @@ class LED_connection(ModelConstructor):
     parameters={'max_delay': 100,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
                 'port': None,
-                'file_path': 'examples/BAP-2025-Simulation/line_specs.csv'
+                'file_path': 'examples/BAP-2025-Simulation/demo_line_specs.csv'
                 }
     inputs={'power': 0}  # speed for the connection
     outputs={
@@ -53,8 +53,7 @@ class LED_connection(ModelConstructor):
         None
         """
         #result = super().init(*args, **kwargs)
-        self.min_speed = self.parameters.get('min_speed')
-        self.max_speed = self.parameters.get('max_speed')
+        self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
         self.port = self.parameters.get('port')
         self.file_path = self.parameters.get('file_path')
@@ -62,7 +61,7 @@ class LED_connection(ModelConstructor):
         connection = serial.Serial(self.port, timeout=1)
 
         self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
-
+        self.id = 1
         df = pd.read_csv(self.file_path)
         line = df[df['line_id'] == self.id]
         self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
@@ -134,5 +133,7 @@ class LED_connection(ModelConstructor):
 
 if __name__ == '__main__':
     #send_led_animation()
-    mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
+    #mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
+    led = LED_connection()
+    led.init()
 
