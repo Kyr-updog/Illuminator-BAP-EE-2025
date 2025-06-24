@@ -1,7 +1,7 @@
 from illuminator.builder import IlluminatorModel, ModelConstructor
 import mosaik_api_v3 as mosaik_api
 import serial
-import time as t
+import time
 from numpy import ceil
 from illuminator.models.LED.LED_strip_controller import sendPixelData
 import pandas as pd
