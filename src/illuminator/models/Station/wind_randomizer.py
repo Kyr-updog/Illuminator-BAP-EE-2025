@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import beta as beta_dist
 import matplotlib.dates as mdates
 import datetime
+import mosaik_api_v3 as mosaik_api
 
 # construct the model
 class WindRandomizer(ModelConstructor):
@@ -93,3 +94,5 @@ class WindRandomizer(ModelConstructor):
         result = (self.distrAlpha - self.distrBeta * np.exp(g/self.fac)) / (self.fac * (np.exp(g/self.fac) + 1))
         return result
 
+if __name__ == "__main__":
+    mosaik_api.start_simulation(WindRandomizer(), "wind random sim")

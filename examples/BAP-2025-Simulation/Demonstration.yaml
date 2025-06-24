@@ -53,9 +53,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
     utilization: 
-  connect:
-    ip: 192.168.0.6
-    port: 5100
 
 - name: CSV_Load
   type: CSV
@@ -65,9 +62,6 @@ models:
     date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
     load:
-  connect:
-    ip: 192.168.0.7
-    port: 5100
 
 - name: WRandomizer_onshore
   type: WindRandomizer

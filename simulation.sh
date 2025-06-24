@@ -1,5 +1,3 @@
-lxterminal -e ssh Raspinator@192.168.0.6 './Illuminator/configuration/runshfile/runCSV.sh 192.168.0.6 5100 /home/Raspinator/Illuminator/src/illuminator/models/'&
-lxterminal -e ssh Raspinator@192.168.0.7 './Illuminator/configuration/runshfile/runCSV.sh 192.168.0.7 5100 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.9 './Illuminator/configuration/runshfile/runWindRandomizer.sh 192.168.0.9 5100 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.7 './Illuminator/configuration/runshfile/runLoad.sh 192.168.0.7 5101 /home/Raspinator/Illuminator/src/illuminator/models/'&
 lxterminal -e ssh Raspinator@192.168.0.7 './Illuminator/configuration/runshfile/runLoadHeatpump.sh 192.168.0.7 5102 /home/Raspinator/Illuminator/src/illuminator/models/'&
