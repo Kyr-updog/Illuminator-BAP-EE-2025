@@ -36,9 +36,10 @@ class LED_connection(ModelConstructor):
     time_step_size=1
     time=None
 
+    def __init__(self, *args, **kwargs):
+        return super().__init__(**kwargs)
 
-
-    def __init__(self, *args, **kwargs) -> None:
+    def init(self, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
 
@@ -51,7 +52,7 @@ class LED_connection(ModelConstructor):
         -------
         None
         """
-        result = super().__init__(**kwargs)
+        result = super().init(**kwargs)
         print(result)
         self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
