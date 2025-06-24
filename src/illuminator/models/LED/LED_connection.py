@@ -63,7 +63,11 @@ class LED_connection(ModelConstructor):
             self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
         except:
             print("no Serial connection")
-        df = pd.read_csv(self.file_path)
+        
+        try:
+            df = pd.read_csv(self.file_path)
+        except:
+            print("oops, no file available")
         line = df[df['line_id'] == self.id]
         self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
 
