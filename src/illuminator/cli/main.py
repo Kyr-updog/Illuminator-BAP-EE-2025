@@ -49,7 +49,7 @@ def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenar
         os.system('chmod +x ./simulation.sh')
         os.system('./simulation.sh')
         global simulation
-        time.sleep(25)
+        time.sleep(40)
         simulation = Simulation('simulation.yaml')
         simulation.run()
 

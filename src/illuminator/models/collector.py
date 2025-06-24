@@ -112,7 +112,6 @@ class Collector(mosaik_api.Simulator):
         self.mqtt_client=None
         self.mqtt_topic=mqtt_topic
         self.mqtt_broker=mqtt_broker
-
         return self.meta
 
     def create(self, num:int, model:str) -> list:
@@ -176,7 +175,6 @@ class Collector(mosaik_api.Simulator):
                 print('hostname:', broker_url.hostname)
                 print('port:', broker_url.port)
                 raise ValueError('Invalid host.')
-
         return [{'eid': self.eid, 'type': model}]
 
     def step(self, time:int, inputs:dict, max_advance:int) -> int:

@@ -26,14 +26,13 @@ models:
     stations: {}                 
     ps_connections: {}
     ss_connections: {}
-    lines_file_path: demo_line_specs.csv
+    lines_file_path: examples/BAP-2025-Simulation/demo_line_specs.csv
   inputs:
     ncp_powers: {}
   states:
     cp_powers: {}
     tl_powers: {}
     one_l_congestion: 0
-    max_congested: null
     max_congested_all: 0
     independence: 0
     execution_time: 0
@@ -48,7 +47,7 @@ models:
 - name: CSV_PV
   type: CSV
   parameters:
-    file_path: 'Solar_april.csv'
+    file_path: 'examples/BAP-2025-Simulation/Solar_april.csv'
     delimiter: ','
     date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
@@ -57,7 +56,7 @@ models:
 - name: CSV_Load
   type: CSV
   parameters:
-    file_path: 'load_april.csv'
+    file_path: 'examples/BAP-2025-Simulation/load_april.csv'
     delimiter: ','
     date_format: 'YYYY-MM-DD HH:mm:ss'
   states:
@@ -173,7 +172,7 @@ models:
     ip: 192.168.0.6
     port: 5101
 
-- name: WindOn1
+- name: Wind1
   type: Wind
   parameters:
     p_rated: 100
@@ -404,9 +403,9 @@ connections:
   to: PV1.capacity_percentage
 
 - from: WRandomizer_onshore.fraction_out
-  to: WindOn.capacity_percentage
+  to: Wind1.capacity_percentage
 
-- from: WindOn1.wind_gen
+- from: Wind1.wind_gen
   to: Station1.ncp_powers
 
 - from: PV1.pv_gen
@@ -416,13 +415,13 @@ connections:
   to: Station3.ncp_powers
 
 - from: Station3.cp_powers
-  to: LoadHeatpump.hp_load
+  to: HP1.hp_load
 
 - from: Load2.load_dem
   to: Station4.ncp_powers
 
 - from: Station4.cp_powers
-  to: LoadEV.power
+  to: EV1.power
 
 - from: Station5.cp_powers
   to: Battery1.flow2b

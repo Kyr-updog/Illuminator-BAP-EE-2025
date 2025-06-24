@@ -24,7 +24,6 @@ class PandaController(ModelConstructor):
     states={'cp_powers': {},
             'tl_powers': {},
             'one_l_congestion': 0,
-            'max_congested': None,
             'max_congested_all': 0,
             'independence': 0,
             'execution_time': 0,
@@ -36,7 +35,7 @@ class PandaController(ModelConstructor):
     time_step_size=1
     time=None
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """
         Initialize the analyzer/controller model with the provided parameters.
 
@@ -51,6 +50,7 @@ class PandaController(ModelConstructor):
         self.ps_connections = self.parameters['ps_connections']
         self.ss_connections = self.parameters['ss_connections']
         self.lines_file_path = self.parameters['lines_file_path']
+        #self.time_resolution = 1800
 
         # Build graph here !!!
         self.net = pp.create_empty_network()
@@ -68,6 +68,7 @@ class PandaController(ModelConstructor):
             text, id = line_id.split('_')
             id = int(id)
             line = self.lines_df[self.lines_df['line_id'] == id]
+            print(line['tf'])
             max_i_ka = line['capacity'] # Capacity in kA
             if line['tf'].iloc[0] == 0:
                 from_bus = pp.get_element_index(self.net, 'bus', connection[0])
@@ -117,8 +118,8 @@ class PandaController(ModelConstructor):
                 #pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=10)
             elif specs['type'] == 'Battery':
                 power_limit = specs['max_p']
-                min_p_mw = max(-power_limit, -specs['soc_init']*specs['max_energy']/(self.time_resolution/3600))
-                max_p_mw = min(power_limit, (1-specs['soc_init'])*specs['max_energy']/(self.time_resolution/3600))
+                min_p_mw = max(-power_limit, -specs['soc_init']*specs['max_energy']/(1800.0/3600.0))
+                max_p_mw = min(power_limit, (1-specs['soc_init'])*specs['max_energy']/(1800.0/3600.0))
                 battery = pp.create_storage(self.net, bus_index, p_mw=10, max_e_mwh=specs['max_energy'], min_e_mwh=0, soc_percent=specs['soc_init'], min_p_mw=min_p_mw, max_p_mw=max_p_mw, controllable=True, in_service=True, name=name) # Update Battery_v3.py!!!!!!!!!!!!!!!!!
                 pp.create_poly_cost(self.net, battery, 'storage', cp1_eur_per_mw=0)
             elif specs['type'] == 'LoadEV':
@@ -129,8 +130,10 @@ class PandaController(ModelConstructor):
                 pp.create_poly_cost(self.net, hp, 'load', cp1_eur_per_mw=1000)
             else:
                 pass
+                
+        
         #self.net.gen.to_csv('gens.csv')
-        self.max_congested = ['None', -1]
+        #self.max_congested = ['None', -1]
         """
         plot.create_generic_coordinates(self.net, respect_switches=False)
         sizes = plot.get_collection_sizes(self.net)
@@ -273,8 +276,8 @@ class PandaController(ModelConstructor):
             tl_powers.setdefault(station, {})['key'] = 'value'
 
         max_all = int_max_congested[1]
-        if max_all > self.max_congested[1]:
-            self.max_congested = int_max_congested
+        #if max_all > self.max_congested[1]:
+            #self.max_congested = int_max_congested
 
         self.net.load.to_csv('res_load.csv')
         self.net.res_line.to_csv('res_line.csv')
@@ -284,7 +287,7 @@ class PandaController(ModelConstructor):
         with open("res_cost.txt", "w") as text_file:
             text_file.write("Cost: %s" % int(self.net.res_cost))
 
-        re_params = {'cp_powers': cp_powers, 'tl_powers': tl_powers, 'one_l_congestion': one_l_congestion, 'max_congested': self.max_congested[0], 'max_congested_all': max_all, 'independence': independence, 'incoming': 0, 'outgoing': outgoing} # Also battery SoC
+        re_params = {'cp_powers': cp_powers, 'tl_powers': tl_powers, 'one_l_congestion': one_l_congestion, 'max_congested_all': max_all, 'independence': independence, 'incoming': 0, 'outgoing': outgoing} # Also battery SoC
 
         return re_params
 

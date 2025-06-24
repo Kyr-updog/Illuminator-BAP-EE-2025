@@ -162,7 +162,7 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
         """
 
         model_entities = {}
-        blacklist = ['PandaController', 'LED_connection', 'Station', 'CSV', 'WindRandomizer'] # Don't store these models in the 'models' parameter 
+        blacklist = ['PandaController', 'LED_connection', 'Station', 'CSV', 'WindRandomizer', 'USBtrigger'] # Don't store these models in the 'models' parameter 
                                                                     # in the PandaController model.
 
         for model in models:
@@ -228,12 +228,21 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                             raise ValueError(f"Multiple models found with name '{from_model}'.")
 
                         # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
-                        from_model_config = next((m for m in models if m['name'] == from_model))
-                        to_model_config = next((m for m in models if m['name'] == to_model))
+                        try: 
+                            from_model_config = next((m for m in models if m['name'] == from_model))
+                        except StopIteration:
+                            raise ValueError(f"Model with name '{from_model}' not found in models list")
 
+                        try:
+                            to_model_config = next((m for m in models if m['name'] == to_model))
+                        except StopIteration:
+                            raise ValueError(f"Model with name '{to_model}' not found in models list")
+                        
                         if 'line_id' in connection:
                             line_id = connection['line_id']
                             model_parameters['ss_connections'][line_id] = (from_model_config['name'], to_model_config['name'])
+                        elif from_model_config['type'] == 'Station' and to_model_config['type'] == 'USBtrigger':
+                            pass
                         elif from_model_config['type'] == 'Station' and to_model_config['type'] != 'LED_connection':
                             model_parameters_ps_connections.setdefault(from_model_config['name'], []).append(to_model_config['name'])
                             model_parameters['peripherals'][to_model_config['name']]['station'] = from_model_config['name']
@@ -249,6 +258,8 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                 #                     sim_params= {model_name: model} # This value gets picked up in the init() function
                 #                     # Some items must be passed here, and some other at create()
                 #                     )
+                print(model_name)
+                print(model)
                 simulator = world.start(sim_name=model_name, sim_params={model_name: model})
         
                 # TODO: make all parameters in create() **kwargs

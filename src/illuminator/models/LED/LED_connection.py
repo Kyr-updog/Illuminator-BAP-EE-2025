@@ -36,6 +36,9 @@ class LED_connection(ModelConstructor):
     time=None
 
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
     def init(self, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
@@ -67,7 +70,7 @@ class LED_connection(ModelConstructor):
 
         self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
         
-        return result
+        return None
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
         """
