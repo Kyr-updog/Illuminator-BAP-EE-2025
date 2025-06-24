@@ -99,8 +99,10 @@ class LED_connection(ModelConstructor):
         """
         input_data = self.unpack_inputs(inputs)
         self.time = time
-
-        power = float(input_data['power'][f'line_{self.id}']) # Selects the power corresponding to its own line_ID
+        try:
+            power = float(input_data['power'][f'line_{self.id}']) # Selects the power corresponding to its own line_ID
+        except:
+            print("weird")
         speed = self.ps_ratio*power
         direction = self.direction
         print("got speed: ", speed)

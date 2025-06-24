@@ -13,20 +13,20 @@
       [33m\      /[0m            Docs: https://mosaik.readthedocs.io/en/3.5.0/
        [33m\____/[0m     Get in touch: https://github.com/orgs/OFFIS-mosaik/discussions
 
-2025-06-24 22:08:48.085 | INFO     | mosaik.async_scenario:start:420 - Starting "Collector" as "Collector-0" ...
-2025-06-24 22:08:51.264 | INFO     | mosaik_api_v3:start_simulation_async:424 - Starting Collector ...
-2025-06-24 22:08:51.279 | INFO     | mosaik.async_scenario:start:420 - Starting "PandaController1" as "PandaController1-0" ...
-2025-06-24 22:08:51.705 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator PandaController1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.708 | INFO     | mosaik.async_scenario:start:420 - Starting "USBtrigger1" as "USBtrigger1-0" ...
-2025-06-24 22:08:51.710 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator USBtrigger1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.712 | INFO     | mosaik.async_scenario:start:420 - Starting "CSV_PV" as "CSV_PV-0" ...
-2025-06-24 22:08:51.724 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator CSV_PV-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.726 | INFO     | mosaik.async_scenario:start:420 - Starting "CSV_Load" as "CSV_Load-0" ...
-2025-06-24 22:08:51.730 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator CSV_Load-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.732 | INFO     | mosaik.async_scenario:start:420 - Starting "Load1" as "Load1-0" ...
-2025-06-24 22:08:51.787 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator Load1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.794 | INFO     | mosaik.async_scenario:start:420 - Starting "HP1" as "HP1-0" ...
-2025-06-24 22:08:51.805 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator HP1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
+2025-06-24 22:10:19.257 | INFO     | mosaik.async_scenario:start:420 - Starting "Collector" as "Collector-0" ...
+2025-06-24 22:10:22.412 | INFO     | mosaik_api_v3:start_simulation_async:424 - Starting Collector ...
+2025-06-24 22:10:22.425 | INFO     | mosaik.async_scenario:start:420 - Starting "PandaController1" as "PandaController1-0" ...
+2025-06-24 22:10:22.848 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator PandaController1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
+2025-06-24 22:10:22.851 | INFO     | mosaik.async_scenario:start:420 - Starting "USBtrigger1" as "USBtrigger1-0" ...
+2025-06-24 22:10:22.853 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator USBtrigger1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
+2025-06-24 22:10:22.855 | INFO     | mosaik.async_scenario:start:420 - Starting "CSV_PV" as "CSV_PV-0" ...
+2025-06-24 22:10:22.868 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator CSV_PV-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
+2025-06-24 22:10:22.870 | INFO     | mosaik.async_scenario:start:420 - Starting "CSV_Load" as "CSV_Load-0" ...
+2025-06-24 22:10:22.874 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator CSV_Load-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
+2025-06-24 22:10:22.876 | INFO     | mosaik.async_scenario:start:420 - Starting "Load1" as "Load1-0" ...
+2025-06-24 22:10:22.929 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator Load1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
+2025-06-24 22:10:22.936 | INFO     | mosaik.async_scenario:start:420 - Starting "HP1" as "HP1-0" ...
+2025-06-24 22:10:22.946 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator HP1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
 /home/Raspinator/Illuminator
 Warning: Missing 'outputs' key in model. 'outputs'
 Warning: Missing 'time_step_size' key in model. 'time_step_size'
@@ -36,7 +36,7 @@ PandaController1
 Name: tf, dtype: int64
 running extra init
 sim_params: {'sim_params': {'PandaController1': {'name': 'PandaController1', 'type': 'PandaController', 'parameters': {'peripherals': {'Load1': {'houses': 1, 'output_type': 'power', 'input_type': 'total', 'name': 'Load', 'total': 0.06, 'type': 'Load', 'station': 'Station3'}, 'HP1': {'houses_case': 1, 'houses_data': 1, 'name': 'HP', 'type': 'LoadHeatpump', 'station': 'Station3'}, 'Load2': {'houses': 1, 'output_type': 'power', 'input_type': 'total', 'name': 'Load', 'total': 0.04, 'type': 'Load', 'station': 'Station4'}, 'EV1': {'houses_case': 1, 'houses_data': 1, 'name': 'EV', 'type': 'LoadEV', 'station': 'Station4'}, 'PV1': {'cap': 100, 'output_type': 'power', 'input_type': 'percentage', 'name': 'PV', 'par1': 0.9950484924913617, 'par2': 0.18312331593381959, 'type': 'PV', 'station': 'Station2'}}, 'stations': {'Station2': 380, 'Station3': 380, 'Station4': 380}, 'ps_connections': {'Station2': ['PV1'], 'Station3': ['Load1', 'HP1'], 'Station4': ['Load2', 'EV1']}, 'ss_connections': {'line_11': ('Station4', 'Station3')}, 'lines_file_path': 'examples/BAP-2025-Simulation/demo_line_specs.csv'}, 'inputs': {'ncp_powers': {}}, 'states': {'cp_powers': {}, 'tl_powers': {}, 'one_l_congestion': 0, 'max_congested_all': 0, 'independence': 0, 'execution_time': 0, 'incoming': 0, 'outgoing': 0}}}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])]}
+{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f966f0fd0>, children=[])]}
 Warning: Missing 'parameters' key in model. 'parameters'
 Warning: Missing 'outputs' key in model. 'outputs'
 Warning: Missing 'states' key in model. 'states'
@@ -45,72 +45,1386 @@ USBtrigger1
 {'name': 'USBtrigger1', 'type': 'USBtrigger', 'inputs': {'USBchange': False}}
 running extra init
 sim_params: {'sim_params': {'USBtrigger1': {'name': 'USBtrigger1', 'type': 'USBtrigger', 'inputs': {'USBchange': False}}}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])]}
+{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f966f0fd0>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f96737ad0>, children=[])]}
 Warning: Missing 'inputs' key in model. 'inputs'
 Warning: Missing 'outputs' key in model. 'outputs'
 Warning: Missing 'time_step_size' key in model. 'time_step_size'
 running extra init
 sim_params: {'sim_start': '2025-04-15 00:00:00', 'datafile': 'examples/BAP-2025-Simulation/Solar_april.csv', 'sim_params': {'CSV_PV': {'name': 'CSV_PV', 'type': 'CSV', 'parameters': {'file_path': 'examples/BAP-2025-Simulation/Solar_april.csv', 'delimiter': ',', 'date_format': 'YYYY-MM-DD HH:mm:ss', 'start': '2025-04-15 00:00:00'}, 'states': {'utilization': None}}}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])]}
+{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f966f0fd0>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f96737ad0>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9674f590>, children=[])]}
 Warning: Missing 'inputs' key in model. 'inputs'
 Warning: Missing 'outputs' key in model. 'outputs'
 Warning: Missing 'time_step_size' key in model. 'time_step_size'
 running extra init
 sim_params: {'sim_start': '2025-04-15 00:00:00', 'datafile': 'examples/BAP-2025-Simulation/load_april.csv', 'sim_params': {'CSV_Load': {'name': 'CSV_Load', 'type': 'CSV', 'parameters': {'file_path': 'examples/BAP-2025-Simulation/load_april.csv', 'delimiter': ',', 'date_format': 'YYYY-MM-DD HH:mm:ss', 'start': '2025-04-15 00:00:00'}, 'states': {'load': None}}}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])]}
+{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f966f0fd0>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f96737ad0>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9674f590>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f967586d0>, children=[])]}
 Warning: Missing 'time_step_size' key in model. 'time_step_size'
 Load1
 {'name': 'Load1', 'type': 'Load', 'parameters': {'houses': 1, 'output_type': 'power', 'input_type': 'total', 'name': 'Load1', 'total': 0.06, 'type': 'Load', 'station': 'Station3'}, 'inputs': {'load': None}, 'outputs': {'load_dem_out': 0, 'consumption': 0}, 'states': {'load_dem': {}}, 'connect': {'ip': '192.168.0.7', 'port': 5101}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])]}
+{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f966f0fd0>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f96737ad0>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9674f590>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f967586d0>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f967594d0>, children=[])]}
 Warning: Missing 'states' key in model. 'states'
 Warning: Missing 'time_step_size' key in model. 'time_step_size'
 HP1
 {'name': 'HP1', 'type': 'LoadHeatpump', 'parameters': {'houses_case': 1, 'houses_data': 1, 'name': 'HP1', 'type': 'LoadHeatpump', 'station': 'Station3'}, 'inputs': {'hp_load': {}}, 'outputs': {'load_HP': 0}, 'connect': {'ip': '192.168.0.7', 'port': 5102}}
-2025-06-24 22:08:51.811 | INFO     | mosaik.async_scenario:start:420 - Starting "Load2" as "Load2-0" ...
-2025-06-24 22:08:51.823 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator Load2-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.833 | INFO     | mosaik.async_scenario:start:420 - Starting "EV1" as "EV1-0" ...
-2025-06-24 22:08:51.843 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator EV1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.849 | INFO     | mosaik.async_scenario:start:420 - Starting "PV1" as "PV1-0" ...
-2025-06-24 22:08:51.887 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator PV1-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.893 | INFO     | mosaik.async_scenario:start:420 - Starting "Station2" as "Station2-0" ...
-2025-06-24 22:08:51.904 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator Station2-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.910 | INFO     | mosaik.async_scenario:start:420 - Starting "Station3" as "Station3-0" ...
-2025-06-24 22:08:51.925 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator Station3-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])]}
+2025-06-24 22:10:22.958 | INFO     | mosaik.async_scenario:start:420 - Starting "Load2" as "Load2-0" ...
+{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f966f0fd0>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f96737ad0>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9674f590>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f967586d0>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f967594d0>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9675a790>, children=[])]}
 Warning: Missing 'time_step_size' key in model. 'time_step_size'
 Load2
 {'name': 'Load2', 'type': 'Load', 'parameters': {'houses': 1, 'output_type': 'power', 'input_type': 'total', 'name': 'Load2', 'total': 0.04, 'type': 'Load', 'station': 'Station4'}, 'inputs': {'load': None}, 'outputs': {'load_dem_out': 0, 'consumption': 0}, 'states': {'load_dem': {}}, 'connect': {'ip': '192.168.0.8', 'port': 5100}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])], 'Load2': [Entity(full_id='Load2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa4d0>, children=[])]}
-Warning: Missing 'states' key in model. 'states'
-Warning: Missing 'time_step_size' key in model. 'time_step_size'
-EV1
-{'name': 'EV1', 'type': 'LoadEV', 'parameters': {'houses_case': 1, 'houses_data': 1, 'name': 'EV1', 'type': 'LoadEV', 'station': 'Station4'}, 'inputs': {'power': {}, 'n': 0}, 'outputs': {'load_EV': 0}, 'connect': {'ip': '192.168.0.8', 'port': 5101}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])], 'Load2': [Entity(full_id='Load2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa4d0>, children=[])], 'EV1': [Entity(full_id='EV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b0c50>, children=[])]}
-Warning: Missing 'time_step_size' key in model. 'time_step_size'
-PV1
-{'name': 'PV1', 'type': 'PV', 'parameters': {'cap': 100, 'output_type': 'power', 'input_type': 'percentage', 'name': 'PV1', 'par1': 0.9950484924913617, 'par2': 0.18312331593381959, 'type': 'PV', 'station': 'Station2'}, 'inputs': {'G_Gh': 0, 'G_Dh': 0, 'G_Bn': 0, 'Ta': 0, 'hs': 0, 'FF': 0, 'Az': 0, 'capacity_percentage': None}, 'outputs': {'pv_gen_out': None, 'total_irr': None, 'g_aoi': None}, 'states': {'pv_gen': {}}, 'connect': {'ip': '192.168.0.6', 'port': 5101}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])], 'Load2': [Entity(full_id='Load2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa4d0>, children=[])], 'EV1': [Entity(full_id='EV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b0c50>, children=[])], 'PV1': [Entity(full_id='PV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b23d0>, children=[])]}
-Warning: Missing 'time_step_size' key in model. 'time_step_size'
-Station2
-{'name': 'Station2', 'type': 'Station', 'parameters': {'station_ID': 'Station2', 'kv': 380}, 'inputs': {'cp_powers': {}, 'tl_powers': {}}, 'states': {'cp_powers': {}, 'transmit': {}}, 'outputs': {'USBchange': False}, 'connect': {'ip': '192.168.0.6', 'port': 5102}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])], 'Load2': [Entity(full_id='Load2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa4d0>, children=[])], 'EV1': [Entity(full_id='EV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b0c50>, children=[])], 'PV1': [Entity(full_id='PV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b23d0>, children=[])], 'Station2': [Entity(full_id='Station2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b3750>, children=[])]}
-Warning: Missing 'time_step_size' key in model. 'time_step_size'
-Station3
-{'name': 'Station3', 'type': 'Station', 'parameters': {'station_ID': 'Station3', 'kv': 380}, 'inputs': {'cp_powers': {}, 'tl_powers': {}}, 'states': {'cp_powers': {}, 'transmit': {}}, 'outputs': {'USBchange': False}, 'connect': {'ip': '192.168.0.7', 'port': 5103}}
-2025-06-24 22:08:51.934 | INFO     | mosaik.async_scenario:start:420 - Starting "Station4" as "Station4-0" ...
-2025-06-24 22:08:51.946 | WARNING  | mosaik.async_scenario:user_warning:342 - /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/adapters.py:98: UserWarning: Simulator Station4-0 is using an outdated API version, namely 1. It should still work. You can suppress this warning by adding an explicit API version for this simulator in your SimConfig.
-2025-06-24 22:08:51.954 | INFO     | mosaik.async_scenario:start:420 - Starting "LED_model_1" as "LED_model_1-0" ...
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])], 'Load2': [Entity(full_id='Load2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa4d0>, children=[])], 'EV1': [Entity(full_id='EV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b0c50>, children=[])], 'PV1': [Entity(full_id='PV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b23d0>, children=[])], 'Station2': [Entity(full_id='Station2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b3750>, children=[])], 'Station3': [Entity(full_id='Station3-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957bcb10>, children=[])]}
-Warning: Missing 'time_step_size' key in model. 'time_step_size'
-Station4
-{'name': 'Station4', 'type': 'Station', 'parameters': {'station_ID': 'Station4', 'kv': 380}, 'inputs': {'cp_powers': {}, 'tl_powers': {}}, 'states': {'cp_powers': {}, 'transmit': {}}, 'outputs': {'USBchange': False}, 'connect': {'ip': '192.168.0.8', 'port': 5102}}
-{'PandaController1': [Entity(full_id='PandaController1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95779390>, children=[])], 'USBtrigger1': [Entity(full_id='USBtrigger1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f95782390>, children=[])], 'CSV_PV': [Entity(full_id='CSV_PV-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f9579e4d0>, children=[])], 'CSV_Load': [Entity(full_id='CSV_Load-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a8350>, children=[])], 'Load1': [Entity(full_id='Load1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957a9190>, children=[])], 'HP1': [Entity(full_id='HP1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa410>, children=[])], 'Load2': [Entity(full_id='Load2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957aa4d0>, children=[])], 'EV1': [Entity(full_id='EV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b0c50>, children=[])], 'PV1': [Entity(full_id='PV1-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b23d0>, children=[])], 'Station2': [Entity(full_id='Station2-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957b3750>, children=[])], 'Station3': [Entity(full_id='Station3-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957bcb10>, children=[])], 'Station4': [Entity(full_id='Station4-0.time-based_0', model_mock=<mosaik.async_scenario.AsyncModelMock object at 0x7f957bdf90>, children=[])]}
-Warning: Missing 'outputs' key in model. 'outputs'
-Warning: Missing 'states' key in model. 'states'
-Warning: Missing 'time_step_size' key in model. 'time_step_size'
-LED_model_1
-{'name': 'LED_model_1', 'type': 'LED_connection', 'connect': {'ip': '192.168.0.6', 'port': 5000}, 'parameters': {'max_delay': 255, 'direction': 0, 'port': '/dev/ttyACM0', 'file_path': 'examples/BAP-2025-Simulation/line_specs.csv'}, 'inputs': {'power': 5}}
-Simulator "LED_model_1" closed its connection during the init() call.
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/simmanager.py:33 │
+│ 0 in start_connect                                                           │
+│                                                                              │
+│   327 │   │   ) from None                                                    │
+│   328 │                                                                      │
+│   329 │   try:                                                               │
+│ ❱ 330 │   │   reader, writer = await asyncio.open_connection(host, port)     │
+│   331 │   except (ConnectionError, OSError):                                 │
+│   332 │   │   raise SimulationError(                                         │
+│   333 │   │   │   f'Simulator "{sim_name}" could not be started: Could not c │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │          addr = ('192.168.0.8', 5100)                                    │ │
+│ │          host = '192.168.0.8'                                            │ │
+│ │ mosaik_config = {                                                        │ │
+│ │                 │   'addr': ('127.0.0.1', None),                         │ │
+│ │                 │   'start_timeout': 10,                                 │ │
+│ │                 │   'stop_timeout': 10                                   │ │
+│ │                 }                                                        │ │
+│ │ mosaik_remote = <mosaik.simmanager.MosaikRemote object at 0x7f9675ad90>  │ │
+│ │          port = '5100'                                                   │ │
+│ │    sim_config = {'connect': '192.168.0.8:5100'}                          │ │
+│ │      sim_name = 'Load2'                                                  │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/streams.py:48 in open_connection                 │
+│                                                                              │
+│    45 │   loop = events.get_running_loop()                                   │
+│    46 │   reader = StreamReader(limit=limit, loop=loop)                      │
+│    47 │   protocol = StreamReaderProtocol(reader, loop=loop)                 │
+│ ❱  48 │   transport, _ = await loop.create_connection(                       │
+│    49 │   │   lambda: protocol, host, port, **kwds)                          │
+│    50 │   writer = StreamWriter(transport, protocol, reader, loop)           │
+│    51 │   return reader, writer                                              │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │     host = '192.168.0.8'                                                 │ │
+│ │     kwds = {}                                                            │ │
+│ │    limit = 65536                                                         │ │
+│ │     loop = <_UnixSelectorEventLoop running=False closed=False            │ │
+│ │            debug=False>                                                  │ │
+│ │     port = '5100'                                                        │ │
+│ │ protocol = <asyncio.streams.StreamReaderProtocol object at 0x7f9675b1d0> │ │
+│ │   reader = <StreamReader>                                                │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/base_events.py:1085 in create_connection         │
+│                                                                              │
+│   1082 │   │   │   │   exceptions = [exc for sub in exceptions for exc in su │
+│   1083 │   │   │   │   try:                                                  │
+│   1084 │   │   │   │   │   if len(exceptions) == 1:                          │
+│ ❱ 1085 │   │   │   │   │   │   raise exceptions[0]                           │
+│   1086 │   │   │   │   │   else:                                             │
+│   1087 │   │   │   │   │   │   # If they all have the same str(), raise one. │
+│   1088 │   │   │   │   │   │   model = str(exceptions[0])                    │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │              addrinfo = (                                                │ │
+│ │                         │   <AddressFamily.AF_INET: 2>,                  │ │
+│ │                         │   <SocketKind.SOCK_STREAM: 1>,                 │ │
+│ │                         │   6,                                           │ │
+│ │                         │   '',                                          │ │
+│ │                         │   ('192.168.0.8', 5100)                        │ │
+│ │                         )                                                │ │
+│ │            exceptions = None                                             │ │
+│ │                family = 0                                                │ │
+│ │                 flags = 0                                                │ │
+│ │  happy_eyeballs_delay = None                                             │ │
+│ │                  host = '192.168.0.8'                                    │ │
+│ │                 infos = [                                                │ │
+│ │                         │   (                                            │ │
+│ │                         │   │   <AddressFamily.AF_INET: 2>,              │ │
+│ │                         │   │   <SocketKind.SOCK_STREAM: 1>,             │ │
+│ │                         │   │   6,                                       │ │
+│ │                         │   │   '',                                      │ │
+│ │                         │   │   ('192.168.0.8', 5100)                    │ │
+│ │                         │   )                                            │ │
+│ │                         ]                                                │ │
+│ │            interleave = None                                             │ │
+│ │           laddr_infos = None                                             │ │
+│ │            local_addr = None                                             │ │
+│ │                  port = '5100'                                           │ │
+│ │                 proto = 0                                                │ │
+│ │                  self = <_UnixSelectorEventLoop running=False            │ │
+│ │                         closed=False debug=False>                        │ │
+│ │       server_hostname = None                                             │ │
+│ │                  sock = None                                             │ │
+│ │                   ssl = None                                             │ │
+│ │ ssl_handshake_timeout = None                                             │ │
+│ │  ssl_shutdown_timeout = None                                             │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/base_events.py:1069 in create_connection         │
+│                                                                              │
+│   1066 │   │   │   │   # not using happy eyeballs                            │
+│   1067 │   │   │   │   for addrinfo in infos:                                │
+│   1068 │   │   │   │   │   try:                                              │
+│ ❱ 1069 │   │   │   │   │   │   sock = await self._connect_sock(              │
+│   1070 │   │   │   │   │   │   │   exceptions, addrinfo, laddr_infos)        │
+│   1071 │   │   │   │   │   │   break                                         │
+│   1072 │   │   │   │   │   except OSError:                                   │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │              addrinfo = (                                                │ │
+│ │                         │   <AddressFamily.AF_INET: 2>,                  │ │
+│ │                         │   <SocketKind.SOCK_STREAM: 1>,                 │ │
+│ │                         │   6,                                           │ │
+│ │                         │   '',                                          │ │
+│ │                         │   ('192.168.0.8', 5100)                        │ │
+│ │                         )                                                │ │
+│ │            exceptions = None                                             │ │
+│ │                family = 0                                                │ │
+│ │                 flags = 0                                                │ │
+│ │  happy_eyeballs_delay = None                                             │ │
+│ │                  host = '192.168.0.8'                                    │ │
+│ │                 infos = [                                                │ │
+│ │                         │   (                                            │ │
+│ │                         │   │   <AddressFamily.AF_INET: 2>,              │ │
+│ │                         │   │   <SocketKind.SOCK_STREAM: 1>,             │ │
+│ │                         │   │   6,                                       │ │
+│ │                         │   │   '',                                      │ │
+│ │                         │   │   ('192.168.0.8', 5100)                    │ │
+│ │                         │   )                                            │ │
+│ │                         ]                                                │ │
+│ │            interleave = None                                             │ │
+│ │           laddr_infos = None                                             │ │
+│ │            local_addr = None                                             │ │
+│ │                  port = '5100'                                           │ │
+│ │                 proto = 0                                                │ │
+│ │                  self = <_UnixSelectorEventLoop running=False            │ │
+│ │                         closed=False debug=False>                        │ │
+│ │       server_hostname = None                                             │ │
+│ │                  sock = None                                             │ │
+│ │                   ssl = None                                             │ │
+│ │ ssl_handshake_timeout = None                                             │ │
+│ │  ssl_shutdown_timeout = None                                             │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/base_events.py:973 in _connect_sock              │
+│                                                                              │
+│    970 │   │   │   │   │   │   raise my_exceptions.pop()                     │
+│    971 │   │   │   │   │   else:                                             │
+│    972 │   │   │   │   │   │   raise OSError(f"no matching local address wit │
+│ ❱  973 │   │   │   await self.sock_connect(sock, address)                    │
+│    974 │   │   │   return sock                                               │
+│    975 │   │   except OSError as exc:                                        │
+│    976 │   │   │   my_exceptions.append(exc)                                 │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │                _ = ''                                                    │ │
+│ │        addr_info = (                                                     │ │
+│ │                    │   <AddressFamily.AF_INET: 2>,                       │ │
+│ │                    │   <SocketKind.SOCK_STREAM: 1>,                      │ │
+│ │                    │   6,                                                │ │
+│ │                    │   '',                                               │ │
+│ │                    │   ('192.168.0.8', 5100)                             │ │
+│ │                    )                                                     │ │
+│ │          address = ('192.168.0.8', 5100)                                 │ │
+│ │       exceptions = None                                                  │ │
+│ │           family = <AddressFamily.AF_INET: 2>                            │ │
+│ │ local_addr_infos = None                                                  │ │
+│ │    my_exceptions = None                                                  │ │
+│ │            proto = 6                                                     │ │
+│ │             self = <_UnixSelectorEventLoop running=False closed=False    │ │
+│ │                    debug=False>                                          │ │
+│ │             sock = <socket.socket [closed] fd=-1, family=2, type=1,      │ │
+│ │                    proto=6>                                              │ │
+│ │            type_ = <SocketKind.SOCK_STREAM: 1>                           │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/selector_events.py:634 in sock_connect           │
+│                                                                              │
+│    631 │   │   fut = self.create_future()                                    │
+│    632 │   │   self._sock_connect(fut, sock, address)                        │
+│    633 │   │   try:                                                          │
+│ ❱  634 │   │   │   return await fut                                          │
+│    635 │   │   finally:                                                      │
+│    636 │   │   │   # Needed to break cycles when an exception occurs.        │
+│    637 │   │   │   fut = None                                                │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │        _ = ''                                                            │ │
+│ │  address = ('192.168.0.8', 5100)                                         │ │
+│ │      fut = None                                                          │ │
+│ │ resolved = [                                                             │ │
+│ │            │   (                                                         │ │
+│ │            │   │   <AddressFamily.AF_INET: 2>,                           │ │
+│ │            │   │   <SocketKind.SOCK_STREAM: 1>,                          │ │
+│ │            │   │   6,                                                    │ │
+│ │            │   │   '',                                                   │ │
+│ │            │   │   ('192.168.0.8', 5100)                                 │ │
+│ │            │   )                                                         │ │
+│ │            ]                                                             │ │
+│ │     self = <_UnixSelectorEventLoop running=False closed=False            │ │
+│ │            debug=False>                                                  │ │
+│ │     sock = <socket.socket [closed] fd=-1, family=2, type=1, proto=6>     │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/selector_events.py:674 in _sock_connect_cb       │
+│                                                                              │
+│    671 │   │   │   err = sock.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR) │
+│    672 │   │   │   if err != 0:                                              │
+│    673 │   │   │   │   # Jump to any except clause below.                    │
+│ ❱  674 │   │   │   │   raise OSError(err, f'Connect call failed {address}')  │
+│    675 │   │   except (BlockingIOError, InterruptedError):                   │
+│    676 │   │   │   # socket is still registered, the callback will be retrie │
+│    677 │   │   │   pass                                                      │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │ address = ('192.168.0.8', 5100)                                          │ │
+│ │     err = 111                                                            │ │
+│ │     fut = None                                                           │ │
+│ │    self = <_UnixSelectorEventLoop running=False closed=False             │ │
+│ │           debug=False>                                                   │ │
+│ │    sock = <socket.socket [closed] fd=-1, family=2, type=1, proto=6>      │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ConnectionRefusedError: [Errno 111] Connect call failed ('192.168.0.8', 5100)
+
+During handling of the above exception, another exception occurred:
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/Raspinator/Illuminator/src/illuminator/cli/main.py:37 in scenario_run  │
+│                                                                              │
+│   34 │                                                                       │
+│   35 │   global simulation                                                   │
+│   36 │   simulation = Simulation(config_file)                                │
+│ ❱ 37 │   simulation.run()                                                    │
+│   38                                                                         │
+│   39 @demonstrator_app.command("run")#run for the demonstrator part of the i │
+│   40 def scenario_run(config_file: Annotated[str, typer.Argument(help="Path  │
+│                                                                              │
+│ ╭──────────── locals ─────────────╮                                          │
+│ │ config_file = 'simulation.yaml' │                                          │
+│ ╰─────────────────────────────────╯                                          │
+│                                                                              │
+│ /home/Raspinator/Illuminator/src/illuminator/engine.py:567 in run            │
+│                                                                              │
+│   564 │   │   monitor = collector.Monitor()                                  │
+│   565 │   │                                                                  │
+│   566 │   │   # Dictionary to keep track of created model entities           │
+│ ❱ 567 │   │   model_entities = start_simulators(self.world, config['models'] │
+│   568 │   │                                                                  │
+│   569 │   │   # Connect the models based on the connections specified in the │
+│   570 │   │   self.world = build_connections(self.world, model_entities, con │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │        _end_time = '2025-04-15 23:50:00'                                 │ │
+│ │    _results_file = './to_dashboard.csv'                                  │ │
+│ │      _start_time = '2025-04-15 00:00:00'                                 │ │
+│ │ _time_resolution = 1800                                                  │ │
+│ │        collector = <mosaik.scenario.ModelFactory object at 0x7f966e06d0> │ │
+│ │           config = {                                                     │ │
+│ │                    │   'models': [                                       │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'PandaController1',               │ │
+│ │                    │   │   │   'type': 'PandaController',                │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'peripherals': {                      │ │
+│ │                    │   │   │   │   │   'Load1': {                        │ │
+│ │                    │   │   │   │   │   │   'houses': 1,                  │ │
+│ │                    │   │   │   │   │   │   'output_type': 'power',       │ │
+│ │                    │   │   │   │   │   │   'input_type': 'total',        │ │
+│ │                    │   │   │   │   │   │   'name': 'Load1',              │ │
+│ │                    │   │   │   │   │   │   'total': 0.06,                │ │
+│ │                    │   │   │   │   │   │   'type': 'Load',               │ │
+│ │                    │   │   │   │   │   │   'station': 'Station3'         │ │
+│ │                    │   │   │   │   │   },                                │ │
+│ │                    │   │   │   │   │   'HP1': {                          │ │
+│ │                    │   │   │   │   │   │   'houses_case': 1,             │ │
+│ │                    │   │   │   │   │   │   'houses_data': 1,             │ │
+│ │                    │   │   │   │   │   │   'name': 'HP1',                │ │
+│ │                    │   │   │   │   │   │   'type': 'LoadHeatpump',       │ │
+│ │                    │   │   │   │   │   │   'station': 'Station3'         │ │
+│ │                    │   │   │   │   │   },                                │ │
+│ │                    │   │   │   │   │   'Load2': {                        │ │
+│ │                    │   │   │   │   │   │   'houses': 1,                  │ │
+│ │                    │   │   │   │   │   │   'output_type': 'power',       │ │
+│ │                    │   │   │   │   │   │   'input_type': 'total',        │ │
+│ │                    │   │   │   │   │   │   'name': 'Load2',              │ │
+│ │                    │   │   │   │   │   │   'total': 0.04,                │ │
+│ │                    │   │   │   │   │   │   'type': 'Load',               │ │
+│ │                    │   │   │   │   │   │   'station': 'Station4'         │ │
+│ │                    │   │   │   │   │   },                                │ │
+│ │                    │   │   │   │   │   'EV1': {                          │ │
+│ │                    │   │   │   │   │   │   'houses_case': 1,             │ │
+│ │                    │   │   │   │   │   │   'houses_data': 1,             │ │
+│ │                    │   │   │   │   │   │   'name': 'EV',                 │ │
+│ │                    │   │   │   │   │   │   'type': 'LoadEV',             │ │
+│ │                    │   │   │   │   │   │   'station': 'Station4'         │ │
+│ │                    │   │   │   │   │   },                                │ │
+│ │                    │   │   │   │   │   'PV1': {                          │ │
+│ │                    │   │   │   │   │   │   'cap': 100,                   │ │
+│ │                    │   │   │   │   │   │   'output_type': 'power',       │ │
+│ │                    │   │   │   │   │   │   'input_type': 'percentage',   │ │
+│ │                    │   │   │   │   │   │   'name': 'PV',                 │ │
+│ │                    │   │   │   │   │   │   'par1': 0.9950484924913617,   │ │
+│ │                    │   │   │   │   │   │   'par2': 0.18312331593381959,  │ │
+│ │                    │   │   │   │   │   │   'type': 'PV',                 │ │
+│ │                    │   │   │   │   │   │   'station': 'Station2'         │ │
+│ │                    │   │   │   │   │   }                                 │ │
+│ │                    │   │   │   │   },                                    │ │
+│ │                    │   │   │   │   'stations': {                         │ │
+│ │                    │   │   │   │   │   'Station2': 380,                  │ │
+│ │                    │   │   │   │   │   'Station3': 380,                  │ │
+│ │                    │   │   │   │   │   'Station4': 380                   │ │
+│ │                    │   │   │   │   },                                    │ │
+│ │                    │   │   │   │   'ps_connections': {                   │ │
+│ │                    │   │   │   │   │   'Station2': ['PV1'],              │ │
+│ │                    │   │   │   │   │   'Station3': ['Load1', 'HP1'],     │ │
+│ │                    │   │   │   │   │   'Station4': ['Load2', 'EV1']      │ │
+│ │                    │   │   │   │   },                                    │ │
+│ │                    │   │   │   │   'ss_connections': {                   │ │
+│ │                    │   │   │   │   │   'line_11': (                      │ │
+│ │                    │   │   │   │   │   │   'Station4',                   │ │
+│ │                    │   │   │   │   │   │   'Station3'                    │ │
+│ │                    │   │   │   │   │   )                                 │ │
+│ │                    │   │   │   │   },                                    │ │
+│ │                    │   │   │   │   'lines_file_path':                    │ │
+│ │                    'examples/BAP-2025-Simulation/demo_line_specs.csv'    │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {'ncp_powers': {}},             │ │
+│ │                    │   │   │   'states': {                               │ │
+│ │                    │   │   │   │   'cp_powers': {},                      │ │
+│ │                    │   │   │   │   'tl_powers': {},                      │ │
+│ │                    │   │   │   │   'one_l_congestion': 0,                │ │
+│ │                    │   │   │   │   'max_congested_all': 0,               │ │
+│ │                    │   │   │   │   'independence': 0,                    │ │
+│ │                    │   │   │   │   'execution_time': 0,                  │ │
+│ │                    │   │   │   │   'incoming': 0,                        │ │
+│ │                    │   │   │   │   'outgoing': 0                         │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'USBtrigger1',                    │ │
+│ │                    │   │   │   'type': 'USBtrigger',                     │ │
+│ │                    │   │   │   'inputs': {'USBchange': False}            │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'CSV_PV',                         │ │
+│ │                    │   │   │   'type': 'CSV',                            │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'file_path':                          │ │
+│ │                    'examples/BAP-2025-Simulation/Solar_april.csv',       │ │
+│ │                    │   │   │   │   'delimiter': ',',                     │ │
+│ │                    │   │   │   │   'date_format': 'YYYY-MM-DD HH:mm:ss', │ │
+│ │                    │   │   │   │   'start': '2025-04-15 00:00:00'        │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'states': {'utilization': None}           │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'CSV_Load',                       │ │
+│ │                    │   │   │   'type': 'CSV',                            │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'file_path':                          │ │
+│ │                    'examples/BAP-2025-Simulation/load_april.csv',        │ │
+│ │                    │   │   │   │   'delimiter': ',',                     │ │
+│ │                    │   │   │   │   'date_format': 'YYYY-MM-DD HH:mm:ss', │ │
+│ │                    │   │   │   │   'start': '2025-04-15 00:00:00'        │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'states': {'load': None}                  │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'Load1',                          │ │
+│ │                    │   │   │   'type': 'Load',                           │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'houses': 1,                          │ │
+│ │                    │   │   │   │   'output_type': 'power',               │ │
+│ │                    │   │   │   │   'input_type': 'total',                │ │
+│ │                    │   │   │   │   'name': 'Load1',                      │ │
+│ │                    │   │   │   │   'total': 0.06,                        │ │
+│ │                    │   │   │   │   'type': 'Load',                       │ │
+│ │                    │   │   │   │   'station': 'Station3'                 │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {'load': None},                 │ │
+│ │                    │   │   │   'outputs': {                              │ │
+│ │                    │   │   │   │   'load_dem_out': 0,                    │ │
+│ │                    │   │   │   │   'consumption': 0                      │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'states': {'load_dem': {}},               │ │
+│ │                    │   │   │   'connect': {                              │ │
+│ │                    │   │   │   │   'ip': '192.168.0.7',                  │ │
+│ │                    │   │   │   │   'port': 5101                          │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'HP1',                            │ │
+│ │                    │   │   │   'type': 'LoadHeatpump',                   │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'houses_case': 1,                     │ │
+│ │                    │   │   │   │   'houses_data': 1,                     │ │
+│ │                    │   │   │   │   'name': 'HP1',                        │ │
+│ │                    │   │   │   │   'type': 'LoadHeatpump',               │ │
+│ │                    │   │   │   │   'station': 'Station3'                 │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {'hp_load': {}},                │ │
+│ │                    │   │   │   'outputs': {'load_HP': 0},                │ │
+│ │                    │   │   │   'connect': {                              │ │
+│ │                    │   │   │   │   'ip': '192.168.0.7',                  │ │
+│ │                    │   │   │   │   'port': 5102                          │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'Load2',                          │ │
+│ │                    │   │   │   'type': 'Load',                           │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'houses': 1,                          │ │
+│ │                    │   │   │   │   'output_type': 'power',               │ │
+│ │                    │   │   │   │   'input_type': 'total',                │ │
+│ │                    │   │   │   │   'name': 'Load2',                      │ │
+│ │                    │   │   │   │   'total': 0.04,                        │ │
+│ │                    │   │   │   │   'type': 'Load',                       │ │
+│ │                    │   │   │   │   'station': 'Station4'                 │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {'load': None},                 │ │
+│ │                    │   │   │   'outputs': {                              │ │
+│ │                    │   │   │   │   'load_dem_out': 0,                    │ │
+│ │                    │   │   │   │   'consumption': 0                      │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'states': {'load_dem': {}},               │ │
+│ │                    │   │   │   'connect': {                              │ │
+│ │                    │   │   │   │   'ip': '192.168.0.8',                  │ │
+│ │                    │   │   │   │   'port': 5100                          │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'EV1',                            │ │
+│ │                    │   │   │   'type': 'LoadEV',                         │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'houses_case': 1,                     │ │
+│ │                    │   │   │   │   'houses_data': 1,                     │ │
+│ │                    │   │   │   │   'name': 'EV',                         │ │
+│ │                    │   │   │   │   'type': 'LoadEV',                     │ │
+│ │                    │   │   │   │   'station': 'Station4'                 │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {'power': {}, 'n': 0},          │ │
+│ │                    │   │   │   'outputs': {'load_EV': 0},                │ │
+│ │                    │   │   │   'connect': {                              │ │
+│ │                    │   │   │   │   'ip': '192.168.0.8',                  │ │
+│ │                    │   │   │   │   'port': 5101                          │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'PV1',                            │ │
+│ │                    │   │   │   'type': 'PV',                             │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'cap': 100,                           │ │
+│ │                    │   │   │   │   'output_type': 'power',               │ │
+│ │                    │   │   │   │   'input_type': 'percentage',           │ │
+│ │                    │   │   │   │   'name': 'PV',                         │ │
+│ │                    │   │   │   │   'par1': 0.9950484924913617,           │ │
+│ │                    │   │   │   │   'par2': 0.18312331593381959,          │ │
+│ │                    │   │   │   │   'type': 'PV',                         │ │
+│ │                    │   │   │   │   'station': 'Station2'                 │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {                               │ │
+│ │                    │   │   │   │   'G_Gh': 0,                            │ │
+│ │                    │   │   │   │   'G_Dh': 0,                            │ │
+│ │                    │   │   │   │   'G_Bn': 0,                            │ │
+│ │                    │   │   │   │   'Ta': 0,                              │ │
+│ │                    │   │   │   │   'hs': 0,                              │ │
+│ │                    │   │   │   │   'FF': 0,                              │ │
+│ │                    │   │   │   │   'Az': 0,                              │ │
+│ │                    │   │   │   │   'capacity_percentage': None           │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'outputs': {                              │ │
+│ │                    │   │   │   │   'pv_gen_out': None,                   │ │
+│ │                    │   │   │   │   'total_irr': None,                    │ │
+│ │                    │   │   │   │   'g_aoi': None                         │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'states': {'pv_gen': {}},                 │ │
+│ │                    │   │   │   'connect': {                              │ │
+│ │                    │   │   │   │   'ip': '192.168.0.6',                  │ │
+│ │                    │   │   │   │   'port': 5101                          │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'name': 'Station2',                       │ │
+│ │                    │   │   │   'type': 'Station',                        │ │
+│ │                    │   │   │   'parameters': {                           │ │
+│ │                    │   │   │   │   'station_ID': 'Station1',             │ │
+│ │                    │   │   │   │   'kv': 380                             │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'inputs': {                               │ │
+│ │                    │   │   │   │   'cp_powers': {},                      │ │
+│ │                    │   │   │   │   'tl_powers': {}                       │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'states': {                               │ │
+│ │                    │   │   │   │   'cp_powers': {},                      │ │
+│ │                    │   │   │   │   'transmit': {}                        │ │
+│ │                    │   │   │   },                                        │ │
+│ │                    │   │   │   'outputs': {'USBchange': False},          │ │
+│ │                    │   │   │   'connect': {                              │ │
+│ │                    │   │   │   │   'ip': '192.168.0.6',                  │ │
+│ │                    │   │   │   │   'port': 5102                          │ │
+│ │                    │   │   │   }                                         │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   ... +5                                        │ │
+│ │                    │   ],                                                │ │
+│ │                    │   'connections': [                                  │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'CSV_Load.load',                  │ │
+│ │                    │   │   │   'to': 'Load1.load',                       │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'CSV_Load.load',                  │ │
+│ │                    │   │   │   'to': 'Load2.load',                       │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'CSV_PV.power',                   │ │
+│ │                    │   │   │   'to': 'PV1.capacity_percentage',          │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'PV1.pv_gen',                     │ │
+│ │                    │   │   │   'to': 'Station2.ncp_powers',              │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'Load1.load_dem',                 │ │
+│ │                    │   │   │   'to': 'Station3.ncp_powers',              │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'Station3.cp_powers',             │ │
+│ │                    │   │   │   'to': 'HP1.hp_load',                      │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'Load2.load_dem',                 │ │
+│ │                    │   │   │   'to': 'Station4.ncp_powers',              │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'Station4.cp_powers',             │ │
+│ │                    │   │   │   'to': 'EV1.power',                        │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'Station2.USBchange',             │ │
+│ │                    │   │   │   'to': 'USBtrigger1.USBchange',            │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   {                                             │ │
+│ │                    │   │   │   'from': 'Station3.USBchange',             │ │
+│ │                    │   │   │   'to': 'USBtrigger1.USBchange',            │ │
+│ │                    │   │   │   'time_shifted': False                     │ │
+│ │                    │   │   },                                            │ │
+│ │                    │   │   ... +5                                        │ │
+│ │                    │   ],                                                │ │
+│ │                    │   'scenario': {                                     │ │
+│ │                    │   │   'name': 'Pandalyzer test',                    │ │
+│ │                    │   │   'start_time': '2025-04-15 00:00:00',          │ │
+│ │                    │   │   'end_time': '2025-04-15 23:50:00',            │ │
+│ │                    │   │   'time_resolution': 1800                       │ │
+│ │                    │   },                                                │ │
+│ │                    │   'monitor': {                                      │ │
+│ │                    │   │   'file': './to_dashboard.csv',                 │ │
+│ │                    │   │   'items': [                                    │ │
+│ │                    │   │   │   'HP1.load_HP',                            │ │
+│ │                    │   │   │   'EV1.load_EV',                            │ │
+│ │                    │   │   │   'Load1.load_dem_out',                     │ │
+│ │                    │   │   │   'Load2.load_dem_out',                     │ │
+│ │                    │   │   │   'PV1.pv_gen_out'                          │ │
+│ │                    │   │   ]                                             │ │
+│ │                    │   }                                                 │ │
+│ │                    }                                                     │ │
+│ │          monitor = Entity(full_id='Collector-0.Monitor',                 │ │
+│ │                    model_mock=<mosaik.async_scenario.AsyncModelMock      │ │
+│ │                    object at 0x7f974d6250>, children=[])                 │ │
+│ │             self = <illuminator.engine.Simulation object at              │ │
+│ │                    0x7fb5083a90>                                         │ │
+│ │       sim_config = {                                                     │ │
+│ │                    │   'Collector': {                                    │ │
+│ │                    │   │   'cmd': '%(python)s                            │ │
+│ │                    /home/Raspinator/Illuminator/src/illuminator/models/… │ │
+│ │                    %(ad'+4                                               │ │
+│ │                    │   },                                                │ │
+│ │                    │   'PandaController1': {                             │ │
+│ │                    │   │   'python':                                     │ │
+│ │                    'illuminator.models:PandaController'                  │ │
+│ │                    │   },                                                │ │
+│ │                    │   'USBtrigger1': {                                  │ │
+│ │                    │   │   'python': 'illuminator.models:USBtrigger'     │ │
+│ │                    │   },                                                │ │
+│ │                    │   'CSV_PV': {'python': 'illuminator.models:CSV'},   │ │
+│ │                    │   'CSV_Load': {                                     │ │
+│ │                    │   │   'python': 'illuminator.models:CSV'            │ │
+│ │                    │   },                                                │ │
+│ │                    │   'Load1': {'connect': '192.168.0.7:5101'},         │ │
+│ │                    │   'HP1': {'connect': '192.168.0.7:5102'},           │ │
+│ │                    │   'Load2': {'connect': '192.168.0.8:5100'},         │ │
+│ │                    │   'EV1': {'connect': '192.168.0.8:5101'},           │ │
+│ │                    │   'PV1': {'connect': '192.168.0.6:5101'},           │ │
+│ │                    │   ... +6                                            │ │
+│ │                    }                                                     │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /home/Raspinator/Illuminator/src/illuminator/engine.py:263 in                │
+│ start_simulators                                                             │
+│                                                                              │
+│   260 │   │   │   │   #                     )                                │
+│   261 │   │   │   │   print(model_name)                                      │
+│   262 │   │   │   │   print(model)                                           │
+│ ❱ 263 │   │   │   │   simulator = world.start(sim_name=model_name, sim_param │
+│   264 │   │   │   │                                                          │
+│   265 │   │   │   │   # TODO: make all parameters in create() **kwargs       │
+│   266 │   │   │   │   # TODO: model_type must match model name in META for t │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │                       blacklist = [                                      │ │
+│ │                                   │   'PandaController',                 │ │
+│ │                                   │   'LED_connection',                  │ │
+│ │                                   │   'Station',                         │ │
+│ │                                   │   'CSV',                             │ │
+│ │                                   │   'WindRandomizer',                  │ │
+│ │                                   │   'USBtrigger'                       │ │
+│ │                                   ]                                      │ │
+│ │                      connection = {                                      │ │
+│ │                                   │   'from': 'Station4.transmit',       │ │
+│ │                                   │   'to': 'LED_model_3.power',         │ │
+│ │                                   │   'time_shifted': False              │ │
+│ │                                   }                                      │ │
+│ │                     connections = [                                      │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'CSV_Load.load',       │ │
+│ │                                   │   │   'to': 'Load1.load',            │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'CSV_Load.load',       │ │
+│ │                                   │   │   'to': 'Load2.load',            │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'CSV_PV.power',        │ │
+│ │                                   │   │   'to':                          │ │
+│ │                                   'PV1.capacity_percentage',             │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'PV1.pv_gen',          │ │
+│ │                                   │   │   'to': 'Station2.ncp_powers',   │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'Load1.load_dem',      │ │
+│ │                                   │   │   'to': 'Station3.ncp_powers',   │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'Station3.cp_powers',  │ │
+│ │                                   │   │   'to': 'HP1.hp_load',           │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'Load2.load_dem',      │ │
+│ │                                   │   │   'to': 'Station4.ncp_powers',   │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'Station4.cp_powers',  │ │
+│ │                                   │   │   'to': 'EV1.power',             │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'Station2.USBchange',  │ │
+│ │                                   │   │   'to': 'USBtrigger1.USBchange', │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'from': 'Station3.USBchange',  │ │
+│ │                                   │   │   'to': 'USBtrigger1.USBchange', │ │
+│ │                                   │   │   'time_shifted': False          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   ... +5                             │ │
+│ │                                   ]                                      │ │
+│ │                         element = {                                      │ │
+│ │                                   │   'name': 'LED_model_3',             │ │
+│ │                                   │   'type': 'LED_connection',          │ │
+│ │                                   │   'connect': {                       │ │
+│ │                                   │   │   'ip': '192.168.0.8',           │ │
+│ │                                   │   │   'port': 5001                   │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'parameters': {                    │ │
+│ │                                   │   │   'max_delay': 255,              │ │
+│ │                                   │   │   'direction': 0,                │ │
+│ │                                   │   │   'port': '/dev/ttyACM0',        │ │
+│ │                                   │   │   'file_path':                   │ │
+│ │                                   'examples/BAP-2025-Simulation/line_sp… │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'inputs': {'power': 5}             │ │
+│ │                                   }                                      │ │
+│ │                    element_name = 'LED_model_3'                          │ │
+│ │              element_parameters = {                                      │ │
+│ │                                   │   'max_delay': 255,                  │ │
+│ │                                   │   'direction': 0,                    │ │
+│ │                                   │   'port': '/dev/ttyACM0',            │ │
+│ │                                   │   'file_path':                       │ │
+│ │                                   'examples/BAP-2025-Simulation/line_sp… │ │
+│ │                                   }                                      │ │
+│ │                    element_type = 'LED_connection'                       │ │
+│ │                          entity = [                                      │ │
+│ │                                   │                                      │ │
+│ │                                   Entity(full_id='HP1-0.time-based_0',   │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f9675a790>, children=[])  │ │
+│ │                                   ]                                      │ │
+│ │                       from_attr = 'transmit'                             │ │
+│ │                      from_model = 'Station4'                             │ │
+│ │               from_model_config = {                                      │ │
+│ │                                   │   'name': 'Station4',                │ │
+│ │                                   │   'type': 'Station',                 │ │
+│ │                                   │   'parameters': {                    │ │
+│ │                                   │   │   'station_ID': 'Station1',      │ │
+│ │                                   │   │   'kv': 380                      │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'inputs': {                        │ │
+│ │                                   │   │   'cp_powers': {},               │ │
+│ │                                   │   │   'tl_powers': {}                │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'states': {                        │ │
+│ │                                   │   │   'cp_powers': {},               │ │
+│ │                                   │   │   'transmit': {}                 │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'outputs': {'USBchange': False},   │ │
+│ │                                   │   'connect': {                       │ │
+│ │                                   │   │   'ip': '192.168.0.8',           │ │
+│ │                                   │   │   'port': 5102                   │ │
+│ │                                   │   }                                  │ │
+│ │                                   }                                      │ │
+│ │                         line_id = 'line_11'                              │ │
+│ │                           model = {                                      │ │
+│ │                                   │   'name': 'Load2',                   │ │
+│ │                                   │   'type': 'Load',                    │ │
+│ │                                   │   'parameters': {                    │ │
+│ │                                   │   │   'houses': 1,                   │ │
+│ │                                   │   │   'output_type': 'power',        │ │
+│ │                                   │   │   'input_type': 'total',         │ │
+│ │                                   │   │   'name': 'Load2',               │ │
+│ │                                   │   │   'total': 0.04,                 │ │
+│ │                                   │   │   'type': 'Load',                │ │
+│ │                                   │   │   'station': 'Station4'          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'inputs': {'load': None},          │ │
+│ │                                   │   'outputs': {                       │ │
+│ │                                   │   │   'load_dem_out': 0,             │ │
+│ │                                   │   │   'consumption': 0               │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'states': {'load_dem': {}},        │ │
+│ │                                   │   'connect': {                       │ │
+│ │                                   │   │   'ip': '192.168.0.8',           │ │
+│ │                                   │   │   'port': 5100                   │ │
+│ │                                   │   }                                  │ │
+│ │                                   }                                      │ │
+│ │                  model_entities = {                                      │ │
+│ │                                   │   'PandaController1': [              │ │
+│ │                                   │   │                                  │ │
+│ │                                   Entity(full_id='PandaController1-0.ti… │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f966f0fd0>, children=[])  │ │
+│ │                                   │   ],                                 │ │
+│ │                                   │   'USBtrigger1': [                   │ │
+│ │                                   │   │                                  │ │
+│ │                                   Entity(full_id='USBtrigger1-0.time-ba… │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f96737ad0>, children=[])  │ │
+│ │                                   │   ],                                 │ │
+│ │                                   │   'CSV_PV': [                        │ │
+│ │                                   │   │                                  │ │
+│ │                                   Entity(full_id='CSV_PV-0.time-based_0… │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f9674f590>, children=[])  │ │
+│ │                                   │   ],                                 │ │
+│ │                                   │   'CSV_Load': [                      │ │
+│ │                                   │   │                                  │ │
+│ │                                   Entity(full_id='CSV_Load-0.time-based… │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f967586d0>, children=[])  │ │
+│ │                                   │   ],                                 │ │
+│ │                                   │   'Load1': [                         │ │
+│ │                                   │   │                                  │ │
+│ │                                   Entity(full_id='Load1-0.time-based_0', │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f967594d0>, children=[])  │ │
+│ │                                   │   ],                                 │ │
+│ │                                   │   'HP1': [                           │ │
+│ │                                   │   │                                  │ │
+│ │                                   Entity(full_id='HP1-0.time-based_0',   │ │
+│ │                                   model_mock=<mosaik.async_scenario.Asy… │ │
+│ │                                   object at 0x7f9675a790>, children=[])  │ │
+│ │                                   │   ]                                  │ │
+│ │                                   }                                      │ │
+│ │                   model_factory = <mosaik.scenario.ModelMock object at   │ │
+│ │                                   0x7f96729790>                          │ │
+│ │                      model_name = 'Load2'                                │ │
+│ │                model_parameters = {                                      │ │
+│ │                                   │   'houses': 1,                       │ │
+│ │                                   │   'output_type': 'power',            │ │
+│ │                                   │   'input_type': 'total',             │ │
+│ │                                   │   'name': 'Load2',                   │ │
+│ │                                   │   'total': 0.04,                     │ │
+│ │                                   │   'type': 'Load',                    │ │
+│ │                                   │   'station': 'Station4'              │ │
+│ │                                   }                                      │ │
+│ │    model_parameters_peripherals = {                                      │ │
+│ │                                   │   'Load1': {                         │ │
+│ │                                   │   │   'houses': 1,                   │ │
+│ │                                   │   │   'output_type': 'power',        │ │
+│ │                                   │   │   'input_type': 'total',         │ │
+│ │                                   │   │   'name': 'Load1',               │ │
+│ │                                   │   │   'total': 0.06,                 │ │
+│ │                                   │   │   'type': 'Load',                │ │
+│ │                                   │   │   'station': 'Station3'          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'HP1': {                           │ │
+│ │                                   │   │   'houses_case': 1,              │ │
+│ │                                   │   │   'houses_data': 1,              │ │
+│ │                                   │   │   'name': 'HP1',                 │ │
+│ │                                   │   │   'type': 'LoadHeatpump',        │ │
+│ │                                   │   │   'station': 'Station3'          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'Load2': {                         │ │
+│ │                                   │   │   'houses': 1,                   │ │
+│ │                                   │   │   'output_type': 'power',        │ │
+│ │                                   │   │   'input_type': 'total',         │ │
+│ │                                   │   │   'name': 'Load2',               │ │
+│ │                                   │   │   'total': 0.04,                 │ │
+│ │                                   │   │   'type': 'Load',                │ │
+│ │                                   │   │   'station': 'Station4'          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'EV1': {                           │ │
+│ │                                   │   │   'houses_case': 1,              │ │
+│ │                                   │   │   'houses_data': 1,              │ │
+│ │                                   │   │   'name': 'EV',                  │ │
+│ │                                   │   │   'type': 'LoadEV',              │ │
+│ │                                   │   │   'station': 'Station4'          │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'PV1': {                           │ │
+│ │                                   │   │   'cap': 100,                    │ │
+│ │                                   │   │   'output_type': 'power',        │ │
+│ │                                   │   │   'input_type': 'percentage',    │ │
+│ │                                   │   │   'name': 'PV',                  │ │
+│ │                                   │   │   'par1': 0.9950484924913617,    │ │
+│ │                                   │   │   'par2': 0.18312331593381959,   │ │
+│ │                                   │   │   'type': 'PV',                  │ │
+│ │                                   │   │   'station': 'Station2'          │ │
+│ │                                   │   }                                  │ │
+│ │                                   }                                      │ │
+│ │ model_parameters_ps_connections = {                                      │ │
+│ │                                   │   'Station2': ['PV1'],               │ │
+│ │                                   │   'Station3': ['Load1', 'HP1'],      │ │
+│ │                                   │   'Station4': ['Load2', 'EV1']       │ │
+│ │                                   }                                      │ │
+│ │                      model_type = 'Load'                                 │ │
+│ │                          models = [                                      │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'PandaController1',    │ │
+│ │                                   │   │   'type': 'PandaController',     │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'peripherals': {           │ │
+│ │                                   │   │   │   │   'Load1': {             │ │
+│ │                                   │   │   │   │   │   'houses': 1,       │ │
+│ │                                   │   │   │   │   │   'output_type':     │ │
+│ │                                   'power',                               │ │
+│ │                                   │   │   │   │   │   'input_type':      │ │
+│ │                                   'total',                               │ │
+│ │                                   │   │   │   │   │   'name': 'Load1',   │ │
+│ │                                   │   │   │   │   │   'total': 0.06,     │ │
+│ │                                   │   │   │   │   │   'type': 'Load',    │ │
+│ │                                   │   │   │   │   │   'station':         │ │
+│ │                                   'Station3'                             │ │
+│ │                                   │   │   │   │   },                     │ │
+│ │                                   │   │   │   │   'HP1': {               │ │
+│ │                                   │   │   │   │   │   'houses_case': 1,  │ │
+│ │                                   │   │   │   │   │   'houses_data': 1,  │ │
+│ │                                   │   │   │   │   │   'name': 'HP1',     │ │
+│ │                                   │   │   │   │   │   'type':            │ │
+│ │                                   'LoadHeatpump',                        │ │
+│ │                                   │   │   │   │   │   'station':         │ │
+│ │                                   'Station3'                             │ │
+│ │                                   │   │   │   │   },                     │ │
+│ │                                   │   │   │   │   'Load2': {             │ │
+│ │                                   │   │   │   │   │   'houses': 1,       │ │
+│ │                                   │   │   │   │   │   'output_type':     │ │
+│ │                                   'power',                               │ │
+│ │                                   │   │   │   │   │   'input_type':      │ │
+│ │                                   'total',                               │ │
+│ │                                   │   │   │   │   │   'name': 'Load2',   │ │
+│ │                                   │   │   │   │   │   'total': 0.04,     │ │
+│ │                                   │   │   │   │   │   'type': 'Load',    │ │
+│ │                                   │   │   │   │   │   'station':         │ │
+│ │                                   'Station4'                             │ │
+│ │                                   │   │   │   │   },                     │ │
+│ │                                   │   │   │   │   'EV1': {               │ │
+│ │                                   │   │   │   │   │   'houses_case': 1,  │ │
+│ │                                   │   │   │   │   │   'houses_data': 1,  │ │
+│ │                                   │   │   │   │   │   'name': 'EV',      │ │
+│ │                                   │   │   │   │   │   'type': 'LoadEV',  │ │
+│ │                                   │   │   │   │   │   'station':         │ │
+│ │                                   'Station4'                             │ │
+│ │                                   │   │   │   │   },                     │ │
+│ │                                   │   │   │   │   'PV1': {               │ │
+│ │                                   │   │   │   │   │   'cap': 100,        │ │
+│ │                                   │   │   │   │   │   'output_type':     │ │
+│ │                                   'power',                               │ │
+│ │                                   │   │   │   │   │   'input_type':      │ │
+│ │                                   'percentage',                          │ │
+│ │                                   │   │   │   │   │   'name': 'PV',      │ │
+│ │                                   │   │   │   │   │   'par1':            │ │
+│ │                                   0.9950484924913617,                    │ │
+│ │                                   │   │   │   │   │   'par2':            │ │
+│ │                                   0.18312331593381959,                   │ │
+│ │                                   │   │   │   │   │   'type': 'PV',      │ │
+│ │                                   │   │   │   │   │   'station':         │ │
+│ │                                   'Station2'                             │ │
+│ │                                   │   │   │   │   }                      │ │
+│ │                                   │   │   │   },                         │ │
+│ │                                   │   │   │   'stations': {              │ │
+│ │                                   │   │   │   │   'Station2': 380,       │ │
+│ │                                   │   │   │   │   'Station3': 380,       │ │
+│ │                                   │   │   │   │   'Station4': 380        │ │
+│ │                                   │   │   │   },                         │ │
+│ │                                   │   │   │   'ps_connections': {        │ │
+│ │                                   │   │   │   │   'Station2': ['PV1'],   │ │
+│ │                                   │   │   │   │   'Station3': [          │ │
+│ │                                   │   │   │   │   │   'Load1',           │ │
+│ │                                   │   │   │   │   │   'HP1'              │ │
+│ │                                   │   │   │   │   ],                     │ │
+│ │                                   │   │   │   │   'Station4': [          │ │
+│ │                                   │   │   │   │   │   'Load2',           │ │
+│ │                                   │   │   │   │   │   'EV1'              │ │
+│ │                                   │   │   │   │   ]                      │ │
+│ │                                   │   │   │   },                         │ │
+│ │                                   │   │   │   'ss_connections': {        │ │
+│ │                                   │   │   │   │   'line_11': (           │ │
+│ │                                   │   │   │   │   │   'Station4',        │ │
+│ │                                   │   │   │   │   │   'Station3'         │ │
+│ │                                   │   │   │   │   )                      │ │
+│ │                                   │   │   │   },                         │ │
+│ │                                   │   │   │   'lines_file_path':         │ │
+│ │                                   'examples/BAP-2025-Simulation/demo_li… │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {'ncp_powers': {}},  │ │
+│ │                                   │   │   'states': {                    │ │
+│ │                                   │   │   │   'cp_powers': {},           │ │
+│ │                                   │   │   │   'tl_powers': {},           │ │
+│ │                                   │   │   │   'one_l_congestion': 0,     │ │
+│ │                                   │   │   │   'max_congested_all': 0,    │ │
+│ │                                   │   │   │   'independence': 0,         │ │
+│ │                                   │   │   │   'execution_time': 0,       │ │
+│ │                                   │   │   │   'incoming': 0,             │ │
+│ │                                   │   │   │   'outgoing': 0              │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'USBtrigger1',         │ │
+│ │                                   │   │   'type': 'USBtrigger',          │ │
+│ │                                   │   │   'inputs': {                    │ │
+│ │                                   │   │   │   'USBchange': False         │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'CSV_PV',              │ │
+│ │                                   │   │   'type': 'CSV',                 │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'file_path':               │ │
+│ │                                   'examples/BAP-2025-Simulation/Solar_a… │ │
+│ │                                   │   │   │   'delimiter': ',',          │ │
+│ │                                   │   │   │   'date_format': 'YYYY-MM-DD │ │
+│ │                                   HH:mm:ss',                             │ │
+│ │                                   │   │   │   'start': '2025-04-15       │ │
+│ │                                   00:00:00'                              │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'states': {                    │ │
+│ │                                   │   │   │   'utilization': None        │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'CSV_Load',            │ │
+│ │                                   │   │   'type': 'CSV',                 │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'file_path':               │ │
+│ │                                   'examples/BAP-2025-Simulation/load_ap… │ │
+│ │                                   │   │   │   'delimiter': ',',          │ │
+│ │                                   │   │   │   'date_format': 'YYYY-MM-DD │ │
+│ │                                   HH:mm:ss',                             │ │
+│ │                                   │   │   │   'start': '2025-04-15       │ │
+│ │                                   00:00:00'                              │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'states': {'load': None}       │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'Load1',               │ │
+│ │                                   │   │   'type': 'Load',                │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'houses': 1,               │ │
+│ │                                   │   │   │   'output_type': 'power',    │ │
+│ │                                   │   │   │   'input_type': 'total',     │ │
+│ │                                   │   │   │   'name': 'Load1',           │ │
+│ │                                   │   │   │   'total': 0.06,             │ │
+│ │                                   │   │   │   'type': 'Load',            │ │
+│ │                                   │   │   │   'station': 'Station3'      │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {'load': None},      │ │
+│ │                                   │   │   'outputs': {                   │ │
+│ │                                   │   │   │   'load_dem_out': 0,         │ │
+│ │                                   │   │   │   'consumption': 0           │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'states': {'load_dem': {}},    │ │
+│ │                                   │   │   'connect': {                   │ │
+│ │                                   │   │   │   'ip': '192.168.0.7',       │ │
+│ │                                   │   │   │   'port': 5101               │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'HP1',                 │ │
+│ │                                   │   │   'type': 'LoadHeatpump',        │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'houses_case': 1,          │ │
+│ │                                   │   │   │   'houses_data': 1,          │ │
+│ │                                   │   │   │   'name': 'HP1',             │ │
+│ │                                   │   │   │   'type': 'LoadHeatpump',    │ │
+│ │                                   │   │   │   'station': 'Station3'      │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {'hp_load': {}},     │ │
+│ │                                   │   │   'outputs': {'load_HP': 0},     │ │
+│ │                                   │   │   'connect': {                   │ │
+│ │                                   │   │   │   'ip': '192.168.0.7',       │ │
+│ │                                   │   │   │   'port': 5102               │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'Load2',               │ │
+│ │                                   │   │   'type': 'Load',                │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'houses': 1,               │ │
+│ │                                   │   │   │   'output_type': 'power',    │ │
+│ │                                   │   │   │   'input_type': 'total',     │ │
+│ │                                   │   │   │   'name': 'Load2',           │ │
+│ │                                   │   │   │   'total': 0.04,             │ │
+│ │                                   │   │   │   'type': 'Load',            │ │
+│ │                                   │   │   │   'station': 'Station4'      │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {'load': None},      │ │
+│ │                                   │   │   'outputs': {                   │ │
+│ │                                   │   │   │   'load_dem_out': 0,         │ │
+│ │                                   │   │   │   'consumption': 0           │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'states': {'load_dem': {}},    │ │
+│ │                                   │   │   'connect': {                   │ │
+│ │                                   │   │   │   'ip': '192.168.0.8',       │ │
+│ │                                   │   │   │   'port': 5100               │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'EV1',                 │ │
+│ │                                   │   │   'type': 'LoadEV',              │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'houses_case': 1,          │ │
+│ │                                   │   │   │   'houses_data': 1,          │ │
+│ │                                   │   │   │   'name': 'EV',              │ │
+│ │                                   │   │   │   'type': 'LoadEV',          │ │
+│ │                                   │   │   │   'station': 'Station4'      │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {                    │ │
+│ │                                   │   │   │   'power': {},               │ │
+│ │                                   │   │   │   'n': 0                     │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'outputs': {'load_EV': 0},     │ │
+│ │                                   │   │   'connect': {                   │ │
+│ │                                   │   │   │   'ip': '192.168.0.8',       │ │
+│ │                                   │   │   │   'port': 5101               │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'PV1',                 │ │
+│ │                                   │   │   'type': 'PV',                  │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'cap': 100,                │ │
+│ │                                   │   │   │   'output_type': 'power',    │ │
+│ │                                   │   │   │   'input_type':              │ │
+│ │                                   'percentage',                          │ │
+│ │                                   │   │   │   'name': 'PV',              │ │
+│ │                                   │   │   │   'par1':                    │ │
+│ │                                   0.9950484924913617,                    │ │
+│ │                                   │   │   │   'par2':                    │ │
+│ │                                   0.18312331593381959,                   │ │
+│ │                                   │   │   │   'type': 'PV',              │ │
+│ │                                   │   │   │   'station': 'Station2'      │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {                    │ │
+│ │                                   │   │   │   'G_Gh': 0,                 │ │
+│ │                                   │   │   │   'G_Dh': 0,                 │ │
+│ │                                   │   │   │   'G_Bn': 0,                 │ │
+│ │                                   │   │   │   'Ta': 0,                   │ │
+│ │                                   │   │   │   'hs': 0,                   │ │
+│ │                                   │   │   │   'FF': 0,                   │ │
+│ │                                   │   │   │   'Az': 0,                   │ │
+│ │                                   │   │   │   'capacity_percentage':     │ │
+│ │                                   None                                   │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'outputs': {                   │ │
+│ │                                   │   │   │   'pv_gen_out': None,        │ │
+│ │                                   │   │   │   'total_irr': None,         │ │
+│ │                                   │   │   │   'g_aoi': None              │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'states': {'pv_gen': {}},      │ │
+│ │                                   │   │   'connect': {                   │ │
+│ │                                   │   │   │   'ip': '192.168.0.6',       │ │
+│ │                                   │   │   │   'port': 5101               │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   {                                  │ │
+│ │                                   │   │   'name': 'Station2',            │ │
+│ │                                   │   │   'type': 'Station',             │ │
+│ │                                   │   │   'parameters': {                │ │
+│ │                                   │   │   │   'station_ID': 'Station1',  │ │
+│ │                                   │   │   │   'kv': 380                  │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'inputs': {                    │ │
+│ │                                   │   │   │   'cp_powers': {},           │ │
+│ │                                   │   │   │   'tl_powers': {}            │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'states': {                    │ │
+│ │                                   │   │   │   'cp_powers': {},           │ │
+│ │                                   │   │   │   'transmit': {}             │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'outputs': {                   │ │
+│ │                                   │   │   │   'USBchange': False         │ │
+│ │                                   │   │   },                             │ │
+│ │                                   │   │   'connect': {                   │ │
+│ │                                   │   │   │   'ip': '192.168.0.6',       │ │
+│ │                                   │   │   │   'port': 5102               │ │
+│ │                                   │   │   }                              │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   ... +5                             │ │
+│ │                                   ]                                      │ │
+│ │                       simulator = <mosaik.scenario.ModelFactory object   │ │
+│ │                                   at 0x7f974d6410>                       │ │
+│ │                         to_attr = 'power'                                │ │
+│ │                        to_model = 'LED_model_3'                          │ │
+│ │                 to_model_config = {                                      │ │
+│ │                                   │   'name': 'LED_model_3',             │ │
+│ │                                   │   'type': 'LED_connection',          │ │
+│ │                                   │   'connect': {                       │ │
+│ │                                   │   │   'ip': '192.168.0.8',           │ │
+│ │                                   │   │   'port': 5001                   │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'parameters': {                    │ │
+│ │                                   │   │   'max_delay': 255,              │ │
+│ │                                   │   │   'direction': 0,                │ │
+│ │                                   │   │   'port': '/dev/ttyACM0',        │ │
+│ │                                   │   │   'file_path':                   │ │
+│ │                                   'examples/BAP-2025-Simulation/line_sp… │ │
+│ │                                   │   },                                 │ │
+│ │                                   │   'inputs': {'power': 5}             │ │
+│ │                                   }                                      │ │
+│ │                           world = <mosaik.scenario.World object at       │ │
+│ │                                   0x7fb50bb690>                          │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/scenario.py:152  │
+│ in start                                                                     │
+│                                                                              │
+│   149 │   │   Start the simulator named *sim_name* and return a              │
+│   150 │   │   :class:`ModelFactory` for it.                                  │
+│   151 │   │   """                                                            │
+│ ❱ 152 │   │   async_model_factory = self.loop.run_until_complete(            │
+│   153 │   │   │   self._async_world.start(sim_name, sim_id, **sim_params)    │
+│   154 │   │   )                                                              │
+│   155 │   │   return ModelFactory(async_model_factory, self.loop)            │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │       self = <mosaik.scenario.World object at 0x7fb50bb690>              │ │
+│ │     sim_id = None                                                        │ │
+│ │   sim_name = 'Load2'                                                     │ │
+│ │ sim_params = {                                                           │ │
+│ │              │   'sim_params': {                                         │ │
+│ │              │   │   'Load2': {                                          │ │
+│ │              │   │   │   'name': 'Load2',                                │ │
+│ │              │   │   │   'type': 'Load',                                 │ │
+│ │              │   │   │   'parameters': {                                 │ │
+│ │              │   │   │   │   'houses': 1,                                │ │
+│ │              │   │   │   │   'output_type': 'power',                     │ │
+│ │              │   │   │   │   'input_type': 'total',                      │ │
+│ │              │   │   │   │   'name': 'Load2',                            │ │
+│ │              │   │   │   │   'total': 0.04,                              │ │
+│ │              │   │   │   │   'type': 'Load',                             │ │
+│ │              │   │   │   │   'station': 'Station4'                       │ │
+│ │              │   │   │   },                                              │ │
+│ │              │   │   │   'inputs': {'load': None},                       │ │
+│ │              │   │   │   'outputs': {                                    │ │
+│ │              │   │   │   │   'load_dem_out': 0,                          │ │
+│ │              │   │   │   │   'consumption': 0                            │ │
+│ │              │   │   │   },                                              │ │
+│ │              │   │   │   'states': {'load_dem': {}},                     │ │
+│ │              │   │   │   'connect': {                                    │ │
+│ │              │   │   │   │   'ip': '192.168.0.8',                        │ │
+│ │              │   │   │   │   'port': 5100                                │ │
+│ │              │   │   │   }                                               │ │
+│ │              │   │   }                                                   │ │
+│ │              │   }                                                       │ │
+│ │              }                                                           │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /usr/lib/python3.11/asyncio/base_events.py:653 in run_until_complete         │
+│                                                                              │
+│    650 │   │   if not future.done():                                         │
+│    651 │   │   │   raise RuntimeError('Event loop stopped before Future comp │
+│    652 │   │                                                                 │
+│ ❱  653 │   │   return future.result()                                        │
+│    654 │                                                                     │
+│    655 │   def stop(self):                                                   │
+│    656 │   │   """Stop running the event loop.                               │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │   future = <Task finished name='Task-28' coro=<AsyncWorld.start() done,  │ │
+│ │            defined at                                                    │ │
+│ │            /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/… │ │
+│ │            exception=SimulationError('Simulator "Load2" could not be     │ │
+│ │            started: Could not connect to "192.168.0.8:5100"')>           │ │
+│ │ new_task = True                                                          │ │
+│ │     self = <_UnixSelectorEventLoop running=False closed=False            │ │
+│ │            debug=False>                                                  │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/async_scenario.p │
+│ y:425 in start                                                               │
+│                                                                              │
+│    422 │   │   │   sim_name=sim_name,                                        │
+│    423 │   │   │   sim_id=sim_id,                                            │
+│    424 │   │   )                                                             │
+│ ❱  425 │   │   proxy = await simmanager.start(                               │
+│    426 │   │   │   self, sim_name, sim_id, self.time_resolution, sim_params  │
+│    427 │   │   )                                                             │
+│    428 │   │   # Create the ModelFactory before the SimRunner as it performs │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │    counter = count(1)                                                    │ │
+│ │       self = <mosaik.async_scenario.AsyncWorld object at 0x7f9738bdd0>   │ │
+│ │     sim_id = 'Load2-0'                                                   │ │
+│ │   sim_name = 'Load2'                                                     │ │
+│ │ sim_params = {                                                           │ │
+│ │              │   'sim_params': {                                         │ │
+│ │              │   │   'Load2': {                                          │ │
+│ │              │   │   │   'name': 'Load2',                                │ │
+│ │              │   │   │   'type': 'Load',                                 │ │
+│ │              │   │   │   'parameters': {                                 │ │
+│ │              │   │   │   │   'houses': 1,                                │ │
+│ │              │   │   │   │   'output_type': 'power',                     │ │
+│ │              │   │   │   │   'input_type': 'total',                      │ │
+│ │              │   │   │   │   'name': 'Load2',                            │ │
+│ │              │   │   │   │   'total': 0.04,                              │ │
+│ │              │   │   │   │   'type': 'Load',                             │ │
+│ │              │   │   │   │   'station': 'Station4'                       │ │
+│ │              │   │   │   },                                              │ │
+│ │              │   │   │   'inputs': {'load': None},                       │ │
+│ │              │   │   │   'outputs': {                                    │ │
+│ │              │   │   │   │   'load_dem_out': 0,                          │ │
+│ │              │   │   │   │   'consumption': 0                            │ │
+│ │              │   │   │   },                                              │ │
+│ │              │   │   │   'states': {'load_dem': {}},                     │ │
+│ │              │   │   │   'connect': {                                    │ │
+│ │              │   │   │   │   'ip': '192.168.0.8',                        │ │
+│ │              │   │   │   │   'port': 5100                                │ │
+│ │              │   │   │   }                                               │ │
+│ │              │   │   }                                                   │ │
+│ │              │   }                                                       │ │
+│ │              }                                                           │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/simmanager.py:13 │
+│ 4 in start                                                                   │
+│                                                                              │
+│   131 │                                                                      │
+│   132 │   for sim_type, starter in starters.items():                         │
+│   133 │   │   if sim_type in sim_config:                                     │
+│ ❱ 134 │   │   │   proxy = await starter(                                     │
+│   135 │   │   │   │   world.config, sim_name, sim_config, MosaikRemote(world │
+│   136 │   │   │   )                                                          │
+│   137 │   │   │   try:                                                       │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │      sim_config = {'connect': '192.168.0.8:5100'}                        │ │
+│ │          sim_id = 'Load2-0'                                              │ │
+│ │        sim_name = 'Load2'                                                │ │
+│ │      sim_params = {                                                      │ │
+│ │                   │   'sim_params': {                                    │ │
+│ │                   │   │   'Load2': {                                     │ │
+│ │                   │   │   │   'name': 'Load2',                           │ │
+│ │                   │   │   │   'type': 'Load',                            │ │
+│ │                   │   │   │   'parameters': {                            │ │
+│ │                   │   │   │   │   'houses': 1,                           │ │
+│ │                   │   │   │   │   'output_type': 'power',                │ │
+│ │                   │   │   │   │   'input_type': 'total',                 │ │
+│ │                   │   │   │   │   'name': 'Load2',                       │ │
+│ │                   │   │   │   │   'total': 0.04,                         │ │
+│ │                   │   │   │   │   'type': 'Load',                        │ │
+│ │                   │   │   │   │   'station': 'Station4'                  │ │
+│ │                   │   │   │   },                                         │ │
+│ │                   │   │   │   'inputs': {'load': None},                  │ │
+│ │                   │   │   │   'outputs': {                               │ │
+│ │                   │   │   │   │   'load_dem_out': 0,                     │ │
+│ │                   │   │   │   │   'consumption': 0                       │ │
+│ │                   │   │   │   },                                         │ │
+│ │                   │   │   │   'states': {'load_dem': {}},                │ │
+│ │                   │   │   │   'connect': {                               │ │
+│ │                   │   │   │   │   'ip': '192.168.0.8',                   │ │
+│ │                   │   │   │   │   'port': 5100                           │ │
+│ │                   │   │   │   }                                          │ │
+│ │                   │   │   }                                              │ │
+│ │                   │   }                                                  │ │
+│ │                   }                                                      │ │
+│ │        sim_type = 'connect'                                              │ │
+│ │        starters = OrderedDict([('python', <function start_inproc at      │ │
+│ │                   0x7fb51025c0>), ('cmd', <function start_proc at        │ │
+│ │                   0x7fb5102a20>), ('connect', <function start_connect at │ │
+│ │                   0x7fb51418a0>)])                                       │ │
+│ │ time_resolution = 1800                                                   │ │
+│ │           world = <mosaik.async_scenario.AsyncWorld object at            │ │
+│ │                   0x7f9738bdd0>                                          │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+│                                                                              │
+│ /home/Raspinator/.local/lib/python3.11/site-packages/mosaik/simmanager.py:33 │
+│ 2 in start_connect                                                           │
+│                                                                              │
+│   329 │   try:                                                               │
+│   330 │   │   reader, writer = await asyncio.open_connection(host, port)     │
+│   331 │   except (ConnectionError, OSError):                                 │
+│ ❱ 332 │   │   raise SimulationError(                                         │
+│   333 │   │   │   f'Simulator "{sim_name}" could not be started: Could not c │
+│   334 │   │   │   f'"{sim_config["connect"]}"'                               │
+│   335 │   │   )                                                              │
+│                                                                              │
+│ ╭───────────────────────────────── locals ─────────────────────────────────╮ │
+│ │          addr = ('192.168.0.8', 5100)                                    │ │
+│ │          host = '192.168.0.8'                                            │ │
+│ │ mosaik_config = {                                                        │ │
+│ │                 │   'addr': ('127.0.0.1', None),                         │ │
+│ │                 │   'start_timeout': 10,                                 │ │
+│ │                 │   'stop_timeout': 10                                   │ │
+│ │                 }                                                        │ │
+│ │ mosaik_remote = <mosaik.simmanager.MosaikRemote object at 0x7f9675ad90>  │ │
+│ │          port = '5100'                                                   │ │
+│ │    sim_config = {'connect': '192.168.0.8:5100'}                          │ │
+│ │      sim_name = 'Load2'                                                  │ │
+│ ╰──────────────────────────────────────────────────────────────────────────╯ │
+╰──────────────────────────────────────────────────────────────────────────────╯
+SimulationError: Simulator "Load2" could not be started: Could not connect to 
+"192.168.0.8:5100"
 Traceback (most recent call last):
   File "/home/Raspinator/.local/lib/python3.11/site-packages/mosaik_api_v3/__init__.py", line 452, in start_simulation_async
     await run(channel, simulator)

@@ -15,7 +15,7 @@ def write_LED_portmaps(LED_model):
 
         LED_portmap.append({'name': f'LED_model_{i+1}', 'type': 'LED_connection', 
                             'connect': {'ip': Pi_IP_address, 'port': ip_port}, 
-                            'parameters': {'max_delay': 255, 'direction': 0, 'port': "/dev/"+str(serial_port), 'file_path': 'examples/BAP-2025-Simulation/line_specs.csv'},
+                            'parameters': {'max_delay': 255, 'direction': 0, 'port': "/dev/"+str(serial_port), 'file_path': '/home/Raspinator/Illuminator/examples/BAP-2025-Simulation/line_specs.csv'},
                             'inputs': {'power': 5}
                             })
         
