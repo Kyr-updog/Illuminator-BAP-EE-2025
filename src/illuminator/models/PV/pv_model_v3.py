@@ -166,12 +166,12 @@ class PV(ModelConstructor):
          
         self.capacity_percentage = input_data['capacity_percentage']
 
-        cap_percentage = self.addNoiseLaplace(self.capacity_percentage)
+        #cap_percentage = self.addNoiseLaplace(self.capacity_percentage)
 
         if self.input_type == 'irradiation':
             results = self.output()
         else:
-            pv_gen = cap_percentage * self.cap
+            pv_gen = capacity_percentage * self.cap
             results = {'pv_gen': pv_gen}
 
         self.set_outputs({'pv_gen_out': results['pv_gen']})
