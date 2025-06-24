@@ -399,7 +399,7 @@ connections:
 - from: CSV_Load.load
   to: Load2.load
 
-- from: CSV_PV.power
+- from: CSV_PV.utilization
   to: PV1.capacity_percentage
 
 #- from: WRandomizer_onshore.fraction_out

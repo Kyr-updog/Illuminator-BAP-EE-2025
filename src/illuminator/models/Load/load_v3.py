@@ -70,6 +70,7 @@ class Load(ModelConstructor):
         self.input_type = self.parameters['input_type']
         self.name = self.parameters['name']
         self.total = self.parameters['total']
+        self.previous_dem = 0
         print(f"initialisation houses: {self._model.parameters.get('houses')}")
         
         # Initialize LED strip
