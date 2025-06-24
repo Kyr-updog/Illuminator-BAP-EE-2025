@@ -39,7 +39,7 @@ class LED_connection(ModelConstructor):
 
 
 
-    def init(self, *args, **kwargs) -> None:
+    def init(self, sid, time_resolution=1, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
 
