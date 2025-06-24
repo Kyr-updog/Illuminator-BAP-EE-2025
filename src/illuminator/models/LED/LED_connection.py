@@ -38,7 +38,6 @@ class LED_connection(ModelConstructor):
 
 
 
-
     def init(self, sid, time_resolution=1, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
@@ -52,7 +51,7 @@ class LED_connection(ModelConstructor):
         -------
         None
         """
-        result = super().init(*args, **kwargs)
+        result = super().init(sid, time_resolution, **kwargs)
         self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
         self.port = self.parameters.get('port')
@@ -134,5 +133,5 @@ if __name__ == '__main__':
     #send_led_animation()
     mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
     #led = LED_connection()
-    #led.init()
+    #led.init("LED")
 
