@@ -38,7 +38,7 @@ class LED_connection(ModelConstructor):
 
 
 
-    def init(self, sid, time_resolution=1, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
 
@@ -51,7 +51,8 @@ class LED_connection(ModelConstructor):
         -------
         None
         """
-        result = super().init(sid, time_resolution, **kwargs)
+        result = super().__init__(**kwargs)
+        print(result)
         self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
         self.port = self.parameters.get('port')
@@ -138,7 +139,7 @@ class LED_connection(ModelConstructor):
 
 if __name__ == '__main__':
     #send_led_animation()
-    mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
-    #led = LED_connection()
-    #led.init("LED")
+    #mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
+    led = LED_connection()
+    led.init("LED-connection", sim_params = {'name': 'Station4', 'type': 'Station', 'parameters': {'station_ID': 'Station4', 'kv': 380}, 'inputs': {'cp_powers': {}, 'tl_powers': {}}, 'states': {'cp_powers': {}, 'transmit': {}}, 'outputs': {'USBchange': False}, 'connect': {'ip': '192.168.0.8', 'port': 5102}})
 
