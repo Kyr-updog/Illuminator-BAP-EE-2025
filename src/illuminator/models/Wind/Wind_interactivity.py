@@ -109,48 +109,57 @@ def handle_sigquit(signum, frame):
         for row in new_row_sun:   
             file.write(row.to_csv(header=False, index=True).strip()   +  "\n")
 
+   
     # file must be send to master and solar panel slave       
-    subprocess.run([
-        "scp",
-        "/path/to/local/file",                              #Fill in local file path
-        "Raspinator@remote_ip:/path/to/remote/destination"  #fill in remote username, ipadress and file destination
-    ])            
-
-
-
+#     subprocess.run([
+#         "scp",
+#         "/home/Raspinator/Illuminator/examples/Tutorial1/data",                              #Fill in local file path
+#         "Raspinator@192.168.56.105:/home/Raspinator/Illuminator/examples/Tutorial1/data"  #fill in remote username, ipadress and file destination
+#     ])            
+#  
+ 
+ 
     code = '''
-    #run the simulation 
-    CONFIG_FILE = '/home/Raspinator/Illuminator/examples/Tutorial1/Tutorial_Power_Balance_a.yaml'
-    simulation_RES = Simulation(CONFIG_FILE)
-    simulation_RES.set_model_param(model_name='CSVload', parameter='file_path', value='/home/Raspinator/Illuminator/examples/Tutorial1/data/load_data.txt')
-    simulation_RES.set_model_param(model_name='CSV_pv', parameter='file_path', value='/home/Raspinator/Illuminator/examples/Tutorial1/data/pv_data_Rotterdam_NL-15min.txt')
-    simulation_RES.set_model_param(model_name='CSV_wind', parameter='file_path', value='/home/Raspinator/Illuminator/examples/Tutorial1/data/winddata_NL.txt')
-     
-    new_settings = {'Wind1': {'p_rated': 0.3}, # power in kW
+
+from illuminator.engine import Simulation
+import pandas as pd
+import nest_asyncio
+nest_asyncio.apply()
+
+#run the simulation 
+CONFIG_FILE = '/home/Raspinator/Illuminator/examples/Tutorial1/Tutorial_Power_Balance_a.yaml'
+simulation_RES = Simulation(CONFIG_FILE)
+simulation_RES.set_model_param(model_name='CSVload', parameter='file_path', value='/home/Raspinator/Illuminator/examples/Tutorial1/data/load_data.txt')
+simulation_RES.set_model_param(model_name='CSV_pv', parameter='file_path', value='/home/Raspinator/Illuminator/examples/Tutorial1/data/pv_data_Rotterdam_NL-15min.txt')
+simulation_RES.set_model_param(model_name='CSV_wind', parameter='file_path', value='/home/Raspinator/Illuminator/examples/Tutorial1/data/winddata_NL.txt')
+ 
+new_settings = {'Wind1': {'p_rated': 0.3}, # power in kW
                     'Load1': {'houses': 5}, # number of houses
                     'PV1':{'cap': 500} # installed capacity in W
                     }
-     
-    simulation_RES.edit_models(new_settings)
-    print(list(data_time)[0], list(data_time)[-1]) 
-    simulation_RES.set_scenario_param('start_time', str(list(data_time)[0]))
-    simulation_RES.set_scenario_param('end_time', str(list(data_time)[-1]))
-    simulation_RES.set_scenario_param('time_resolution', 1)
-     
-    # run the simulation
-    simulation_RES.run()    
+ 
+simulation_RES.edit_models(new_settings)
+simulation_RES.set_scenario_param('start_time', 'str(list(data_time)[0])')
+simulation_RES.set_scenario_param('end_time', '{str(list(data_time)[-1])}')
+simulation_RES.set_scenario_param('time_resolution', 1)
+ 
+# run the simulation
+simulation_RES.run()    
     '''
     with open('simulation_script.py', 'w') as f:
-        f.write(f"replace str(list(data_time)[0]) with {str(list(data_time)[0])}")
-        f.write(f" replace str(list(data_time)[0]) with {str(list(data_time)[-1])}")
+        f.write(f"#replace str(list(data_time)[0]) with {str(list(data_time)[0])}")
+        f.write(f"#replace str(list(data_time)[0]) with {str(list(data_time)[-1])}")
         f.write(code)
-
+ 
     #send only to master.
     subprocess.run([
         "scp",
-        "/path/to/local/file",                              #Fill in local file path
-        "Raspinator@remote_ip:/path/to/remote/destination"  #fill in remote username, ipadress and file destination
+        "-r",
+        "/home/Raspinator/Illuminator/examples/Tutorial1/data",                              #Fill in local file path
+        "simulation_script.py",
+        "Raspinator@192.168.56.105:/home/Raspinator/Illuminator/examples/Tutorial1"  #fill in remote username, ipadress and file destination
     ])
+ 
 
 
 
