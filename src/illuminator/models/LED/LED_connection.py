@@ -52,7 +52,7 @@ class LED_connection(ModelConstructor):
         -------
         None
         """
-        #result = super().init(*args, **kwargs)
+        result = super().init(*args, **kwargs)
         self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
         self.port = self.parameters.get('port')
@@ -68,7 +68,7 @@ class LED_connection(ModelConstructor):
         self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
         
         
-        return None
+        return result
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
         """
