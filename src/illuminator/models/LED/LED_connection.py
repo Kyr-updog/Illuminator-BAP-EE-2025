@@ -59,10 +59,8 @@ class LED_connection(ModelConstructor):
         self.port = self.parameters.get('port')
         self.file_path = self.parameters.get('file_path')
 
-        
-        self.id = 0
-        while self.id == 0:
-            self.id = int.from_bytes(connection.read(1))
+        connection = serial.Serial(self.port, timeout=1)
+        self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
 
         df = pd.read_csv(self.file_path)
         line = df[df['line_id'] == self.id]
