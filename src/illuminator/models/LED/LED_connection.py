@@ -133,7 +133,5 @@ class LED_connection(ModelConstructor):
 
 if __name__ == '__main__':
     #send_led_animation()
-    #mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
-    led = LED_connection()
-    led.init()
+    mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
 
