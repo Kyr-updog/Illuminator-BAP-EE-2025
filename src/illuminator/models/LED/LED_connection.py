@@ -52,7 +52,7 @@ class LED_connection(ModelConstructor):
         -------
         None
         """
-        result = super().init(**kwargs)
+        result = super().init(*args, **kwargs)
         print(result)
         self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
