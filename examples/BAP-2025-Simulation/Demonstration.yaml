@@ -7,14 +7,14 @@ scenario:
 monitor:
   file: './to_dashboard.csv'
   items:
-  - FossilGas1.emission
+  #- FossilGas1.emission
   - HP1.load_HP
   - EV1.load_EV
-  - GC1.dump # grid connection
-  - Battery1.soc
+  #- GC1.dump # grid connection
+  #- Battery1.soc
   - Load1.load_dem_out
   - Load2.load_dem_out
-  - WindOn1.wind_gen_out
+  #- WindOn1.wind_gen_out
   - PV1.pv_gen_out
 
 
@@ -402,11 +402,11 @@ connections:
 - from: CSV_PV.power
   to: PV1.capacity_percentage
 
-- from: WRandomizer_onshore.fraction_out
-  to: Wind1.capacity_percentage
+#- from: WRandomizer_onshore.fraction_out
+#  to: Wind1.capacity_percentage
 
-- from: Wind1.wind_gen
-  to: Station1.ncp_powers
+#- from: Wind1.wind_gen
+#  to: Station1.ncp_powers
 
 - from: PV1.pv_gen
   to: Station2.ncp_powers
@@ -432,8 +432,8 @@ connections:
 #- from: Station7.cp_powers
 #  to: GC1.dump_dict
 
-- from: Station1.USBchange
-  to: USBtrigger1.USBchange
+#- from: Station1.USBchange
+#  to: USBtrigger1.USBchange
 
 - from: Station2.USBchange
   to: USBtrigger1.USBchange

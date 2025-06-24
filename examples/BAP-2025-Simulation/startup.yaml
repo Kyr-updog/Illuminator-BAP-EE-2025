@@ -7,7 +7,7 @@ scenario:
 monitor:
   file: './out.csv'
   items:
-  - request5.stripList
+  - request2.stripList
 
 models:
 

@@ -61,7 +61,6 @@ class LED_connection(ModelConstructor):
         connection = serial.Serial(self.port, timeout=1)
 
         self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
-        self.id = 1
         df = pd.read_csv(self.file_path)
         line = df[df['line_id'] == self.id]
         self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
@@ -134,4 +133,6 @@ class LED_connection(ModelConstructor):
 if __name__ == '__main__':
     #send_led_animation()
     mosaik_api.start_simulation(LED_connection(), 'LED connection Simulator')
+    #led = LED_connection()
+    #led.init()
 
