@@ -48,45 +48,45 @@ models:
   states:
     stripList: None
 
-- name: request4
-  type: IDrequester
-  connect: 
-    ip: '192.168.0.9'
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.9', 5000]
-  states:
-    stripList: None
-
-- name: request5
-  type: IDrequester
-  connect: 
-    ip: '192.168.0.10'
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.10', 5000]
-  states:
-    stripList: None
-
-- name: request6
-  type: IDrequester
-  connect: 
-    ip: '192.168.0.11'
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.11', 5000]
-  states:
-    stripList: None
-
-- name: request7
-  type: IDrequester
-  connect: 
-    ip: '192.168.0.12'
-    port: 5000
-  parameters:
-    deviceID: ['192.168.0.12', 5000]
-  states:
-    stripList: None
+#- name: request4
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.9'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.9', 5000]
+#  states:
+#    stripList: None
+#
+#- name: request5
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.10'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.10', 5000]
+#  states:
+#    stripList: None
+#
+#- name: request6
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.11'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.11', 5000]
+#  states:
+#    stripList: None
+#
+#- name: request7
+#  type: IDrequester
+#  connect: 
+#    ip: '192.168.0.12'
+#    port: 5000
+#  parameters:
+#    deviceID: ['192.168.0.12', 5000]
+#  states:
+#    stripList: None
 
 connections:
 - from: request1.stripList
@@ -95,11 +95,11 @@ connections:
   to: TopologyCreator.config
 - from: request3.stripList
   to: TopologyCreator.config
-- from: request4.stripList
-  to: TopologyCreator.config
-- from: request5.stripList
-  to: TopologyCreator.config
-- from: request6.stripList
-  to: TopologyCreator.config
-- from: request7.stripList
-  to: TopologyCreator.config
+#- from: request4.stripList
+#  to: TopologyCreator.config
+#- from: request5.stripList
+#  to: TopologyCreator.config
+#- from: request6.stripList
+#  to: TopologyCreator.config
+#- from: request7.stripList
+#  to: TopologyCreator.config
