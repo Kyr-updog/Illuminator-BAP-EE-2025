@@ -15,11 +15,14 @@ def write_LED_portmaps(LED_model):
 
         LED_portmap.append({'name': f'LED_model_{i+1}', 'type': 'LED_connection', 
                             'connect': {'ip': Pi_IP_address, 'port': ip_port}, 
-                            'parameters': {'min_speed': 0, 'max_delay': 255, 'direction': 0, 'port': serial_port},
-                            'input': {'power': 5}
+                            'parameters': {'max_delay': 255, 'direction': 0, 'port': serial_port, 'file_path': 'line_specs.csv'},
+                            'inputs': {'power': 5}
                             })
         
         LED_Station_map.append({'from': f'{Station_name}.transmit', 'to': f'LED_connection_{i+1}.power'})
+    print("array: "+str(LED_model))
+    print("portmap: "+str(LED_portmap))
+    print("station: "+str(LED_Station_map))
     return LED_portmap, LED_Station_map
 
 def determine_connected_pairs(Network):           #this function creates an array of all Station pairs in S/R order
@@ -85,8 +88,7 @@ def write_scenario_LEDs_and_connections(filename, LED_portmap, LED_Station_map, 
         for i in (LED_Station_map):     #collect all rows of the LED-to-Station map
             full_topology.append(i)
             
-        connections = {'connections' : full_topology}            #defines a dict with connections: {topology}, to recover the popped
-                                                            #connections: section from the original yaml file
+        connections = {'connections' : full_topology}            #defines a dict with connections: {topology}, to recover the popped                                                     #connections: section from the original yaml file
         yaml.dump(data,file,sort_keys=False)                #writes the read yaml data to said different yaml file
         yaml.dump(LED_portmap,file, sort_keys=False)        #writes the LED models to the models: section (which should be at the bottom)
         yaml.dump(connections,file,sort_keys=False)         #writes the connections to the connections: section

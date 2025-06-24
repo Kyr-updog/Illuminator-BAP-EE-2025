@@ -20,6 +20,7 @@ class TopologyMaker(ModelConstructor):
         #station aan ip koppelen
        
         stationlist = self.get_stations(filename)
+        
             
         for device in input['config']:#make the input one giant list for the mapping function
             for led_strip in device:
@@ -28,12 +29,13 @@ class TopologyMaker(ModelConstructor):
                     if ip_name[0] in led_strip:
                         station = ip_name[1]
                 network.append([led_strip[0], station, led_strip[3]])
+        
                 
         led_connections = []
         ip_port = []
         for device in input['config']:
             for led_strip in device:
-                if led_strip[3] == 'sender':
+                if led_strip[3] == 'Sender':
                     station = ""
                     for ip_name in stationlist:
                         if ip_name[0] in led_strip:
@@ -41,14 +43,14 @@ class TopologyMaker(ModelConstructor):
                     led_connections.append([led_strip[1], led_strip[2], led_strip[4], station])
                     ip_port.append([led_strip[1], led_strip[2]])
 
-        
+        print("busy")
         self.create_shell_file(filename, ip_port)
         connected_pairs = determine_connected_pairs(network)
         topology = write_topology(connected_pairs, 'connections', filename, 'simulation.yaml')
         LED_portmap, LED_Station_map = write_LED_portmaps(led_connections)
         filename = self._model.parameters.get('filename')
         write_scenario_LEDs_and_connections('simulation.yaml',LED_portmap, LED_Station_map, topology)
-
+        print("done")
             
         return time + self._model.time_step_size
     
@@ -82,7 +84,7 @@ class TopologyMaker(ModelConstructor):
 
         for connection in led_connections:
             shell_file.write(f"lxterminal -e ssh Raspinator@{connection[0]} './Illuminator/configuration/runshfile/runLED_connection.sh {connection[0]} {connection[1]} /home/Raspinator/Illuminator/src/illuminator/models/'&\n")
-
+        shell_file.close()
 
 
         

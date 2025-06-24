@@ -1,4 +1,5 @@
 from illuminator.builder import ModelConstructor
+import mosaik_api_v3 as mosaik_api
 
 class GridConnection(ModelConstructor):
     """
@@ -115,3 +116,6 @@ class GridConnection(ModelConstructor):
             flag_warning = 0
         re_params = {'flag_critical': flag_critical, 'flag_warning': flag_warning}
         return re_params
+        
+if __name__ == "__main__":
+    mosaik_api.start_simulation(GridConnection(), "grid connection sim")

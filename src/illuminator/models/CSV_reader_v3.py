@@ -34,7 +34,8 @@ class CSV(ModelConstructor):
 
     parameters={'date_format': '',
                 'delimiter': ',',
-                'datafile': '',             
+                'datafile': '', 
+                'start':''            
                 }
     inputs={}
     outputs={'next_row': ''}
@@ -239,6 +240,6 @@ class CSV(ModelConstructor):
 
 if __name__ == '__main__':
     #csv_model = CSV(csv)
-    mosaik_api.start_simulation(CSV(), "CSV reader")
+    mosaik_api.start_simulation(CSV(), 'CSV reader')
 
 #     print(csv_model.step(1))

@@ -1,4 +1,5 @@
 from illuminator.builder import ModelConstructor
+import mosaik_api_v3 as mosaik_api
 import time as timer
 import rpi_ws281x as ws
 

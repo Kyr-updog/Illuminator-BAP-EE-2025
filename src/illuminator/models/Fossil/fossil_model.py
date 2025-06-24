@@ -1,4 +1,5 @@
 from illuminator.builder import ModelConstructor
+import mosaik_api_v3 as mosaik_api
 
 import gpiozero as gp
 import time as timer

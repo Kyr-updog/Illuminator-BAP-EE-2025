@@ -1,6 +1,7 @@
 import serial.tools
 import serial.tools.list_ports
 from illuminator.builder import ModelConstructor
+import mosaik_api_v3 as mosaik_api
 
 # construct the model
 class Station(ModelConstructor):
@@ -84,3 +85,6 @@ class Station(ModelConstructor):
         transmit = tl_powers[self.station_ID]
         re_params = {'cp_powers': sent_cp_powers, 'transmit': transmit}
         return re_params
+        
+if __name__ == "__main__":
+    mosaik_api.start_simulation(Station(), "station sim")
