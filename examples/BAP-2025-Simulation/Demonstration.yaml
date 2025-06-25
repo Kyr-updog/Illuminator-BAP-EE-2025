@@ -252,7 +252,7 @@ models:
     bio_NRG_density: 1
     fos_specific_emission: 1
     bio_specific_emission: 1
-    rated_pow: 300
+    rated_pow: 500
     output_type: power
     name: FossilGas
     bio_emission_rate: 68
