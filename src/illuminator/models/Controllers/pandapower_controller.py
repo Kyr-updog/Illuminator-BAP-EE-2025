@@ -116,6 +116,7 @@ class PandaController(ModelConstructor):
                 connection = pp.create_ext_grid(self.net, bus_index, min_p_mw=-power_limit, max_p_mw=power_limit, name=name)
                 pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,-100000],[0,100000,100000]])
                 #pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=10)
+            """
             elif specs['type'] == 'Battery':
                 power_limit = specs['max_p']
                 min_p_mw = max(-power_limit, -specs['soc_init']*specs['max_energy']/(1800.0/3600.0))
@@ -128,8 +129,7 @@ class PandaController(ModelConstructor):
             elif specs['type'] == 'LoadHeatpump':
                 hp = pp.create_load(self.net, bus_index, p_mw=10, min_p_mw=0, max_p_mw=1000, vm_pu=1.0, controllable=True, name=name)
                 pp.create_poly_cost(self.net, hp, 'load', cp1_eur_per_mw=1000)
-            else:
-                pass
+            """
                 
         
         #self.net.gen.to_csv('gens.csv')
@@ -182,10 +182,11 @@ class PandaController(ModelConstructor):
         total_power = 0
         total_load = 0
         total_supply_from_grid = 0
-
+        
+        blacklist = ['PV', 'Wind']
         for element in ncp_powers:
             name = list(element.keys())[0]
-            if self.peripherals[name]['type'] != 'Nuclear':
+            if self.peripherals[name]['type'] not in blacklist:
                 ncp_index = pp.get_element_index(self.net, 'load', name)
                 self.net.load.at[ncp_index, 'p_mw'] = -element[name]
                 if name == 'PV1':
@@ -194,7 +195,9 @@ class PandaController(ModelConstructor):
                     total_load += -element[name]
                 total_power += element[name]
             else:
-                pass
+                ncp_index = pp.get_element_index(self.net, 'load', name)
+                self.net.load.at[ncp_index, 'p_mw'] = 0
+
 
         pp.rundcopp(self.net, delta=1e-16)
 
