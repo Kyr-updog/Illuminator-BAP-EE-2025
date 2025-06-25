@@ -84,7 +84,7 @@ models:
     output_type: power
     input_type: total
     name: Load
-    total: 0.06
+    total: 0.03
   inputs:
     load:
   outputs:
@@ -117,7 +117,7 @@ models:
     output_type: power
     input_type: total
     name: Load
-    total: 0.04
+    total: 0.02
   inputs:
     load:
   outputs:
@@ -147,7 +147,7 @@ models:
 - name: PV1
   type: PV
   parameters:
-    cap: 100
+    cap: 300
     output_type: power
     input_type: percentage
     name: PV
@@ -176,7 +176,7 @@ models:
 #- name: Wind1
 #  type: Wind
 #  parameters:
-#    p_rated: 100
+#    p_rated: 300
 #    u_rated: 10.3  
 #    u_cutin: 2.8  
 #    u_cutout: 25  
@@ -228,7 +228,7 @@ models:
 - name: GC1
   type: GridConnection
   parameters:
-    connection_capacity: 100
+    connection_capacity: 500
     tolerance_limit: 1
     critical_limit: 1
     name: GC
@@ -251,7 +251,7 @@ models:
 #    bio_NRG_density: 1
 #    fos_specific_emission: 1
 #    bio_specific_emission: 1
-#    rated_pow: 100
+#    rated_pow: 300
 #    output_type: power
 #    name: FossilGas
 #    bio_emission_rate: 68
