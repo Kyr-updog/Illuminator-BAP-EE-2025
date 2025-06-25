@@ -14,7 +14,7 @@ monitor:
   - Battery1.soc
   - Load1.load_dem_out
   - Load2.load_dem_out
-  - WindOn1.wind_gen_out
+  - Wind1.wind_gen_out
   - PV1.pv_gen_out
 
 

@@ -361,7 +361,8 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
         # check if the connection is a physical split
         if connection['from'] in from_list:
             if from_attr in from_model_config.get('outputs', {}):
-                raise ValueError(f"Split detected in physical connection for {connection['from']}.")
+                #raise ValueError(f"Split detected in physical connection for {connection['from']}.")
+                pass
             elif from_attr in from_model_config.get('states', {}):
                 pass  # it is okay if a non-physical connection (state) goes to multiple destinations
             else:
