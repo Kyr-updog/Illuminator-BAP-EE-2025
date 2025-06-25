@@ -7,14 +7,14 @@ scenario:
 monitor:
   file: './to_dashboard.csv'
   items:
-  #- FossilGas1.emission
+  - FossilGas1.emission
   - HP1.load_HP
   - EV1.load_EV
-  #- GC1.dump # grid connection
-  #- Battery1.soc
+  - GC1.dump # grid connection
+  - Battery1.soc
   - Load1.load_dem_out
   - Load2.load_dem_out
-  #- WindOn1.wind_gen_out
+  - WindOn1.wind_gen_out
   - PV1.pv_gen_out
 
 
@@ -62,20 +62,20 @@ models:
   states:
     load:
 
-#- name: WRandomizer_onshore
-#  type: WindRandomizer
-#  parameters:
-#    area_type: onshore
-#  outputs:
-#    fraction_out: null
-#  states:
-#    s: -1
-#    ds: 0.3
-#    dds: 0
-#    fraction: 0
-#  connect:
-#    ip: 192.168.0.9
-#    port: 5100
+- name: WRandomizer_onshore
+  type: WindRandomizer
+  parameters:
+    area_type: onshore
+  outputs:
+    fraction_out: null
+  states:
+    s: -1
+    ds: 0.3
+    dds: 0
+    fraction: 0
+  connect:
+    ip: 192.168.0.9
+    port: 5100
 
 - name: Load1
   type: Load
@@ -173,57 +173,57 @@ models:
     ip: 192.168.0.6
     port: 5101
 
-#- name: Wind1
-#  type: Wind
-#  parameters:
-#    p_rated: 300
-#    u_rated: 10.3  
-#    u_cutin: 2.8  
-#    u_cutout: 25  
-#    cp: 0.40
-#    diameter: 2
-#    output_type: power
-#    input_type: percentage
-#    name: WindOn
-#    area_type: onshore
-#    par1: 1.331013155181533
-#    par2: 0.3517482530661208
-#  inputs:
-#    u: null
-#    capacity_percentage: null
-#  outputs:
-#    wind_gen_out: null
-#    u: null
-#  states:
-#    wind_gen: {}
-#  connect:
-#    ip: 192.168.0.9
-#    port: 5101
+- name: Wind1
+  type: Wind
+  parameters:
+    p_rated: 300
+    u_rated: 10.3  
+    u_cutin: 2.8  
+    u_cutout: 25  
+    cp: 0.40
+    diameter: 2
+    output_type: power
+    input_type: percentage
+    name: WindOn
+    area_type: onshore
+    par1: 1.331013155181533
+    par2: 0.3517482530661208
+  inputs:
+    u: null
+    capacity_percentage: null
+  outputs:
+    wind_gen_out: null
+    u: null
+  states:
+    wind_gen: {}
+  connect:
+    ip: 192.168.0.9
+    port: 5101
 
-#- name: Battery1
-#  type: Battery
-#  parameters:
-#    max_p: 150
-#    min_p: 150
-#    max_energy: 50
-#    charge_efficiency: 100
-#    discharge_efficiency: 100
-#    soc_min: 0
-#    soc_max: 100
-#    name: Battery
-#    soc_init: 0
-#  inputs:
-#    flow2b: 0
-#  outputs:
-#    p_out: 0
-#    p_in: 0
-#  states:
-#    mod: 0
-#    soc: 0
-#    flag: -1
-#  connect:
-#    ip: 192.168.0.10
-#    port: 5100
+- name: Battery1
+  type: Battery
+  parameters:
+    max_p: 150
+    min_p: 150
+    max_energy: 50
+    charge_efficiency: 100
+    discharge_efficiency: 100
+    soc_min: 0
+    soc_max: 100
+    name: Battery
+    soc_init: 0
+  inputs:
+    flow2b: 0
+  outputs:
+    p_out: 0
+    p_in: 0
+  states:
+    mod: 0
+    soc: 0
+    flag: -1
+  connect:
+    ip: 192.168.0.10
+    port: 5100
 
 - name: GC1
   type: GridConnection
@@ -238,58 +238,58 @@ models:
   outputs:
     dump: null
   connect:
-    ip: 192.168.0.6 #11
-    port: 5200 #5100
+    ip: 192.168.0.11 
+    port: 5100 
 
-#- name: FossilGas1
-#  type: Fossil
-#  parameters:
-#    fos_type: gas
-#    fos_eff: 1
-#    bio_eff: 1
-#    fos_NRG_density: 1
-#    bio_NRG_density: 1
-#    fos_specific_emission: 1
-#    bio_specific_emission: 1
-#    rated_pow: 300
-#    output_type: power
-#    name: FossilGas
-#    bio_emission_rate: 68
-#    coal_emission_rate: 697.85
-#    gas_emission_rate: 421
-#    bio_frac: 0.15
-#    bio_waste: 68
-#    coal_waste: 809
-#    gas_waste: 421
-#  inputs:
-#    req_pow: null
-#    req_pow_dict: null
-#    bio_frac: null
-#  outputs:
-#    gen_pow: null
-#    emission: null
-#    fossil_fuel_burned: null
-#    biomass_burned: null
-#  connect:
-#    ip: 192.168.0.12
-#    port: 5100
+- name: FossilGas1
+  type: Fossil
+  parameters:
+    fos_type: gas
+    fos_eff: 1
+    bio_eff: 1
+    fos_NRG_density: 1
+    bio_NRG_density: 1
+    fos_specific_emission: 1
+    bio_specific_emission: 1
+    rated_pow: 300
+    output_type: power
+    name: FossilGas
+    bio_emission_rate: 68
+    coal_emission_rate: 697.85
+    gas_emission_rate: 421
+    bio_frac: 0.15
+    bio_waste: 68
+    coal_waste: 809
+    gas_waste: 421
+  inputs:
+    req_pow: null
+    req_pow_dict: null
+    bio_frac: null
+  outputs:
+    gen_pow: null
+    emission: null
+    fossil_fuel_burned: null
+    biomass_burned: null
+  connect:
+    ip: 192.168.0.12
+    port: 5100
 
-#- name: Station1
-#  type: Station
-#  parameters:
-#    station_ID: Station1
-#    kv: 380
-#  inputs:
-#    cp_powers: {}
-#    tl_powers: {}
-#  states:
-#    cp_powers: {}
-#    transmit: {}
-#  outputs:
-#    USBchange: False
-#  connect:
-#    ip: 192.168.0.9
-#    port: 5102
+- name: Station1
+  type: Station
+  parameters:
+    station_ID: Station1
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+  outputs:
+    USBchange: False
+  connect:
+    ip: 192.168.0.9
+    port: 5102
 
 - name: Station2
   type: Station
@@ -342,56 +342,56 @@ models:
     ip: 192.168.0.8
     port: 5102
 
-#- name: Station5
-#  type: Station
-#  parameters:
-#    station_ID: Station1
-#    kv: 380
-#  inputs:
-#    cp_powers: {}
-#    tl_powers: {}
-#  states:
-#    cp_powers: {}
-#    transmit: {}
-#  outputs:
-#    USBchange: False
-#  connect:
-#    ip: 192.168.0.10
-#    port: 5101
+- name: Station5
+  type: Station
+  parameters:
+    station_ID: Station1
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+  outputs:
+    USBchange: False
+  connect:
+    ip: 192.168.0.10
+    port: 5101
 
-#- name: Station6
-#  type: Station
-#  parameters:
-#    station_ID: Station1
-#    kv: 380
-#  inputs:
-#    cp_powers: {}
-#    tl_powers: {}
-#  states:
-#    cp_powers: {}
-#    transmit: {}
-#  outputs:
-#    USBchange: False
-#  connect:
-#    ip: 192.168.0.12
-#    port: 5101
+- name: Station6
+  type: Station
+  parameters:
+    station_ID: Station1
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+  outputs:
+    USBchange: False
+  connect:
+    ip: 192.168.0.12
+    port: 5101
 
-#- name: Station7
-#  type: Station
-#  parameters:
-#    station_ID: Station1
-#    kv: 380
-#  inputs:
-#    cp_powers: {}
-#    tl_powers: {}
-#  states:
-#    cp_powers: {}
-#    transmit: {}
-#  outputs:
-#    USBchange: False
-#  connect:
-#    ip: 192.168.0.11
-#    port: 5101
+- name: Station7
+  type: Station
+  parameters:
+    station_ID: Station1
+    kv: 380
+  inputs:
+    cp_powers: {}
+    tl_powers: {}
+  states:
+    cp_powers: {}
+    transmit: {}
+  outputs:
+    USBchange: False
+  connect:
+    ip: 192.168.0.11
+    port: 5101
 
 connections:
 - from: CSV_Load.load
@@ -403,11 +403,11 @@ connections:
 - from: CSV_PV.utilization
   to: PV1.capacity_percentage
 
-#- from: WRandomizer_onshore.fraction_out
-#  to: Wind1.capacity_percentage
+- from: WRandomizer_onshore.fraction_out
+  to: Wind1.capacity_percentage
 
-#- from: Wind1.wind_gen
-#  to: Station1.ncp_powers
+- from: Wind1.wind_gen
+  to: Station1.ncp_powers
 
 - from: PV1.pv_gen
   to: Station2.ncp_powers
@@ -424,17 +424,17 @@ connections:
 - from: Station4.cp_powers
   to: EV1.power
 
-#- from: Station5.cp_powers
-#  to: Battery1.flow2b
-#
-#- from: Station6.cp_powers
-#  to: FossilGas1.req_pow_dict
-#
-- from: Station4.cp_powers #was 7
+- from: Station5.cp_powers
+  to: Battery1.flow2b
+
+- from: Station6.cp_powers
+  to: FossilGas1.req_pow_dict
+
+- from: Station7.cp_powers 
   to: GC1.dump_dict
 
-#- from: Station1.USBchange
-#  to: USBtrigger1.USBchange
+- from: Station1.USBchange
+  to: USBtrigger1.USBchange
 
 - from: Station2.USBchange
   to: USBtrigger1.USBchange
@@ -442,14 +442,14 @@ connections:
 - from: Station3.USBchange
   to: USBtrigger1.USBchange
 
-#- from: Station5.USBchange
-#  to: USBtrigger1.USBchange
-#
-#- from: Station6.USBchange
-#  to: USBtrigger1.USBchange
-#
-#- from: Station7.USBchange
-#  to: USBtrigger1.USBchange
+- from: Station5.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station6.USBchange
+  to: USBtrigger1.USBchange
+
+- from: Station7.USBchange
+  to: USBtrigger1.USBchange
 
 - from: Station4.USBchange
   to: USBtrigger1.USBchange
