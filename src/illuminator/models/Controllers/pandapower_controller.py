@@ -114,7 +114,7 @@ class PandaController(ModelConstructor):
             elif specs['type'] == 'GridConnection':
                 power_limit = specs['connection_capacity']
                 connection = pp.create_ext_grid(self.net, bus_index, min_p_mw=-power_limit, max_p_mw=power_limit, name=name)
-                pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,-100000],[0,100000,100000]])
+                pp.create_pwl_cost(self.net, connection, 'ext_grid', [[-100000,0,0],[0,100000,100000]])
                 #pp.create_poly_cost(self.net, connection, 'ext_grid', cp1_eur_per_mw=10)
             """
             elif specs['type'] == 'Battery':
