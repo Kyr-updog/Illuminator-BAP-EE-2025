@@ -196,6 +196,7 @@ models:
     u: null
   states:
     wind_gen: {}
+    wind_genState: 0
   connect:
     ip: 192.168.0.9
     port: 5101
