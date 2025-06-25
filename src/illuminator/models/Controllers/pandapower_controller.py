@@ -71,9 +71,9 @@ class PandaController(ModelConstructor):
             if line['tf'].iloc[0] == 0:
                 from_bus = pp.get_element_index(self.net, 'bus', connection[0])
                 to_bus = pp.get_element_index(self.net, 'bus', connection[1])
-                #pp.create_line(self.net, from_bus, to_bus, length_km=line['length_km'], std_type='149-AL1/24-ST1A 110.0', max_loading_percent=50, name=line_id)
-                pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
-                                           r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100)
+                pp.create_line(self.net, from_bus, to_bus, length_km=line['length_km'], std_type='679-AL1/86-ST1A 380.0', max_loading_percent=100, name=line_id)
+                #pp.create_line_from_parameters(self.net, from_bus, to_bus, length_km=line['length_km'], r_ohm_per_km=0, x_ohm_per_km=line['X_per_km'], c_nf_per_km=0,
+                                           #r0_ohm_per_km=0, x0_ohm_per_km=0, c0_nf_per_km=0, max_i_ka=max_i_ka, name=line_id, max_loading_percent=100)
             else:
                 kvs = {}
                 kvs[connection[0]] = self.stations[connection[0]]
