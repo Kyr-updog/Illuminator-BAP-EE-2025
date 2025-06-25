@@ -84,7 +84,7 @@ models:
     output_type: power
     input_type: total
     name: Load
-    total: 0.03
+    total: 0.003
   inputs:
     load:
   outputs:
@@ -117,7 +117,7 @@ models:
     output_type: power
     input_type: total
     name: Load
-    total: 0.02
+    total: 0.002
   inputs:
     load:
   outputs:
