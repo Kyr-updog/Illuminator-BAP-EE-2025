@@ -123,9 +123,9 @@ class LED_connection(ModelConstructor):
         ser = serial.Serial(device, timeout=1)
         line = ''
 
-        if ser.in_waiting > 0:
-            line = ser.readline().decode('utf-8').strip()
-            print(line)
+        #if ser.in_waiting > 0:
+        #    line = ser.readline().decode('utf-8').strip()
+       #     print(line)
         
         if speed > 100:
             colour = [255,0,0]
