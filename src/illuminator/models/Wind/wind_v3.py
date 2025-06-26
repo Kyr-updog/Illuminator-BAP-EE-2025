@@ -4,7 +4,7 @@ import mosaik_api_v3 as mosaik_api
 import numpy as np
 from scipy.stats import laplace
 from time import sleep
-from gpiozero import OutputDevice
+#from gpiozero import OutputDevice
  
 
 
@@ -108,10 +108,10 @@ class Wind(ModelConstructor):
         
         self.laplaceMax = laplace.pdf(0, scale=self.par2)
         
-        self.A = OutputDevice(18)
-        self.B = OutputDevice(23)
-        self.C = OutputDevice(24)
-        self.D = OutputDevice(25)
+        #self.A = OutputDevice(18)
+        #self.B = OutputDevice(23)
+        #self.C = OutputDevice(24)
+        #self.D = OutputDevice(25)
         
         return result
 
@@ -155,64 +155,64 @@ class Wind(ModelConstructor):
         print("Light Level:", motor, delay_time, self.p_rated)
 
         # Driving the coils of the motor
-        def step1():
-            self.D.on()
-            sleep(delay_time)
-            self.D.off()
- 
-        def step2():
-            self.D.on()
-            self.C.on()
-            sleep(delay_time)
-            self.D.off()
-            self.C.off()
- 
-        def step3():
-            self.C.on()
-            sleep(delay_time)
-            self.C.off()
- 
-        def step4():
-            self.B.on()
-            self.C.on()
-            sleep(delay_time)
-            self.B.off()
-            self.C.off()
- 
-        def step5():
-            self.B.on()
-            sleep(delay_time)
-            self.B.off()
- 
-        def step6():
-            self.A.on()
-            self.B.on()
-            sleep(delay_time)
-            self.A.off()
-            self.B.off()
- 
-        def step7():
-            self.A.on()
-            sleep(delay_time)
-            self.A.off()
- 
-        def step8():
-            self.D.on()
-            self.A.on()
-            sleep(delay_time)
-            self.D.off()
-            self.A.off()
- 
-        # Perform one fourth of a rotation
-        for _ in range(128):
-            step1()
-            step2()
-            step3()
-            step4()
-            step5()
-            step6()
-            step7()
-            step8() 
+        #def step1():
+        #    self.D.on()
+        #    sleep(delay_time)
+        #    self.D.off()
+ #
+        #def step2():
+        #    self.D.on()
+        #    self.C.on()
+        #    sleep(delay_time)
+        #    self.D.off()
+        #    self.C.off()
+ #
+        #def step3():
+        #    self.C.on()
+        #    sleep(delay_time)
+        #    self.C.off()
+ #
+        #def step4():
+        #    self.B.on()
+        #    self.C.on()
+        #    sleep(delay_time)
+        #    self.B.off()
+        #    self.C.off()
+ #
+        #def step5():
+        #    self.B.on()
+        #    sleep(delay_time)
+        #    self.B.off()
+ #
+        #def step6():
+        #    self.A.on()
+        #    self.B.on()
+        #    sleep(delay_time)
+        #    self.A.off()
+        #    self.B.off()
+ #
+        #def step7():
+        #    self.A.on()
+        #    sleep(delay_time)
+        #    self.A.off()
+ #
+        #def step8():
+        #    self.D.on()
+        #    self.A.on()
+        #    sleep(delay_time)
+        #    self.D.off()
+        #    self.A.off()
+ #
+        ## Perform one fourth of a rotation
+        #for _ in range(128):
+        #    step1()
+        #    step2()
+        #    step3()
+        #    step4()
+        #    step5()
+        #    step6()
+        #    step7()
+        #    step8() 
 
         # return the time of the next step (time untill current information is valid)
         return time + self._model.time_step_size
