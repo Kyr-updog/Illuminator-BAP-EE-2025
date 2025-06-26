@@ -126,13 +126,13 @@ class LED_connection(ModelConstructor):
         #    line = ser.readline().decode('utf-8').strip()
        #     print(line)
         
-        if speed > 100:
+        if speed > 1:
             colour = [255,0,0]
             delay = 0
         else:
             delay = max(0, min(255, ceil(255 * speed)))  # Maps 0-100% to 0-255, with bounds checking
-            delay = round(delay)
-
+            delay = round(255-delay)
+            
             colour = [255-delay, delay, 0]
 
         print(f"speed: {speed}%, Sending {delay}{colour}")
