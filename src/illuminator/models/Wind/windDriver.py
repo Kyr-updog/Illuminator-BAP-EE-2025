@@ -75,3 +75,7 @@ class WindDriver():
             step6()
             step7()
             step8() 
+            
+if __name__ == "__main__":
+    driver = WindDriver()
+    driver.cycle()
