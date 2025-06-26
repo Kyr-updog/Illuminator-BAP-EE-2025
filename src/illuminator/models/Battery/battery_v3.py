@@ -45,7 +45,7 @@ class Battery(ModelConstructor):
     time = None
 
     def init(self, *args, **kwargs):
-        super().init(*args, **kwargs)
+        result = super().init(*args, **kwargs)
 
         self.soc = self._model.states.get('soc')
         self.flag = self._model.states.get('flag')
@@ -70,6 +70,8 @@ class Battery(ModelConstructor):
             LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL
         )
         self.strip.begin()
+
+        return result
 
     def step(self, time: int, inputs: dict = None, max_advance: int = 900) -> int:
         input_data = self.unpack_inputs(inputs)
