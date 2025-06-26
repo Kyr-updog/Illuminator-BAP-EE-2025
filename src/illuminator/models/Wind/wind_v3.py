@@ -41,7 +41,7 @@ class Wind(ModelConstructor):
     """
     # Define the model parameters, inputs, outputs...
     # all parameters will be directly available as attributes
-    parameters={'p_rated': 500,  # Rated power output (kW) of the wind turbine at the rated wind speed and above.
+    parameters={'p_rated': 7,  # Rated power output (kW) of the wind turbine at the rated wind speed and above.
                 'u_rated': 100,  # Rated wind speed (m/s) where the wind turbine reaches its maximum power output.
                 'u_cutin': 1,  # Cut-in wind speed (m/s) below which the wind turbine does not generate power.
                 'u_cutout': 1000,  # Cut-out wind speed (m/s) above which the wind turbine stops generating power to prevent damage.
