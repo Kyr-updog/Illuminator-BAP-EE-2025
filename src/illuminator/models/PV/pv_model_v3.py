@@ -87,7 +87,7 @@ class PV(ModelConstructor):
     time_step_size=1
     time=None
 
-    def __init__(self, **kwargs) -> None:
+    def init(self, *args, **kwargs) -> None:
         """
         Initialize the PV model with the provided parameters.
 
@@ -96,7 +96,7 @@ class PV(ModelConstructor):
         kwargs : dict
             Additional keyword arguments to initialize the model.
         """
-        super().__init__(**kwargs)
+        result = super().init(*args, **kwargs)
         self.cap = self._model.parameters.get('cap')
         self.output_type = self._model.parameters.get('output_type')
         self.NOCT = self._model.parameters.get('NOCT')
@@ -133,7 +133,7 @@ class PV(ModelConstructor):
         )
         self.strip.begin()
 
-        #return result
+        return result
 
 
     def step(self, time: int, inputs:dict=None, max_advance:int=900) -> None:
