@@ -121,6 +121,7 @@ models:
     mod: 0
     soc: 0
     flag: -1
+    grid_demand: 0
   connect:
     ip: 192.168.0.10
     port: 5100
@@ -224,7 +225,7 @@ connections:
 - from: Battery1.p_in
   to: businessController1.bat_pin
 
-- from: businessController1.grid_flow
+- from: Battery1.grid_demand
   to: grid_LED.power
 - from: PV1.pv_genState
   to: PV_LED.power

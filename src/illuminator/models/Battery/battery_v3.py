@@ -83,8 +83,9 @@ class Battery(ModelConstructor):
         self.soc = results.pop('soc')
         self.flag = results.pop('flag')
         self.mod = results.pop('mod')
+        grid_demand = results.pop('grid_demand')
 
-        self.set_states({'soc': self.soc, 'flag': self.flag, 'mod': self.mod})
+        self.set_states({'soc': self.soc, 'flag': self.flag, 'mod': self.mod, 'grid_demand': grid_demand})
         self.set_outputs(results)
 
         # Update LEDs
@@ -123,6 +124,7 @@ class Battery(ModelConstructor):
             if self.soc <= self.soc_min:
                 self.flag = -1
                 self.powerout = 0
+                shortage = flow2b
             else:
                 if energy2discharge > energy_capacity:
                     self.soc += (energy2discharge / self.max_energy * 100)
@@ -132,6 +134,7 @@ class Battery(ModelConstructor):
                     self.powerout = energy_capacity * self.discharge_efficiency / hours
                     self.soc = self.soc_min
                     self.flag = -1
+                shortage = 0
 
         self.soc = round(self.soc, 3)
         return {
@@ -139,7 +142,8 @@ class Battery(ModelConstructor):
             'p_in': flow,
             'soc': self.soc,
             'mod': -1,
-            'flag': self.flag
+            'flag': self.flag,
+            'grid_demand': shortage
         }
 
     def charge_battery(self, flow2b: int) -> dict:
@@ -153,6 +157,7 @@ class Battery(ModelConstructor):
             if self.soc >= self.soc_max:
                 self.flag = 1
                 self.powerout = 0
+                leftOver = flow2b
             else:
                 if energy2charge <= energy_capacity:
                     self.soc += (energy2charge / self.max_energy * 100)
@@ -162,6 +167,7 @@ class Battery(ModelConstructor):
                     self.powerout = energy_capacity / self.charge_efficiency / hours
                     self.soc = self.soc_max
                     self.flag = 1
+                leftOver = 0
 
         self.soc = round(self.soc, 3)
         return {
@@ -169,7 +175,8 @@ class Battery(ModelConstructor):
             'p_in': flow,
             'soc': self.soc,
             'mod': 1,
-            'flag': self.flag
+            'flag': self.flag,
+            'grid_demand': leftOver
         }
 
     def output_power(self, flow2b: int) -> dict:

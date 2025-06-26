@@ -6,7 +6,7 @@ class businessController(ModelConstructor):
         "wind_genState":0,
         "load_demandState":0,
         "bat_pin":0,
-        "bat_pout":0
+        "bat_pout":0,
     }
     outputs={
         "battery_flow":0,
@@ -27,7 +27,7 @@ class businessController(ModelConstructor):
         bat_pout = input_data["bat_pout"]
 
         print(bat_pin, bat_pout)
-
+        
         grid_flow = bat_pin-bat_pout
 
 
