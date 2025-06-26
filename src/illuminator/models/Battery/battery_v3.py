@@ -77,6 +77,7 @@ class Battery(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
 
         flow2b = sum(input_data['flow2b'])
+        print(flow2b)
         results = self.output_power(flow2b)
 
         self.soc = results.pop('soc')
