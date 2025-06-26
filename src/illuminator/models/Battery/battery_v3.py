@@ -44,8 +44,8 @@ class Battery(ModelConstructor):
     time_step_size = 1
     time = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def init(self, *args, **kwargs):
+        super().init(*args, **kwargs)
 
         self.soc = self._model.states.get('soc')
         self.flag = self._model.states.get('flag')
