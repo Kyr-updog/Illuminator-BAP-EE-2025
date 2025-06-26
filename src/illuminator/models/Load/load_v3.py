@@ -53,7 +53,7 @@ class Load(ModelConstructor):
     laplaceMax = laplace.pdf(0, scale=par2)
 
 
-    def __init__(self, *args, **kwargs) -> None:
+    def init(self, *args, **kwargs) -> None:
         """
         Initialize Load model with given parameters.
 
@@ -66,7 +66,7 @@ class Load(ModelConstructor):
         -------
         None
         """
-        super().__init__(*args, **kwargs)
+        result = super().init(*args, **kwargs)
         self.consumption = 0
         self.input_type = self.parameters['input_type']
         self.name = self.parameters['name']
@@ -81,7 +81,7 @@ class Load(ModelConstructor):
         )
         self.strip.begin()
 
-        #return result
+        return result
 
 
     def step(self, time: int, inputs: dict=None, max_advance: int=900) -> None:
