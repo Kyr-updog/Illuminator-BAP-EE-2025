@@ -138,7 +138,8 @@ class Wind(ModelConstructor):
             self.set_outputs(results)
             self.set_states({'u60': self.u60, 'wind_gen': {self.name: wind_gen}, 'wind_genState': wind_gen})
         else:
-            percentage = input_data['capacity_percentage']
+            #percentage = input_data['capacity_percentage']
+            percentage = 90 #90% of max capacity
             percentage = self.addNoiseLaplace(percentage)
             wind_gen = percentage * self.p_rated
             self.set_outputs({'wind_gen_out': wind_gen})
