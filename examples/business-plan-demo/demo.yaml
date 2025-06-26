@@ -46,7 +46,7 @@ models:
 - name: PV1
   type: PV
   parameters:
-    cap: 8
+    cap: 20
     output_type: power
     input_type: percentage
     name: PV
