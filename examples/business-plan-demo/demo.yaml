@@ -13,8 +13,8 @@ monitor:
   - PV1.pv_gen_out
 
 models:
-- name: business_controller1
-  type: business_controller
+- name: businessController1
+  type: businessController
   inputs:
     pv_genState: 0
     wind_genState: 0
@@ -206,17 +206,17 @@ connections:
   to: Load1.load  
   
 - from: PV1.pv_gen
-  to: business_controller1.pv_genState
+  to: businessController1.pv_genState
 - from: Wind1.wind_gen
-  to: business_controller1.wind_genState
+  to: businessController1.wind_genState
 - from: Load1.consumption
-  to: business_controller1.load_demandState
+  to: businessController1.load_demandState
 - from: Battery1.soc
-  to: business_controller1.battery_percentage
-- from: business_controller1.battery_flow
+  to: businessController1.battery_percentage
+- from: businessController1.battery_flow
   to: Battery1.flow2b
 
-- from: business_controller1.grid_flow
+- from: businessController1.grid_flow
   to: grid_LED.power
 - from: PV1.pv_genState
   to: PV_LED.power
