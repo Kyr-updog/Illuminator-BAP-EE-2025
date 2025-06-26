@@ -113,7 +113,6 @@ class LED_connection(ModelConstructor):
             direction = not direction
             speed *=-1
 
-
         self.send_led_animation(speed, direction)
         return time + self._model.time_step_size
     
@@ -137,7 +136,10 @@ class LED_connection(ModelConstructor):
             colour = [255-delay, delay, 0]
 
         print(f"speed: {speed}%, Sending {delay}{colour}")
-        sendPixelData(ser, int(delay), direction, colour[0], colour[1], colour[2])
+        if speed !=0:
+            sendPixelData(ser, int(delay), direction, colour[0], colour[1], colour[2])
+        else:
+            sendPixelData(ser, 0,0,0,0)
         time.sleep(3)
 
         return
