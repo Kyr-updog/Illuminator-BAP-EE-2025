@@ -26,7 +26,8 @@ class LED_connection(ModelConstructor):
     parameters={'max_delay': 100,  # maximum speed for the connection
                 'direction': 0,  # direction of the connection (towards the unit)
                 'port': None,
-                'file_path': 'examples/BAP-2025-Simulation/demo_line_specs.csv'
+                'file_path': 'examples/BAP-2025-Simulation/demo_line_specs.csv',
+                'max_power': 0
                 }
     inputs={'power': 0}  # speed for the connection
     outputs={
@@ -57,23 +58,24 @@ class LED_connection(ModelConstructor):
         self.max_delay = self.parameters.get('max_delay')
         self.direction = self.parameters.get('direction')
         self.port = self.parameters.get('port')
-        self.file_path = self.parameters.get('file_path')
+        self.max_power = self.parameters.get('max_power')
+        #self.file_path = self.parameters.get('file_path')
 
-        try:
-            connection = serial.Serial(self.port, timeout=1)
-
-            self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
-        except:
-            print("no Serial connection")
+        #try:
+        #    connection = serial.Serial(self.port, timeout=1)
+#
+        #    self.id, _ = sendPixelData(connection, 0, 0, 0, 0, 0)
+        #except:
+        #    print("no Serial connection")
         
-        try:
-            df = pd.read_csv(self.file_path)
-            line = df[df['line_id'] == self.id]
-            self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
-
-            self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
-        except:
-            print("oops, no file available")
+        #try:
+        #    df = pd.read_csv(self.file_path)
+        #    line = df[df['line_id'] == self.id]
+        #    self.line_capacity = float(line['capacity']*line['prim_kv_rating'])
+#
+        #    self.ps_ratio = self.line_capacity/self.max_delay # Power to speed ratio
+        #except:
+        #    print("oops, no file available")
 
         
         
@@ -100,10 +102,10 @@ class LED_connection(ModelConstructor):
         input_data = self.unpack_inputs(inputs)
         self.time = time
         try:
-            power = float(input_data['power'][f'line_{self.id}']) # Selects the power corresponding to its own line_ID
+            power = float(input_data['power'])
         except:
             print("weird")
-        speed = self.ps_ratio*power
+        speed = power/self.max_power
         direction = self.direction
         print("got speed: ", speed)
 
@@ -135,7 +137,7 @@ class LED_connection(ModelConstructor):
             colour = [255-delay, delay, 0]
 
         print(f"speed: {speed}%, Sending {delay}{colour}")
-        sendPixelData(ser, int(delay), True, colour[0], colour[1], colour[2])
+        sendPixelData(ser, int(delay), direction, colour[0], colour[1], colour[2])
         time.sleep(3)
 
         return
