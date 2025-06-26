@@ -183,7 +183,7 @@ models:
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 1  # direction of the LED connection (0=towards the white connector)
     port: /dev/ttyACM0
-    max_power: 12 #kw
+    max_power: 15 #kw
   inputs:
     power: 5  # speed for the LED connection (0-100%)
 
@@ -197,7 +197,7 @@ models:
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 1  # direction of the LED connection (0=towards the white connector)
     port: /dev/ttyACM0
-    max_power: 25 #kw
+    max_power: 15 #kw
   inputs:
     power: 5  # speed for the LED connection (0-100%)
 
