@@ -65,5 +65,5 @@ __all__ = [ 'Adder',
             'PandaController',
             'Station',
             'WindRandomizer',
-            'businessController'
+            'business_controller'
             ]
