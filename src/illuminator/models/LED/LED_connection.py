@@ -139,7 +139,7 @@ class LED_connection(ModelConstructor):
         if speed !=0:
             sendPixelData(ser, int(delay), direction, colour[0], colour[1], colour[2])
         else:
-            sendPixelData(ser, 0,0,0,0)
+            sendPixelData(ser, 0,0,0,0,0)
         time.sleep(3)
 
         return
