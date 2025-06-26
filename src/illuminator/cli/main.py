@@ -32,6 +32,7 @@ simulation:Simulation = None
 def scenario_run(config_file: Annotated[str, typer.Argument(help="Path to scenario configuration file.")] = "config.yaml"):
     "Runs a simulation scenario using a YAML file."
     
+    time.sleep(5)
     global simulation
     simulation = Simulation(config_file)
     simulation.run()
