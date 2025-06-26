@@ -107,6 +107,7 @@ class Load(ModelConstructor):
 
         load_in = input_data.get('load', 0)
         load_out = load_in * self.total
+        print(load_in, load_out)
 
         if self.input_type == 'per_house':
             results = self.demand(load=load_in)
