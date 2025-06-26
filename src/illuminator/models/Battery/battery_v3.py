@@ -74,7 +74,8 @@ class Battery(ModelConstructor):
     def step(self, time: int, inputs: dict = None, max_advance: int = 900) -> int:
         input_data = self.unpack_inputs(inputs)
 
-        results = self.output_power(input_data['flow2b'])
+        flow2b = sum(input_data['flow2b'])
+        results = self.output_power(flow2b)
 
         self.soc = results.pop('soc')
         self.flag = results.pop('flag')
