@@ -46,7 +46,7 @@ models:
 - name: PV1
   type: PV
   parameters:
-    cap: 300
+    cap: 8
     output_type: power
     input_type: percentage
     name: PV
@@ -132,7 +132,7 @@ models:
     output_type: power
     input_type: total
     name: Load
-    total: 0.003
+    total: 0.001
   inputs:
     load:
   outputs:
@@ -168,7 +168,7 @@ models:
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 0  # direction of the LED connection (0=towards the white connector)
     port: /dev/ttyACM0
-    max_power: 12 #kw
+    max_power: 15 #kw
   inputs:
     power: 5  # speed for the LED connection (0-100%)
 
