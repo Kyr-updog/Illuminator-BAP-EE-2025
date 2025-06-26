@@ -237,7 +237,7 @@ class Collector(mosaik_api.Simulator):
             token = "Lfw7MDESxhk3NoeK3a8_bygrZB3U-2gHc6Vr-CxSHbyT8XjcZL_aq_SMHoEKdWJssZgXlrG4vBEqxXHMQtap-w=="
             org = "Illuminator"
             bucket = "Illuminator"
-            url = "http://localhost:8086"  # or your cloud instance
+            url = "http://192.168.0.64:8086"  # or your cloud instance
                           
             # === Connect to InfluxDB ===
             client = InfluxDBClient(url=url, token=token, org=org)
