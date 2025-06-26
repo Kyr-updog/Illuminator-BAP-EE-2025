@@ -155,7 +155,7 @@ models:
     port: /dev/ttyACM0
     max_power: 5 #kw
   inputs:
-    speed: 5  # speed for the LED connection (0-100%)
+    power: 5  # speed for the LED connection (0-100%)
 
 - name: load_LED
   type: LED_connection
@@ -169,7 +169,7 @@ models:
     port: /dev/ttyACM0
     max_power: 12 #kw
   inputs:
-    speed: 5  # speed for the LED connection (0-100%)
+    power: 5  # speed for the LED connection (0-100%)
 
 - name: wind_led
   type: LED_connection
@@ -183,7 +183,7 @@ models:
     port: /dev/ttyACM0
     max_power: 10 #kw
   inputs:
-    speed: 5  # speed for the LED connection (0-100%)
+    power: 5  # speed for the LED connection (0-100%)
 
 - name: grid_LED
   type: LED_connection
@@ -197,7 +197,7 @@ models:
     port: /dev/ttyACM0
     max_power: 15 #kw
   inputs:
-    speed: 5  # speed for the LED connection (0-100%)
+    power: 5  # speed for the LED connection (0-100%)
 
 connections:
 - from: CSV_PV.utilization
