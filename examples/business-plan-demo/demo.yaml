@@ -19,7 +19,8 @@ models:
     pv_genState: 0
     wind_genState: 0
     load_demandState: 0
-    battery_percentage: 0
+    bat_pout: 0
+    bat_pin: 0
   outputs:
     battery_flow: 0
     grid_flow: 0
@@ -135,9 +136,9 @@ models:
   inputs:
     load:
   outputs:
-    load_dem_out: 0
     consumption: 0
   states:
+    load_dem_out: 0
     load_dem: {}
   connect:
     ip: 192.168.0.11
@@ -203,18 +204,25 @@ connections:
 - from: CSV_PV.utilization
   to: PV1.capacity_percentage
 - from: CSV_Load.load
-  to: Load1.load  
+  to: Load1.load 
+
+- from: PV1.pv_genState 
+  to: Battery1.flow2b
+- from: Wind1.wind_genState
+  to: Battery1.flow2b
+- from: Load1.load_dem_out
+  to: Battery1.flow2b
   
-- from: PV1.pv_gen
+- from: PV1.pv_genState
   to: businessController1.pv_genState
 - from: Wind1.wind_gen
   to: businessController1.wind_genState
 - from: Load1.consumption
   to: businessController1.load_demandState
-- from: Battery1.soc
-  to: businessController1.battery_percentage
-- from: businessController1.battery_flow
-  to: Battery1.flow2b
+- from: Battery1.p_out
+  to: businessController1.bat_pout
+- from: Battery1.p_in
+  to: businessController1.bat_pin
 
 - from: businessController1.grid_flow
   to: grid_LED.power

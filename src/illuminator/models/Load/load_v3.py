@@ -37,11 +37,12 @@ class Load(ModelConstructor):
                 'total': 5.00
                 }
     inputs={'load': 0}  # incoming energy or power demand per house kW
-    outputs={'load_dem_out': 0,  # total energy or power consumption for all houses (kWh) over the time step
+    outputs={ # total energy or power consumption for all houses (kWh) over the time step
              'consumption': 0,  # Current energy or power consumption based on the number of houses and input load (kWh)
              }
     states={'time': None,
             'forecast': None,
+            'load_dem_out': 0,
             'load_dem': {}
             }
     time_step_size=1
@@ -110,10 +111,10 @@ class Load(ModelConstructor):
         if self.input_type == 'per_house':
             results = self.demand(load=load_in)
         else:
-            results = {'load_dem_out': -load_out, 'consumption': load_out}
+            results = {'consumption': load_out}
 
         self.set_outputs(results)
-        self.set_states({'load_dem': {self.name: results['load_dem_out']}})
+        self.set_states({'load_dem': {self.name: results['consumption']}, 'load_dem_out': -load_out})
 
         #Green is for base unit W or Wh, yellow is for kW or kWh and red is for MW or MWhh and above. 
         #LEDs blinking indicated load demand is increased, while constant illumination indicates constant or decreased load demand.    
