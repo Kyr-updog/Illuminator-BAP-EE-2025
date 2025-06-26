@@ -143,7 +143,7 @@ def generate_mosaik_configuration(config_simulation:dict,  collector:str =None) 
     return mosaik_configuration
 
 
-def start_simulators(world: MosaikWorld, models: list, connections: list) -> dict:
+def start_simulators(world: MosaikWorld, models: list) -> dict:
         """
         Instantiates simulators in the Mosaik world based on the model configurations .
         
@@ -162,26 +162,18 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
         """
 
         model_entities = {}
-        blacklist = ['PandaController', 'LED_connection', 'Station', 'CSV', 'WindRandomizer', 'USBtrigger'] # Don't store these models in the 'models' parameter 
-                                                                    # in the PandaController model.
 
         for model in models:
+
             model_name = model['name']
             model_type = model['type']
             set_current_model(model)
 
-            model_parameters = {}
+
             if 'parameters' in model:
-                if model_type not in blacklist:
-                    model_parameters = model['parameters']
-                    model_parameters['name'] = model_name
-                elif model_type == 'Station':
-                    model_parameters = model['parameters']
-                    model_parameters['station_ID'] = model_name 
-                else:
-                    model_parameters = model['parameters']
+                model_parameters = model['parameters']
             else:
-                pass
+                model_parameters = {}
 
             if model_type == 'CSV':  # the CVS model is a special model used to read data from a CSV file
                 
@@ -198,68 +190,12 @@ def start_simulators(world: MosaikWorld, models: list, connections: list) -> dic
                 entity = model_factory.create(num=1)
                 
             else:
-                if model_type == 'PandaController':
-                    model_parameters_peripherals = {}
-                    model_parameters['stations'] = {}
-                    for element in models:
-                        element_name = element['name']
-                        element_type = element['type']
-                        if 'parameters' in element:
-                            element_parameters = element['parameters']
-                        else:
-                            element_parameters = {}
-                        if element_type not in blacklist:
-                            model_parameters_peripherals[element_name] = element_parameters
-                            model_parameters_peripherals[element_name]['type'] = element_type
-                        elif element_type == 'Station':
-                            model_parameters['stations'][element_name] = element_parameters['kv']
-                        else:
-                            pass
-                    model_parameters['peripherals'] = model_parameters_peripherals
-
-                    model_parameters['ss_connections'] = {}
-                    model_parameters_ps_connections = {}
-                    for connection in connections:
-                        from_model, from_attr =  connection['from'].split('.')
-                        to_model, to_attr =  connection['to'].split('.')
-        
-                        # check if the model names are unique (assumption 1 model per Simulator is valid)
-                        if len([m for m in models if m['name'] == from_model]) > 1:
-                            raise ValueError(f"Multiple models found with name '{from_model}'.")
-
-                        # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
-                        try: 
-                            from_model_config = next((m for m in models if m['name'] == from_model))
-                        except StopIteration:
-                            raise ValueError(f"Model with name '{from_model}' not found in models list")
-
-                        try:
-                            to_model_config = next((m for m in models if m['name'] == to_model))
-                        except StopIteration:
-                            raise ValueError(f"Model with name '{to_model}' not found in models list")
-                        
-                        if 'line_id' in connection:
-                            line_id = connection['line_id']
-                            model_parameters['ss_connections'][line_id] = (from_model_config['name'], to_model_config['name'])
-                        elif from_model_config['type'] == 'Station' and to_model_config['type'] == 'USBtrigger':
-                            pass
-                        elif from_model_config['type'] == 'Station' and to_model_config['type'] != 'LED_connection':
-                            model_parameters_ps_connections.setdefault(from_model_config['name'], []).append(to_model_config['name'])
-                            model_parameters['peripherals'][to_model_config['name']]['station'] = from_model_config['name']
-                        elif to_model_config['type'] == 'Station' and from_model_config['type'] != 'LED_connection':
-                            model_parameters_ps_connections.setdefault(to_model_config['name'], []).append(from_model_config['name'])
-                            model_parameters['peripherals'][from_model_config['name']]['station'] = to_model_config['name']
-                        else:
-                            pass
-                    model_parameters['ps_connections'] = model_parameters_ps_connections
                 # simulator = world.start(sim_name=model_name,
                 #                     # **model_parameters
                 #                     model_name = model_name,
                 #                     sim_params= {model_name: model} # This value gets picked up in the init() function
                 #                     # Some items must be passed here, and some other at create()
                 #                     )
-                print(model_name)
-                print(model)
                 simulator = world.start(sim_name=model_name, sim_params={model_name: model})
         
                 # TODO: make all parameters in create() **kwargs
@@ -323,46 +259,23 @@ def build_connections(world:MosaikWorld, model_entities: dict[MosaikEntity], con
     
     """
     from_list = []  # for checking physical splits
-    blacklist = ['Wind', 'PV', 'Nuclear', 'Load']
-    pandacontroller_present = False
-    for model in models:
-        if model['type'] == 'PandaController':
-            pandacontroller_present = True
-            panda_name = model['name']
-        else:
-            pass
-    if pandacontroller_present:
-        for model in models:
-            if model['type'] == 'Station':
-                from_model, from_attr1, from_attr2 = panda_name, 'cp_powers', 'tl_powers'
-                to_model, to_attr1, to_attr2 = model['name'], 'cp_powers', 'tl_powers'
-                connections.append({'from': f'{from_model}.{from_attr1}', 'to': f'{to_model}.{to_attr1}'})
-                connections.append({'from': f'{from_model}.{from_attr2}', 'to': f'{to_model}.{to_attr2}'})
-                
     for connection in connections:
-        if not 'line_id' in connection:
-            from_model, from_attr =  connection['from'].split('.')
-            to_model, to_attr =  connection['to'].split('.')
-            
-            # check if the model names are unique (assumption 1 model per Simulator is valid)
-            if len([m for m in models if m['name'] == from_model]) > 1:
-                raise ValueError(f"Multiple models found with name '{from_model}'.")
+        from_model, from_attr =  connection['from'].split('.')
+        to_model, to_attr =  connection['to'].split('.')
 
-            # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
-            from_model_config = next((m for m in models if m['name'] == from_model))
-            if from_model_config['type'] in blacklist:
-                to_model = panda_name
-                to_attr = 'ncp_powers'
-            else:
-                pass
-            to_model_config = next((m for m in models if m['name'] == to_model))
-            time_shifted = False # connection['time_shifted']
+        # check if the model names are unique (assumption 1 model per Simulator is valid)
+        if len([m for m in models if m['name'] == from_model]) > 1:
+            raise ValueError(f"Multiple models found with name '{from_model}'.")
+
+        # retrieve the first model from the models list whose name matches from_model (assumes 1 model per Simulator).
+        from_model_config = next((m for m in models if m['name'] == from_model))
+        to_model_config = next((m for m in models if m['name'] == to_model))
+        time_shifted = connection['time_shifted']
             
         # check if the connection is a physical split
         if connection['from'] in from_list:
             if from_attr in from_model_config.get('outputs', {}):
-                #raise ValueError(f"Split detected in physical connection for {connection['from']}.")
-                pass
+                raise ValueError(f"Split detected in physical connection for {connection['from']}.")
             elif from_attr in from_model_config.get('states', {}):
                 pass  # it is okay if a non-physical connection (state) goes to multiple destinations
             else:
@@ -551,13 +464,13 @@ class Simulation:
         _results_file = config['monitor']['file']
 
         # Initialize the Mosaik worlds
-        self.world = create_world(sim_config, time_resolution=_time_resolution, start_time=_start_time)
+        world = create_world(sim_config, time_resolution=_time_resolution, start_time=_start_time)
         # TODO: collectors are also customisable simulators, define in the same way as models.
         # A way to define custom collectors should be provided by the Illuminator.
-        collector = self.world.start('Collector', 
+        collector = world.start('Collector', 
                                 time_resolution=_time_resolution, 
                                 start_date=_start_time,  
-                                results_show={'write2csv':False, 'dashboard_show':True, 
+                                results_show={'write2csv':True, 'dashboard_show':False, 
                                             'Finalresults_show':False,'database':False, 'mqtt':False}, 
                                 output_file=_results_file)
         
@@ -565,13 +478,13 @@ class Simulation:
         monitor = collector.Monitor()
 
         # Dictionary to keep track of created model entities
-        model_entities = start_simulators(self.world, config['models'], config['connections'])
+        model_entities = start_simulators(world, config['models'])
 
         # Connect the models based on the connections specified in the configuration
-        self.world = build_connections(self.world, model_entities, connections=config['connections'], models=config['models'])
+        world = build_connections(world, model_entities, connections=config['connections'], models=config['models'])
 
         # Connect monitor
-        self.world = connect_monitor(self.world, model_entities, monitor, config['monitor'])
+        world = connect_monitor(world, model_entities, monitor, config['monitor'])
         
         # Run the simulation until the specified end time
         mosaik_end_time =  compute_mosaik_end_time(_start_time,
@@ -579,16 +492,12 @@ class Simulation:
                                                 _time_resolution
                                             )
 
-        self.world.run(until=mosaik_end_time)
-        
+        world.run(until=mosaik_end_time)
 
     @property
     def config(self)-> dict:
         """Returns the configuration file for the simulation."""
         return self.config_file
-    
-    def shutdown(self):
-        self.world.shutdown()
     
     def set_scenario_param(self, parameter: str, value)-> None:
         """
