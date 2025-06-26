@@ -75,7 +75,7 @@ models:
 - name: Wind1
   type: Wind
   parameters:
-    p_rated: 7
+    p_rated: 10
     u_rated: 10.3  
     u_cutin: 2.8  
     u_cutout: 25  
@@ -155,7 +155,7 @@ models:
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 1  # direction of the LED connection (0=towards the white connector)
     port: /dev/ttyACM0
-    max_power: 5 #kw
+    max_power: 15 #kw
   inputs:
     power: 5  # speed for the LED connection (0-100%)
 
@@ -183,7 +183,7 @@ models:
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 1  # direction of the LED connection (0=towards the white connector)
     port: /dev/ttyACM0
-    max_power: 10 #kw
+    max_power: 12 #kw
   inputs:
     power: 5  # speed for the LED connection (0-100%)
 
@@ -197,7 +197,7 @@ models:
     max_speed: 0.6  # maximum speed for the LED connection (0-100%)
     direction: 1  # direction of the LED connection (0=towards the white connector)
     port: /dev/ttyACM0
-    max_power: 15 #kw
+    max_power: 25 #kw
   inputs:
     power: 5  # speed for the LED connection (0-100%)
 
