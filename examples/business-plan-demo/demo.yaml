@@ -104,7 +104,7 @@ models:
   type: Battery
   parameters:
     max_p: 150
-    min_p: 150
+    min_p: 0
     max_energy: 30
     charge_efficiency: 100
     discharge_efficiency: 100

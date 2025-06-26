@@ -26,6 +26,8 @@ class businessController(ModelConstructor):
         bat_pin = input_data["bat_pin"]
         bat_pout = input_data["bat_pout"]
 
+        print(bat_pin, bat_pout)
+
         grid_flow = bat_pin-bat_pout
 
 
