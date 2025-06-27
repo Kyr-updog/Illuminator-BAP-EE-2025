@@ -127,9 +127,9 @@ class Load(ModelConstructor):
         return time + self._model.time_step_size
 
     def update_leds(self, consumption):
-        if consumption > 10:
+        if consumption > 12:
             color = ws.Color(139, 0, 0)
-        elif consumption > 7:
+        elif consumption > 10:
             color = ws.Color(255, 200, 0)
         elif consumption > 0:
             color = ws.Color(0, 255, 0)
